@@ -19,9 +19,6 @@ em,
 strong {
   font-weight: 700; }
 
-input {
-  display: none; }
-
 header p {
   margin-bottom: 0; }
 
@@ -828,3 +825,100 @@ input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   margin: 30px;
   float: left;
   position: relative; }
+
+.plus-minus-input {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .plus-minus-input .input-group-field {
+    text-align: center;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 1rem; }
+    .plus-minus-input .input-group-field::-webkit-inner-spin-button,
+    .plus-minus-input .input-group-field ::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      appearance: none; }
+  .plus-minus-input .input-group-button .circle {
+    border-radius: 50%;
+    padding: 0.25em 0.8em; }
+
+.cartridge {
+  margin: 40px 0 0 0;
+  display: block;
+  width: 260px;
+  font-size: 14px; }
+
+.bar-cartridge {
+  margin: -50px 0 0 0; }
+
+.quantity {
+  position: relative;
+  z-index: 22;
+  height: 40px;
+  margin-bottom: -50px; }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+input[type=number] {
+  -moz-appearance: textfield; }
+
+.quantity input {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  width: 60px;
+  height: 33px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  z-index: 22; }
+
+.quantity input:focus {
+  outline: 0; }
+
+.quantity-nav {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  height: 30px;
+  z-index: 22; }
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 20px;
+  text-align: center;
+  color: #333;
+  font-size: 13px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.7;
+  -webkit-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0;
+  border-bottom: 1px solid #eee; }
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: -1px;
+  height: 50%; }

@@ -5,21 +5,23 @@
     </div>
     <div class="data-last-updated"></div>
 </div>
-
 <div class="container" style="flex-flow: inherit;">
     <div class="printer">
         <div class="pr-12k title"><a href="//{{printers.pr_tln_12k_HPMFP252n__ip}}/" target="_blank">{{printers.pr_tln_12k_HPMFP252n__name}}<br>{{printers.pr_tln_12k_HPMFP252n__ip}}</a></div>
     <section>
         <article>
-            <div>
-                <p>Lao seis</p>
-                <button class="add_item">+1</button>
-                <button class="remove_item">-1</button>
-            </div>
-
-            <p>{{printers.pr_tln_5k_HP200__cartridge__black}}</p>
             <div class="chart">
-                <div class="bar bar-{{printers.pr_tln_12k_HPMFP252n__black}} gray">
+
+                    <div class="quantity">
+                        <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__black}} Storage: </p>
+                        <input name="pr_tln_12k_HP_MFP252n_Black_supplies" type="submit" min="1"  step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Black-supplies.supply}}">
+                        <div class="quantity-nav">
+                            <div class="quantity-button quantity-up">+</div>
+                            <div class="quantity-button quantity-down">-</div>
+                        </div>
+                    </div>
+
+                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__black}} gray">
                     <div class="face top">
                         <div class="growing-bar"></div>
                     </div>
@@ -41,7 +43,17 @@
     <section>
         <article>
             <div class="chart">
-                <div class="bar bar-{{printers.pr_tln_12k_HPMFP252n__cyan}} cyan">
+
+                <div class="quantity">
+                    <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}} Storage: </p>
+                    <input type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan-supplies.supply}}">
+                    <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                    </div>
+                </div>
+
+                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__cyan}} cyan">
                     <div class="face top">
                         <div class="growing-bar"></div>
                     </div>
@@ -63,7 +75,15 @@
     <section>
         <article>
             <div class="chart">
-                <div class="bar bar-{{printers.pr_tln_12k_HPMFP252n__magenta}} magenta">
+                <div class="quantity">
+                    <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}} Storage: </p>
+                    <input type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Magenta-supplies.supply}}">
+                    <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                    </div>
+                </div>
+                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__magenta}} magenta">
                     <div class="face top">
                         <div class="growing-bar"></div>
                     </div>
@@ -85,7 +105,15 @@
     <section>
         <article>
             <div class="chart">
-                <div class="bar bar-{{printers.pr_tln_12k_HPMFP252n__yellow}} yellow">
+                <div class="quantity">
+                    <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}} Storage: </p>
+                    <input type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Yellow-supplies.supply}}">
+                    <div class="quantity-nav">
+                        <div class="quantity-button quantity-up">+</div>
+                        <div class="quantity-button quantity-down">-</div>
+                    </div>
+                </div>
+                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__yellow}} yellow">
                     <div class="face top">
                         <div class="growing-bar"></div>
                     </div>
@@ -743,18 +771,11 @@
             </article>
         </section>
     </div>
-
-
-
-
-
-
 </div>
 
+
+
 <div class="container" style="flex-flow: inherit;">
-
-
-
     <div class="printer">
         <div class="pr-12k title"><a href="//{{printers.pr_tln_3k_HP476dn__ip}}/">{{printers.pr_tln_3k_HP476dn__name}}<br>{{printers.pr_tln_3k_HP476dn__ip}}</a></div>
         <section>

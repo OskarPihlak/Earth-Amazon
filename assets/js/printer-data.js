@@ -76,15 +76,15 @@ module.exports = (printers) => {
                 return error;
 
             } else {
-                console.log(' ');
+                //console.log(' ');
                 if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === false) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
                         let printer_name = colors_loop_info[x];
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = varbinds[printer_name.inc_number].value;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-                        console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
+                        //console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
                         //console.log( varbinds[printer_name.inc_number].value);
-                        console.log(inkData);
+                        //console.log(inkData);
                     }
 
                 } else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === false) {
