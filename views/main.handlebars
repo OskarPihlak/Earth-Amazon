@@ -13,10 +13,11 @@
     <section>
         <article>
             <div class="chart">
+
             <form method="post">
                 <div class="quantity">
-                    <p>{{printers.pr_tln_12k_HPMFP252n__cartridge__black}} Storage: </p>
-                    <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Black-supplies.supply}}">
+                    <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__black}} Storage: </p>
+                    <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Black_supplies.supply}}">
                     <div class="quantity-nav">
                         <div class="quantity-button quantity-up">+</div>
                         <div class="quantity-button quantity-down">-</div>
@@ -25,10 +26,6 @@
                 <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
                 <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__black}}">
             </form>
-
-
-
-
 
                 <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__black}} gray">
                     <div class="face top">
@@ -52,15 +49,18 @@
     <section>
         <article>
             <div class="chart">
+
                 <form method="post">
                     <div class="quantity">
-                        <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan-supplies.supply}}">
+                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}} Storage: </p>
+                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
                         <div class="quantity-nav">
                             <div class="quantity-button quantity-up">+</div>
                             <div class="quantity-button quantity-down">-</div>
                         </div>
                     </div>
+                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
+                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}}">
                 </form>
 
                 <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__cyan}} cyan">
@@ -85,14 +85,20 @@
     <section>
         <article>
             <div class="chart">
-                <div class="quantity">
-                    <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}} Storage: </p>
-                    <input type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Magenta-supplies.supply}}">
-                    <div class="quantity-nav">
-                        <div class="quantity-button quantity-up">+</div>
-                        <div class="quantity-button quantity-down">-</div>
+
+                <form method="post">
+                    <div class="quantity">
+                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}} Storage: </p>
+                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Magenta_supplies.supply}}">
+                        <div class="quantity-nav">
+                            <div class="quantity-button quantity-up">+</div>
+                            <div class="quantity-button quantity-down">-</div>
+                        </div>
                     </div>
-                </div>
+                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
+                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}}">
+                </form>
+
                 <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__magenta}} magenta">
                     <div class="face top">
                         <div class="growing-bar"></div>
@@ -115,14 +121,18 @@
     <section>
         <article>
             <div class="chart">
-                <div class="quantity">
-                    <p class="cartridge">{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}} Storage: </p>
-                    <input type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Yellow-supplies.supply}}">
-                    <div class="quantity-nav">
-                        <div class="quantity-button quantity-up">+</div>
-                        <div class="quantity-button quantity-down">-</div>
+                <form method="post">
+                    <div class="quantity">
+                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}} Storage: </p>
+                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Yellow_supplies.supply}}">
+                        <div class="quantity-nav">
+                            <div class="quantity-button quantity-up">+</div>
+                            <div class="quantity-button quantity-down">-</div>
+                        </div>
                     </div>
-                </div>
+                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
+                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}}">
+                </form>
                 <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__yellow}} yellow">
                     <div class="face top">
                         <div class="growing-bar"></div>
@@ -147,10 +157,24 @@
 
 
     <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_10k_HP2420n__ip}}/" target="_blank">{{printers.pr_tln_10k_HP2420n__name}}<br>{{printers.pr_tln_10k_HP2420n__ip}}</a></div>
+        <div class="title"><a href="//{{printers.pr_tln_10k_HP2420n__ip}}/" target="_blank">{{printers.pr_tln_10k_HP2420n__name}}<br>{{printers.pr_tln_10k_HP2420n__ip}}</a></div>
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HP2420n__cartridge__black}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HP2420n_Black_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HP2420n__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HP2420n__cartridge__black}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_10k_HP2420n__black}} gray">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -178,6 +202,20 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__black}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Black_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__black}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__black}} gray">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -200,6 +238,20 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__cyan}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Cyan_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__cyan}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__cyan}} cyan">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -222,6 +274,21 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__magenta}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Magenta_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__magenta}}">
+                    </form>
+
+
                     <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__magenta}} magenta">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -244,6 +311,20 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__yellow}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Yellow_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__yellow}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__yellow}} yellow">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -271,6 +352,20 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP400dne__cartridge__black}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP400dne_Black_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP400dne__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP400dne__cartridge__black}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_6k_HP400dne__black}} gray">
                         <div class="face top">
                             <div class="growing-bar"></div>
@@ -304,6 +399,20 @@
         <section>
             <article>
                 <div class="chart">
+
+                    <form method="post">
+                        <div class="quantity">
+                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP400__cartridge__black}} Storage: </p>
+                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP400dne_Black_supplies.supply}}">
+                            <div class="quantity-nav">
+                                <div class="quantity-button quantity-up">+</div>
+                                <div class="quantity-button quantity-down">-</div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP400dne__name}}">
+                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP400__cartridge__black}}">
+                    </form>
+
                     <div class="bar bar-{{printers.pr_tln_6k_HP400__black}} gray">
                         <div class="face top">
                             <div class="growing-bar"></div>

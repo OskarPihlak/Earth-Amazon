@@ -103,6 +103,7 @@ $('form input').change(function() {
     $(this).closest('form').submit();
     $(this).closest('form').find('.cartridge-name').submit();
     $(this).closest('form').closest('.printer').find('.printer-title').submit();
+    console.log( $(this).closest('form').closest('.printer').find('.printer-title'));
 
     //console.log($(this).val());
     console.log($(this).closest('.printer').find('.printer-title').val());

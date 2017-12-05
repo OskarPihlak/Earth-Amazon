@@ -14,11 +14,11 @@ let db = mysql.createConnection({
     password: '',
     database: 'printers_inc_supply'
 });
+
 db.connect(function (err) {
     if (err) throw err;
     console.log('Mysql connected to printers_inc_supply on 127.0.0.1');
 });
-
 
 //app init
 let app = express();
@@ -35,50 +35,43 @@ app.engine('handlebars', exphbs({defaultLayout: 'layout'}));
 app.set('view engine', 'handlebars');
 
 
-printer_data((error, data)=> {
-    app.get('/', function (req, res) {
+app.get('/', function (req, res) {
+    printer_data((error, data) => {
         let sql_statement_get = 'SELECT * FROM inc_supply_status';
         let query = db.query(sql_statement_get, function (error, sql_data) {
             let result = {};
-            for (let i=0; i<sql_data.length; i++) {
+            for (let i = 0; i < sql_data.length; i++) {
                 let color_name_array = sql_data[i].cartridge_name;
                 let color_named = color_name_array.split(" ");
                 let color_name = color_named[0];
-                result[sql_data[i].printer_name +  '_' + color_name + '-supplies'] = {id:sql_data[i].id, supply:sql_data[i].cartridge_supply, cartridge_class: sql_data[i].cartridge_name};
+                result[sql_data[i].printer_name + '_' + color_name + '_supplies'] = {
+                    id: sql_data[i].id,
+                    supply: sql_data[i].cartridge_supply,
+                    cartridge_class: sql_data[i].cartridge_name
+                };
             }
-        res.render('main', {
-            printers:data,
-            inc_supply:result
-            });
-        });
-    });
-    app.post('/', urlEncodedParser, function(req, res){
-
-         let sql_statement_put = "'UPDATE printers_inc_supply.inc_supply_status (cartridge_supply) SET cartridge_supply='+ req.body.inc_storage_count +' WHERE printer_name='"+ req.body.inc_storage_title +"' AND cartridge_name='"+ req.body.inc_storage_name +"'";
-         let query = db.query(sql_statement_put, function (error, data) {
-            console.log(req.body);
             if (error) throw error;
-             res.render('main', {
-                 printers:data,
-                 inc_supply:result
-             });
+            res.render('main', {
+                printers: data,
+                inc_supply: result
+            });
+            console.log(result);
         });
-        /*
-        console.log('backend count  '+ req.body.inc_storage_count);
-        console.log('backend name  '+ req.body.inc_storage_name);
-        console.log('backend title  '+ req.body.inc_storage_title);
-        console.log('UPDATE printers_inc_supply.inc_supply_status (cartridge_supply) SET SET cartridge_supply='+ req.body.inc_storage_count +' WHERE printer_name="'+req.body.inc_storage_title+'" AND cartridge_name="'+ req.body.inc_storage_name+'"');*/
+
+    });
+
+    app.post('/', urlEncodedParser, function (req, res) {
+
+        let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply='" + req.body.inc_storage_count + "' WHERE printer_name='" + req.body.inc_storage_title + "' AND cartridge_name='" + req.body.inc_storage_name + "'";
+        console.log(sql_statement_put);
+        let query = db.query(sql_statement_put, function (error, data) {
+            if (error) throw error;
+            res.redirect('/');
+        });
     });
 });
 
-
-
-
-
-
-
-
-app.set('port', (process.env.PORT) || 3000);
-app.listen(app.get('port'),  function () {
+app.set('port', (process.env.PORT) || 3001);
+app.listen(app.get('port'), function () {
     console.log('Server started on port' + app.get('port'))
 });

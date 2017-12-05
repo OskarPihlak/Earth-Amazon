@@ -857,7 +857,12 @@ input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   position: relative;
   z-index: 22;
   height: 40px;
-  margin-bottom: -50px; }
+  margin: 42px 0 -53px 0; }
+  .quantity-cartridge-info {
+    font-size: 14.6px;
+    text-align: left;
+    bottom: 10px;
+    position: absolute; }
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
