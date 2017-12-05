@@ -52,10 +52,29 @@ printer_data((error, data)=> {
             });
         });
     });
+    app.post('/', urlEncodedParser, function(req, res){
+
+         let sql_statement_put = "'UPDATE printers_inc_supply.inc_supply_status (cartridge_supply) SET cartridge_supply='+ req.body.inc_storage_count +' WHERE printer_name='"+ req.body.inc_storage_title +"' AND cartridge_name='"+ req.body.inc_storage_name +"'";
+         let query = db.query(sql_statement_put, function (error, data) {
+            console.log(req.body);
+            if (error) throw error;
+             res.render('main', {
+                 printers:data,
+                 inc_supply:result
+             });
+        });
+        /*
+        console.log('backend count  '+ req.body.inc_storage_count);
+        console.log('backend name  '+ req.body.inc_storage_name);
+        console.log('backend title  '+ req.body.inc_storage_title);
+        console.log('UPDATE printers_inc_supply.inc_supply_status (cartridge_supply) SET SET cartridge_supply='+ req.body.inc_storage_count +' WHERE printer_name="'+req.body.inc_storage_title+'" AND cartridge_name="'+ req.body.inc_storage_name+'"');*/
+    });
 });
-app.post('/', function(req, res){
-    console.log(req.body.pr_tln_12k_HP_MFP252n_Black_supplies);
-});
+
+
+
+
+
 
 
 

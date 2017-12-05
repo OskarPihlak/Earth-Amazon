@@ -80,8 +80,8 @@ $('.quantity').each(function() {
         } else {
             newVal = oldValue + 1;
         }
-        console.log(oldValue);
-        spinner.find("input").val(newVal);
+        //console.log(oldValue);
+        spinner.closest('form').find(".cartridge-storage").val(newVal);
         spinner.find("input").trigger("change");
     });
 
@@ -92,8 +92,20 @@ $('.quantity').each(function() {
         } else {
             newVal = oldValue - 1;
         }
-        spinner.find("input").val(newVal);
+        spinner.closest('form').find(".cartridge-storage").val(newVal);
         spinner.find("input").trigger("change");
     });
+
+});
+/////////////
+
+$('form input').change(function() {
+    $(this).closest('form').submit();
+    $(this).closest('form').find('.cartridge-name').submit();
+    $(this).closest('form').closest('.printer').find('.printer-title').submit();
+
+    //console.log($(this).val());
+    console.log($(this).closest('.printer').find('.printer-title').val());
+   // console.log($(this).closest('form').find('.cartridge').text());
 
 });
