@@ -110,3 +110,15 @@ $('form input').change(function() {
    // console.log($(this).closest('form').find('.cartridge').text());
 
 });
+
+///////////////////////////////
+
+$(window).scroll(function() {
+    sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+    if (sessionStorage.scrollTop !== "undefined") {
+        $(window).scrollTop(sessionStorage.scrollTop);
+    }
+});

@@ -14,7 +14,7 @@ module.exports = (printers) => {
         {ip: "192.168.67.47",   color: true,   name: 'pr_tln_12k_HP_MFP252n', key: 'pr_tln_12k_HPMFP252n__', max_capacity: false},        //pr-tln-12k-HP_MFP252n
         {ip: "192.168.160.32",  color: false,  name: 'pr_tln_10k_HP2420n',    key: 'pr_tln_10k_HP2420n__',   max_capacity: true},        //pr-tln-10k-HP2420n
         {ip: "192.168.66.30",   color: true,   name: 'pr_tln_10k_HPM476dn',   key: 'pr_tln_10k_HPM476dn__',  max_capacity: false},        //pr-tln-10k-HPM476dn
-        {ip:"192.168.66.26",    color: true,   name: 'pr_tln_6k-HPM476dn',    key:'pr_tln_6k_HPM476dn__',    max_capacity: false },        //pr-tln-6k-HPM476dn
+        {ip:"192.168.66.26",    color: true,   name: 'pr_tln_6k_HPM476dn',    key:'pr_tln_6k_HPM476dn__',    max_capacity: false },        //pr-tln-6k-HPM476dn
         {ip: "192.168.66.13",   color: false,  name: 'pr_tln_6k_HP400dne',    key: 'pr_tln_6k_HP400dne__',   max_capacity: false},        //pr-tln-6k-HP400dne
         {ip: "192.168.67.10",   color: false,  name: 'pr_tln_6k_HP400',       key: 'pr_tln_6k_HP400__',      max_capacity: false},        //pr-tln-6k-HP400
         {ip: "192.168.156.133", color: true,   name: 'pr_tln_6k_HP200',       key: 'pr_tln_6k_HP200__',      max_capacity:false},        //pr-tln-6k-HP200
@@ -48,9 +48,8 @@ module.exports = (printers) => {
 
     Object.keys(oidsArray.colors).map(function(key) {
        colorArray.push(oidsArray.colors[key]);
-    });
-
-    for(let i=0; i<snmpAdresses.length; i++) {
+    }); i = 0;
+    while( i < snmpAdresses.length ) {
         inkData[snmpAdresses[i].key + 'ip'] = snmpAdresses[i].ip;
         inkData[snmpAdresses[i].key + 'name'] = snmpAdresses[i].name;
         let session = snmp.createSession(snmpAdresses[i].ip, "public");
@@ -70,13 +69,16 @@ module.exports = (printers) => {
             console.log('Invalid object on iteration ' + i)
         }
 
+
         session.get(oids, function (error, varbinds) {
+            console.log(snmpAdresses[i],oids);
+            i++;
             if (error) {
                 console.error(error);
-                return error;
+                //return error;
 
             } else {
-                //console.log(' ');
+                console.log(i);
                 if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === false) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
                         let printer_name = colors_loop_info[x];
@@ -97,7 +99,7 @@ module.exports = (printers) => {
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
 
 
-                        console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
+                        //console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
                     }
 
                 } else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === true) {
@@ -106,7 +108,7 @@ module.exports = (printers) => {
                         let inc_precentage = Math.round((varbinds[printer_name.inc_number].value / varbinds[printer_name.max_capacity_bw].value) * 100);
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = inc_precentage;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-                        //console.log(snmpAdresses[i].key+printer_name.inc_name, inc_precentage);
+                        console.log(snmpAdresses[i].key+printer_name.inc_name, inc_precentage);
                     }
 
                 } else if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === true) {
@@ -119,12 +121,20 @@ module.exports = (printers) => {
                     }
                 }
                 //console.log(inkData);
-                i++;
+
                // console.log(JSON.stringify(inkData));
 
             }
+
+            console.log(i);
+            i++;
+
+
         });
         //console.log(inkData);
+
+i++;
     }
+    //console.log(inkData);
     return printers(null, inkData);
 };

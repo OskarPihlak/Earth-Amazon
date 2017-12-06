@@ -6,6 +6,12 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
 const printer_data = require('./assets/js/printer-data.js');
+const printer_data_promise = require('./assets/js/printer-data-promise.js');
+
+printer_data_promise((data)=>{
+    console.log(data);
+});
+
 
 //create connection
 let db = mysql.createConnection({
@@ -36,7 +42,8 @@ app.set('view engine', 'handlebars');
 
 
 app.get('/', function (req, res) {
-    printer_data((error, data) => {
+   // printer_data((error, data) => {
+        //console.log(data);
         let sql_statement_get = 'SELECT * FROM inc_supply_status';
         let query = db.query(sql_statement_get, function (error, sql_data) {
             let result = {};
@@ -51,19 +58,20 @@ app.get('/', function (req, res) {
                 };
             }
             if (error) throw error;
+            //console.log('res.render/////////////////////////////////////////////////////////////////////////////////');
             res.render('main', {
-                printers: data,
+                printers: 'rewriting',
                 inc_supply: result
             });
-            console.log(result);
+           // console.log(result);
         });
 
-    });
+    //});
 
     app.post('/', urlEncodedParser, function (req, res) {
 
-        let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply='" + req.body.inc_storage_count + "' WHERE printer_name='" + req.body.inc_storage_title + "' AND cartridge_name='" + req.body.inc_storage_name + "'";
-        console.log(sql_statement_put);
+        let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply='" + req.body.inc_storage_count + "' WHERE cartridge_name='" + req.body.inc_storage_name + "'";
+       // console.log(sql_statement_put);
         let query = db.query(sql_statement_put, function (error, data) {
             if (error) throw error;
             res.redirect('/');
