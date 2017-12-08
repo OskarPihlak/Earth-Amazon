@@ -5,1541 +5,198 @@
     </div>
     <div class="data-last-updated"></div>
 </div>
-<div class="container" style="flex-flow: inherit;">
-    <div class="printer">
+<div class="container" id="container">
+    {{#each printers}}
+      {{#if this.color}}
+        <div class="printer">
+            <div class="pr-12k title">
+                <a name="title" href="//printers.pr_tln_12k_HPMFP252n__ip/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+            <section>
+                <article>
+                    <div class="chart">
 
-        <div class="pr-12k title">
-            <a name="title" href="//{{printers.pr_tln_12k_HPMFP252n__ip}}/" target="_blank">{{printers.pr_tln_12k_HPMFP252n__name}}<br>{{printers.pr_tln_12k_HPMFP252n__ip}}</a></div>
-    <section>
-        <article>
-            <div class="chart">
+                        <form method="post">
+                            <div class="quantity">
+                                <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
+                                <div class="quantity-nav">
+                                    <div class="quantity-button quantity-up">+</div>
+                                    <div class="quantity-button quantity-down">-</div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
+                        </form>
 
-            <form method="post">
-                <div class="quantity">
-                    <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__black}} Storage: </p>
-                    <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Black_supplies.supply}}">
-                    <div class="quantity-nav">
-                        <div class="quantity-button quantity-up">+</div>
-                        <div class="quantity-button quantity-down">-</div>
-                    </div>
-                </div>
-                <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
-                <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__black}}">
-            </form>
-
-                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__black}} gray">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_12k_HPMFP252n__black}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__cyan}}">
-                </form>
-
-                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__cyan}} cyan">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_12k_HPMFP252n__cyan}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Magenta_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__magenta}}">
-                </form>
-
-                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__magenta}} magenta">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_12k_HPMFP252n__magenta}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Yellow_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_12k_HPMFP252n__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_12k_HPMFP252n__cartridge__yellow}}">
-                </form>
-                <div class="bar bar-cartridge bar-{{printers.pr_tln_12k_HPMFP252n__yellow}} yellow">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_12k_HPMFP252n__yellow}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    </div>
-
-
-
-    <div class="printer">
-        <div class="title"><a href="//{{printers.pr_tln_10k_HP2420n__ip}}/" target="_blank">{{printers.pr_tln_10k_HP2420n__name}}<br>{{printers.pr_tln_10k_HP2420n__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HP2420n__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HP2420n_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
+                        <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
+                            <div class="face top">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-0">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face floor">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-a"></div>
+                            <div class="face side-b"></div>
+                            <div class="face side-1">
+                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
                             </div>
                         </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HP2420n__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HP2420n__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_10k_HP2420n__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_10k_HP2420n__black}}%</p></div>
-                        </div>
                     </div>
-                </div>
-            </article>
-        </section>
-    </div>
+                </article>
+            </section>
 
+            <section>
+                <article>
+                    <div class="chart">
 
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_10k_HPM476dn__ip}}/" target="_blank">{{printers.pr_tln_10k_HPM476dn__name}}<br>{{printers.pr_tln_10k_HPM476dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
+                        <form method="post">
+                            <div class="quantity">
+                                <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
+                                <div class="quantity-nav">
+                                    <div class="quantity-button quantity-up">+</div>
+                                    <div class="quantity-button quantity-down">-</div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.cyan.name}}">
+                        </form>
 
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
+                        <div class="bar bar-cartridge bar-{{this.cartridge.cyan.value}} cyan">
+                            <div class="face top">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-0">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face floor">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-a"></div>
+                            <div class="face side-b"></div>
+                            <div class="face side-1">
+                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.cyan.value}}%</p></div>
                             </div>
                         </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_10k_HPM476dn__black}}%</p></div>
-                        </div>
                     </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
+                </article>
+            </section>
+            <section>
+                <article>
+                    <div class="chart">
 
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
+                        <form method="post">
+                            <div class="quantity">
+                                <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_12k_HP_MFP252n_Magenta_supplies.supply">
+                                <div class="quantity-nav">
+                                    <div class="quantity-button quantity-up">+</div>
+                                    <div class="quantity-button quantity-down">-</div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.magenta.name}}">
+                        </form>
+
+                        <div class="bar bar-cartridge bar-{{this.cartridge.magenta.value}} magenta">
+                            <div class="face top">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-0">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face floor">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-a"></div>
+                            <div class="face side-b"></div>
+                            <div class="face side-1">
+                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.magenta.value}}%</p></div>
                             </div>
                         </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_10k_HPM476dn__cyan}}%</p></div>
-                        </div>
                     </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
+                </article>
+            </section>
+            <section>
+                <article>
+                    <div class="chart">
+                        <form method="post">
+                            <div class="quantity">
+                                <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_12k_HP_MFP252n_Yellow_supplies.supply">
+                                <div class="quantity-nav">
+                                    <div class="quantity-button quantity-up">+</div>
+                                    <div class="quantity-button quantity-down">-</div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.yellow.name}}">
+                        </form>
+                        <div class="bar bar-cartridge bar-{{this.cartridge.yellow.value}} yellow">
+                            <div class="face top">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-0">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face floor">
+                                <div class="growing-bar"></div>
+                            </div>
+                            <div class="face side-a"></div>
+                            <div class="face side-b"></div>
+                            <div class="face side-1">
+                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.yellow.value}}%</p></div>
                             </div>
                         </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__magenta}}">
-                    </form>
-
-
-                    <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_10k_HPM476dn__magenta}}%</p></div>
-                        </div>
                     </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_10k_HPM476dn__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_10k_HPM476dn_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_10k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_10k_HPM476dn__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_10k_HPM476dn__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_10k_HPM476dn__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_6k_HP400dne__ip}}/" target="_blank">{{printers.pr_tln_6k_HP400dne__name}}<br>{{printers.pr_tln_6k_HP400dne__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP400dne__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP400dne_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP400dne__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP400dne__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP400dne__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_6k_HP400dne__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-</div>
-
-
-
-
-
-
-<div class="container" style="flex-flow: inherit;">
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_6k_HP400__ip}}/" target="_blank">{{printers.pr_tln_6k_HP400__name}}<br>{{printers.pr_tln_6k_HP400__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP400__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP400dne_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP400__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP400__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP400__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_6k_HP400__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_6k_HP200__ip}}/" target="_blank">{{printers.pr_tln_6k_HP200__name}}<br>{{printers.pr_tln_6k_HP200__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP200__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP200_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP200__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP200__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_6k_HP200__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP200__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP200_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP200__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP200__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HP200__cyan}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP200__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP200_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP200__cartridge__magenta}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP200__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HP200__magenta}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HP200__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HP200_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HP200__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HP200__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HP200__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_6k_HPM476dn__ip}}/">{{printers.pr_tln_6k_HPM476dn__name}}<br>{{printers.pr_tln_6k_HPM476dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HPM476dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HPM476dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HPM476dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HPM476dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_6k_HPM476dn__black }}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HPM476dn__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HPM476dn_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HPM476dn__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HPM476dn__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HPM476dn__cyan}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HPM476dn__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HPM476dn_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HPM476dn__cartridge__magenta}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HPM476dn__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HPM476dn__magenta}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_6k_HPM476dn__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_6k_HPM476dn_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_6k_HPM476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_6k_HPM476dn__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_6k_HPM476dn__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_6k_HPM476dn__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_5k_HP200__ip}}/">{{printers.pr_tln_5k_HP200__name}}<br>{{printers.pr_tln_5k_HP200__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_5k_HP200__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_5k_HP200_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_5k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_5k_HP200__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_5k_HP200__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_5k_HP200__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_5k_HP200__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_5k_HP200_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_5k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_5k_HP200__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_5k_HP200__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_5k_HP200__cyan}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_5k_HP200__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_5k_HP200_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_5k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_5k_HP200__cartridge__magenta}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_5k_HP200__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_5k_HP200__magenta}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_5k_HP200__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_5k_HP200_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_5k_HP200__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_5k_HP200__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_5k_HP200__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_5k_HP200__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-
-
-</div>
-<div class="container" style="flex-flow: inherit;">
-    <div class="printer">
-        <div class="pr-12k title"><a href="{{printers.pr_tln_4k_HP5225dn__ip}}">{{printers.pr_tln_4k_HP5225dn__name}}<br>{{printers.pr_tln_4k_HP5225dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP5225dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP5225dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP5225dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP5225dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP5225dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_4k_HP5225dn__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP5225dn__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP5225dn_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP5225dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP5225dn__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP5225dn__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_4k_HP5225dn__cyan}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP5225dn__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP5225dn_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP5225dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP5225dn__cartridge__magenta}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP5225dn__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_4k_HP5225dn__magenta}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP5225dn__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP5225dn_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP5225dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP5225dn__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP5225dn__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_4k_HP5225dn__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_4k_HP400__ip}}/">{{printers.pr_tln_4k_HP400__name}}<br>{{printers.pr_tln_4k_HP400__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP400__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP400_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP400__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP400__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP400__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_4k_HP400__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_4k_HP_P3005__ip}}/">{{printers.pr_tln_4k_HP_P3005__name}}<br>{{printers.pr_tln_4k_HP_P3005__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP_P3005__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP_P3005_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP_P3005__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP_P3005__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP_P3005__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_4k_HP_P3005__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_4k_HP521dn__ip}}/">{{printers.pr_tln_4k_HP521dn__name}}<br>{{printers.pr_tln_4k_HP521dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_4k_HP521dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_4k_HP521dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_4k_HP521dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_4k_HP521dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_4k_HP521dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_4k_HP521dn__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-</div>
-
-
-
-<div class="container" style="flex-flow: inherit;">
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_3k_HP476dn__ip}}/">{{printers.pr_tln_3k_HP476dn__name}}<br>{{printers.pr_tln_3k_HP476dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_3k_HP476dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_3k_HP476dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_3k_HP476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_3k_HP476dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_3k_HP476dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_3k_HP476dn__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_3k_HP476dn__cartridge__cyan}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_3k_HP476dn_Cyan_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_3k_HP476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_3k_HP476dn__cartridge__cyan}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_3k_HP476dn__cyan}} cyan">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_3k_HP476dn__cyan}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_3k_HP476dn__cartridge__magenta}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_3k_HP476dn_Magenta_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_3k_HP476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_3k_HP476dn__cartridge__magenta}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_3k_HP476dn__magenta}} magenta">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_3k_HP476dn__magenta}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_3k_HP476dn__cartridge__yellow}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_3k_HP476dn_Yellow_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_3k_HP476dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_3k_HP476dn__cartridge__yellow}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_3k_HP476dn__yellow}} yellow">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_3k_HP476dn__yellow}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_2k_HPPro8610__ip}}/">{{printers.pr_tln_2k_HPPro8610__name}}<br>{{printers.pr_tln_2k_HPPro8610__ip}}</a></div>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_2k_HPPro8610__cartridge__black}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_2k_HPPro8610_Black_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_2k_HPPro8610__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_2k_HPPro8610__cartridge__black}}">
-                </form>
-
-                <div class="bar bar-{{printers.pr_tln_2k_HPPro8610__black}} gray">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_2k_HPPro8610__black}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_2k_HPPro8610__cartridge__cyan}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_2k_HPPro8610_Cyan_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_2k_HPPro8610__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_2k_HPPro8610__cartridge__cyan}}">
-                </form>
-
-                <div class="bar bar-{{printers.pr_tln_2k_HPPro8610__cyan}} cyan">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_2k_HPPro8610__cyan}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_2k_HPPro8610__cartridge__magenta}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_2k_HPPro8610_Magenta_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_2k_HPPro8610__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_2k_HPPro8610__cartridge__magenta}}">
-                </form>
-
-                <div class="bar bar-{{printers.pr_tln_2k_HPPro8610__magenta}} magenta">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_2k_HPPro8610__magenta}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-    <section>
-        <article>
-            <div class="chart">
-
-                <form method="post">
-                    <div class="quantity">
-                        <p class="quantity-cartridge-info">{{printers.pr_tln_2k_HPPro8610__cartridge__yellow}} Storage: </p>
-                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_2k_HPPro8610_Yellow_supplies.supply}}">
-                        <div class="quantity-nav">
-                            <div class="quantity-button quantity-up">+</div>
-                            <div class="quantity-button quantity-down">-</div>
-                        </div>
-                    </div>
-                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_2k_HPPro8610__name}}">
-                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_2k_HPPro8610__cartridge__yellow}}">
-                </form>
-
-                <div class="bar bar-{{printers.pr_tln_2k_HPPro8610__yellow}} yellow">
-                    <div class="face top">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-0">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face floor">
-                        <div class="growing-bar"></div>
-                    </div>
-                    <div class="face side-a"></div>
-                    <div class="face side-b"></div>
-                    <div class="face side-1">
-                        <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{printers.pr_tln_2k_HPPro8610__yellow}}%</p></div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </section>
-</div>
-
-
-
-
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_2k_HP1320n__ip}}/">{{printers.pr_tln_2k_HP1320n__name}}<br>{{printers.pr_tln_2k_HP1320n__ip}}</div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_2k_HP1320n__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_2k_HP1320n_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_2k_HP1320n__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_2k_HP1320n__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_2k_HP1320n__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_2k_HP1320n__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
-
-    <div class="printer">
-        <div class="pr-12k title"><a href="//{{printers.pr_tln_1k_HP255dn__ip}}/">{{printers.pr_tln_1k_HP255dn__name}}<br>{{printers.pr_tln_1k_HP255dn__ip}}</a></div>
-        <section>
-            <article>
-                <div class="chart">
-
-                    <form method="post">
-                        <div class="quantity">
-                            <p class="quantity-cartridge-info">{{printers.pr_tln_1k_HP255dn__cartridge__black}} Storage: </p>
-                            <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_1k_HP255dn_Black_supplies.supply}}">
-                            <div class="quantity-nav">
-                                <div class="quantity-button quantity-up">+</div>
-                                <div class="quantity-button quantity-down">-</div>
-                            </div>
-                        </div>
-                        <input type="hidden" class="printer-title" name="inc_storage_title" value="{{printers.pr_tln_1k_HP255dn__name}}">
-                        <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{printers.pr_tln_1k_HP255dn__cartridge__black}}">
-                    </form>
-
-                    <div class="bar bar-{{printers.pr_tln_1k_HP255dn__black}} gray">
-                        <div class="face top">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-0">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face floor">
-                            <div class="growing-bar"></div>
-                        </div>
-                        <div class="face side-a"></div>
-                        <div class="face side-b"></div>
-                        <div class="face side-1">
-                            <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{printers.pr_tln_1k_HP255dn__black}}%</p></div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </section>
-    </div>
+                </article>
+            </section>
+        </div>
+
+      {{else}}
+
+          <div class="printer">
+              <div class="title"><a href="//printers.pr_tln_10k_HP2420n__ip/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+              <section>
+                  <article>
+                      <div class="chart">
+
+                          <form method="post">
+                              <div class="quantity">
+                                  <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
+                                  <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_10k_HP2420n_Black_supplies.supply">
+                                  <div class="quantity-nav">
+                                      <div class="quantity-button quantity-up">+</div>
+                                      <div class="quantity-button quantity-down">-</div>
+                                  </div>
+                              </div>
+                              <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                              <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
+                          </form>
+
+                          <div class="bar bar-{{this.cartridge.black.value}} gray">
+                              <div class="face top">
+                                  <div class="growing-bar"></div>
+                              </div>
+                              <div class="face side-0">
+                                  <div class="growing-bar"></div>
+                              </div>
+                              <div class="face floor">
+                                  <div class="growing-bar"></div>
+                              </div>
+                              <div class="face side-a"></div>
+                              <div class="face side-b"></div>
+                              <div class="face side-1">
+                                  <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
+                              </div>
+                          </div>
+                      </div>
+                  </article>
+              </section>
+          </div>
+    {{/if}}
+   {{/each}}
 </div>

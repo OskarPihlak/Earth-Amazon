@@ -1,15 +1,12 @@
-//module export
-module.exports = (printers) => {
-//declarations
+module.exports = () => {
+
     const snmp = require("net-snmp");
-    let oids;
-    let inkData = {};
     let colorArray = [];
     let black_and_white_loop_info = [
-        {inc_name :'black', cartridge_number:1, inc_number:2, max_capacity_bw:3, max_capacity_color: 9}];
+                       {inc_name :'black', cartridge_number:1, inc_number:2, max_capacity_bw:3, max_capacity_color: 9}];
     let colors_info = [{inc_name:'cyan',   cartridge_number:3, inc_number:4, max_capacity_bw:3, max_capacity_color: 10},
-        {inc_name:'magenta',cartridge_number:5, inc_number:6, max_capacity_bw:3, max_capacity_color: 11},
-        {inc_name:'yellow', cartridge_number:7, inc_number:8, max_capacity_bw:3, max_capacity_color: 12}];
+                       {inc_name:'magenta',cartridge_number:5, inc_number:6, max_capacity_bw:3, max_capacity_color: 11},
+                       {inc_name:'yellow', cartridge_number:7, inc_number:8, max_capacity_bw:3, max_capacity_color: 12}];
     let colors_loop_info = black_and_white_loop_info.concat(colors_info);
 
     let snmpAdresses =[
@@ -51,192 +48,71 @@ module.exports = (printers) => {
     Object.keys(oidsArray.colors).map(function(key) {
         colorArray.push(oidsArray.colors[key]);
     });
-
-//    let session = snmp.createSession(snmpAdresses[i].ip, "public");
-    let promises = [];
-
-//function
-let session_get = (ip, oids) =>{
+//oids data parsing
+function printer_data_parse(printer, data){
+    printer.cartridge = {};
+    let inkData = {};
+    if (printer.color === true && printer.max_capacity === false) {
+        for (let x = 0; x < colors_loop_info.length; x++) {
+            let printer_name = colors_loop_info[x];
+            let inc_real_name = printer_name.inc_name;
+            printer.cartridge[inc_real_name] = {value :data[printer_name.inc_number].value, name : data[printer_name.cartridge_number].value.toString('utf8')};
+        }
+    } else if (printer.color === false && printer.max_capacity === false) {
+        for (let x = 0; x < black_and_white_loop_info.length; x++) {
+            let printer_name = black_and_white_loop_info[x];
+            printer.cartridge[printer_name.inc_name] = {value: data[printer_name.inc_number].value, name : data[printer_name.cartridge_number].value.toString('utf8')};
+        }
+    } else if (printer.color === false && printer.max_capacity === true) {
+        for (let x = 0; x < black_and_white_loop_info.length; x++) {
+            let printer_name = black_and_white_loop_info[x];
+            let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_name.max_capacity_bw].value) * 100);
+            printer.cartridge[printer_name.inc_name] = {value: inc_precentage , name: data[printer_name.cartridge_number].value.toString('utf8')};
+        }
+    } else if (printer.color === true && printer.max_capacity === true) {
+        for (let x = 0; x < colors_loop_info.length; x++) {
+            let printer_name = colors_loop_info[x];
+            let inc_precentage = Math.round((data[printer_name.inc_number].value / data[colors_loop_info[x].max_capacity_color].value) * 100);
+            printer.cartridge[printer_name.inc_name] = {value: inc_precentage , name: data[printer_name.cartridge_number].value.toString('utf8')};
+        }
+    }
+    return printer;
+}
+//Parse the oids to usable data
+let session_get = (printer, oids) =>{
     return new Promise((resolve, reject) => {
-        let session = snmp.createSession(ip, "public");
-        console.log(ip, oids);
+        let session = snmp.createSession(printer.ip, "public");
         session.get(oids, (err, data) => {
             if (err) {
                 return reject(err);
             }
-            return resolve(data);
+            printer_data_parse(printer, data);
+            return resolve(printer_data_parse(printer, data));
         });
     });
 };
-
-
-//building the oids for printers
+    let promises = [];
+//Construct correct oids for printers
     let i = 0;
     while( i < snmpAdresses.length ) {
-        inkData[snmpAdresses[i].key + 'ip'] = snmpAdresses[i].ip;
-        inkData[snmpAdresses[i].key + 'name'] = snmpAdresses[i].name;
-        let session = snmp.createSession(snmpAdresses[i].ip, "public");
-
         if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === false) {
-            promises.push(session_get(snmpAdresses[i].ip, oidsArray.pr_name.concat(oidsArray.bw, colorArray)));
+            promises.push(session_get(snmpAdresses[i], oidsArray.pr_name.concat(oidsArray.bw, colorArray)));
         }
         else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === true) {
-            promises.push(session_get(snmpAdresses[i].ip,oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)));
+            promises.push(session_get(snmpAdresses[i],oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)));
         }
         else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === false) {
-            promises.push(session_get(snmpAdresses[i].ip,oidsArray.pr_name.concat(oidsArray.bw)));
+            promises.push(session_get(snmpAdresses[i],oidsArray.pr_name.concat(oidsArray.bw)));
         }
         else if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === true) {
-            promises.push(session_get(snmpAdresses[i].ip ,oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)));
+            promises.push(session_get(snmpAdresses[i] ,oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)));
         } else {
             console.log('Invalid object on iteration ' + i)
         }
         i++;
-        console.log(promises);
-
     }
+    return Promise.all(promises);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

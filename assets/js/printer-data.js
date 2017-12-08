@@ -1,3 +1,4 @@
+//Deprecated module
 module.exports = (printers) => {
     const snmp = require("net-snmp");
     let oids;
@@ -69,72 +70,44 @@ module.exports = (printers) => {
             console.log('Invalid object on iteration ' + i)
         }
 
-
         session.get(oids, function (error, varbinds) {
-            console.log(snmpAdresses[i],oids);
             i++;
             if (error) {
                 console.error(error);
-                //return error;
-
             } else {
                 console.log(i);
                 if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === false) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
                         let printer_name = colors_loop_info[x];
-
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = varbinds[printer_name.inc_number].value;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-
-                        //console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
-                        //console.log( varbinds[printer_name.inc_number].value);
-                        //console.log(inkData);
                     }
-
                 } else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === false) {
                     for (let x = 0; x < black_and_white_loop_info.length; x++) {
                         let printer_name = black_and_white_loop_info[x];
-
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = varbinds[printer_name.inc_number].value;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-
-
-                        //console.log(snmpAdresses[i].key+printer_name.inc_name, varbinds[printer_name.inc_number].value);
                     }
-
                 } else if (snmpAdresses[i].color === false && snmpAdresses[i].max_capacity === true) {
                     for (let x = 0; x < black_and_white_loop_info.length; x++) {
                         let printer_name = black_and_white_loop_info[x];
                         let inc_precentage = Math.round((varbinds[printer_name.inc_number].value / varbinds[printer_name.max_capacity_bw].value) * 100);
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = inc_precentage;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-                        console.log(snmpAdresses[i].key+printer_name.inc_name, inc_precentage);
                     }
-
                 } else if (snmpAdresses[i].color === true && snmpAdresses[i].max_capacity === true) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
                         let printer_name = colors_loop_info[x];
                         let inc_precentage = Math.round((varbinds[printer_name.inc_number].value / varbinds[colors_loop_info[x].max_capacity_color].value) * 100);
                         inkData[snmpAdresses[i].key + printer_name.inc_name] = inc_precentage;
                         inkData[snmpAdresses[i].key +'cartridge__' +  printer_name.inc_name] = varbinds[printer_name.cartridge_number].value;
-                        //console.log(snmpAdresses[i].key+printer_name.name,inc_precentage);
                     }
                 }
-                //console.log(inkData);
-
-               // console.log(JSON.stringify(inkData));
-
             }
-
             console.log(i);
             i++;
-
-
         });
-        //console.log(inkData);
-
-i++;
+        i++;
     }
-    //console.log(inkData);
     return printers(null, inkData);
 };

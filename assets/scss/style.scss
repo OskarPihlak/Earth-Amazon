@@ -78,9 +78,12 @@ p
     display: block;
   }
 }
+#container{
+  flex-flow: wrap;
+}
 .container
 {
-  flex-flow: inherit;
+  flex-flow: wrap;
   width:100%;
   z-index: 1;
   display: flex;

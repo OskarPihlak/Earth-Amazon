@@ -54,12 +54,15 @@ p {
   p span {
     display: block; }
 
+#container {
+  -webkit-flex-flow: wrap;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap; }
+
 .container {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-flow: inherit;
-  -ms-flex-flow: inherit;
-  flex-flow: inherit;
+  -webkit-flex-flow: wrap;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
   width: 100%;
   z-index: 1;
   display: -webkit-box;
@@ -67,6 +70,8 @@ p {
   display: -ms-flexbox;
   display: flex;
   overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
