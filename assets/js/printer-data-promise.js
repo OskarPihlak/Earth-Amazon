@@ -63,7 +63,9 @@ function getSnmpAdresses() {
                     name: row.name,
                     key: row.key_name,
                     max_capacity: !!row.max_capacity,
-                    floor: row.floor
+                    floor: row.floor,
+                    position_left: row.position_left,
+                    position_top: row.position_top
                 };
             });
             return resolve(snmpAdresses);
