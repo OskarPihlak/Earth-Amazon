@@ -649,3 +649,122 @@ input[type=number]
   bottom: -1px;
   height: 50%;
 }
+
+
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+
+body {
+  margin: 0;
+}
+
+button {
+
+  font-family: 'Varela Round', sans-serif;
+  height: 25px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #e8e8e8;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: linear-gradient(45deg,#d350db,teal,#d350db);
+  background-size: 400% 400%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 15px 0 0 0;
+
+  &:hover {
+    animation: gradient 10s ease infinite;
+    font-size: 14px;
+  }
+}
+
+@keyframes gradient {
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+.black-precentage-section{
+  margin-top: -35px;
+}
+
+.printer-map{
+  width: 100%;
+}
+.printer-section{
+  width: 2000px;
+  height: 1000px;
+}
+.led-positioning {
+  position: absolute;
+}
+
+.led-blue {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #24E0FF;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+}
+
+body {
+  background-color: #eee;
+}
+
+body, .navBar {
+  text-align: center;
+}
+
+.navBar {
+  display: inline-block;
+  background-color: #444;
+  margin: 40px auto 0 auto;
+  border-radius: 3px;
+  box-shadow: 0px 8px 30px -4px hsla(0, 0%, 0%, 0.6);
+}
+
+.navBar .navMenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navBar .navMenu .menuItem {
+  display: inline-block;
+  margin: 0;
+}
+
+.navBar .navMenu .menuItem .itemLink {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  height: 50px;
+  width: 100px;
+}
+
+.navBar .navMenu .menuItem .itemLink:hover {
+  background-color: #999;
+  color: #444;
+  transition: all .4s;
+}
+
+.navBar .navMenu .menuItem .first {
+  border-radius: 3px 0 0 3px;
+}
+
+.navBar .navMenu .menuItem .last {
+  border-radius: 0 3px 3px 0;
+}
+
+.navBar .navMenu .menuItem .itemLink .itemIcon {
+  display: block;
+  padding: 4px 0 0 0;
+  line-height: 20px;
+}
+
+
+
+
+

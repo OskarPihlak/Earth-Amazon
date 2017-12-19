@@ -1,24 +1,21 @@
 <div class="container">
-    <div class="led-box">
-        <div class="internet-access-notification"></div>
-        <div id="internet-access-indicator" class=""></div>
-    </div>
-    <div class="data-last-updated"></div>
-</div>
 <div class="container" id="container">
     {{#each printers}}
       {{#if this.color}}
         <div class="printer">
             <div class="pr-12k title">
-                <a name="title" href="//printers.pr_tln_12k_HPMFP252n__ip/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-            <section>
+                <a name="title" href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+            <form action="/{{this.floor}}/{{this.name}}">
+            <button class="{{this.name}}"href="/{{this.floor}}/{{this.name}}">Asukoht</button>
+            </form>
+                <section class="black-precentage-section">
                 <article>
                     <div class="chart">
 
                         <form method="post">
                             <div class="quantity">
                                 <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.black.supply.storage}}">
                                 <div class="quantity-nav">
                                     <div class="quantity-button quantity-up">+</div>
                                     <div class="quantity-button quantity-down">-</div>
@@ -55,7 +52,7 @@
                         <form method="post">
                             <div class="quantity">
                                 <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{inc_supply.pr_tln_12k_HP_MFP252n_Cyan_supplies.supply}}">
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.cyan.supply.storage}}">
                                 <div class="quantity-nav">
                                     <div class="quantity-button quantity-up">+</div>
                                     <div class="quantity-button quantity-down">-</div>
@@ -91,7 +88,7 @@
                         <form method="post">
                             <div class="quantity">
                                 <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_12k_HP_MFP252n_Magenta_supplies.supply">
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.magenta.supply.storage}}">
                                 <div class="quantity-nav">
                                     <div class="quantity-button quantity-up">+</div>
                                     <div class="quantity-button quantity-down">-</div>
@@ -126,7 +123,7 @@
                         <form method="post">
                             <div class="quantity">
                                 <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_12k_HP_MFP252n_Yellow_supplies.supply">
+                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.yellow.supply.storage}}">
                                 <div class="quantity-nav">
                                     <div class="quantity-button quantity-up">+</div>
                                     <div class="quantity-button quantity-down">-</div>
@@ -159,15 +156,18 @@
       {{else}}
 
           <div class="printer">
-              <div class="title"><a href="//printers.pr_tln_10k_HP2420n__ip/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-              <section>
+              <div class="title"><a href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+              <form action="/{{this.floor}}/{{this.name}}">
+                  <button class="{{this.name}}"href="/{{this.floor}}/{{this.name}}">Asukoht</button>
+              </form>
+              <section class="black-precentage-section">
                   <article>
                       <div class="chart">
 
                           <form method="post">
                               <div class="quantity">
                                   <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                  <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="inc_supply.pr_tln_10k_HP2420n_Black_supplies.supply">
+                                  <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.black.supply.storage}}">
                                   <div class="quantity-nav">
                                       <div class="quantity-button quantity-up">+</div>
                                       <div class="quantity-button quantity-down">-</div>

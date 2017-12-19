@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
@@ -24,16 +25,13 @@ header p {
 
 section {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   margin-bottom: -3em;
@@ -41,7 +39,6 @@ section {
   section:last-of-type {
     margin-bottom: 0; }
   section article {
-    -webkit-align-self: center;
     -ms-flex-item-align: center;
     align-self: center;
     width: 20em;
@@ -55,28 +52,23 @@ p {
     display: block; }
 
 #container {
-  -webkit-flex-flow: wrap;
   -ms-flex-flow: wrap;
   flex-flow: wrap; }
 
 .container {
-  -webkit-flex-flow: wrap;
   -ms-flex-flow: wrap;
   flex-flow: wrap;
   width: 100%;
   z-index: 1;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
   margin-bottom: 4em; }
@@ -571,33 +563,27 @@ END // CHART'S RULES
 */
 .chart.grid {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row; }
   .chart.grid .exercise {
     -webkit-box-flex: 0;
-    -webkit-flex: 0 0 100%;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
     display: -webkit-box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex; }
     .chart.grid .exercise .bar {
       -webkit-box-flex: 1;
-      -webkit-flex: 1;
       -ms-flex: 1;
       flex: 1;
       margin: 0 .5em; }
       .chart.grid .exercise .bar:nth-child(2) {
         z-index: 8;
         -webkit-box-flex: 1;
-        -webkit-flex: 1 0 40%;
         -ms-flex: 1 0 40%;
         flex: 1 0 40%; }
       .chart.grid .exercise .bar:first-child {
@@ -608,11 +594,9 @@ END // CHART'S RULES
 
 .actions {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
   margin-bottom: 0;
@@ -632,7 +616,6 @@ label {
   border: 1px solid rgba(254, 254, 254, 0.6);
   border-radius: 0;
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1; }
   label:first-child {
@@ -659,37 +642,31 @@ input[id='lime']:checked ~ .actions label[for='lime'] {
 
 input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(1) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1 0 0%;
   -ms-flex: 1 0 0%;
   flex: 1 0 0%; }
 
 input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(2) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1; }
 
 input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1 0 30%;
   -ms-flex: 1 0 30%;
   flex: 1 0 30%; }
 
 input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(1), input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(2), input[id='exercise-3']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1; }
 
 input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(1), input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(2) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1 0 30%;
   -ms-flex: 1 0 30%;
   flex: 1 0 30%; }
 
 input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
   -webkit-box-flex: 1;
-  -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1; }
 
@@ -833,7 +810,6 @@ input[id='exercise-4']:checked ~ .chart.grid .exercise .bar:nth-child(3) {
 
 .plus-minus-input {
   -webkit-box-align: center;
-  -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center; }
   .plus-minus-input .input-group-field {
@@ -932,3 +908,107 @@ input[type=number] {
   position: absolute;
   bottom: -1px;
   height: 50%; }
+
+body {
+  margin: 0; }
+
+button {
+  font-family: 'Varela Round', sans-serif;
+  height: 25px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #e8e8e8;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: -webkit-linear-gradient(45deg, #d350db, teal, #d350db);
+  background: -o-linear-gradient(45deg, #d350db, teal, #d350db);
+  background: linear-gradient(45deg, #d350db, teal, #d350db);
+  background-size: 400% 400%;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  margin: 15px 0 0 0; }
+  button:hover {
+    -webkit-animation: gradient 10s ease infinite;
+    animation: gradient 10s ease infinite;
+    font-size: 14px; }
+
+@-webkit-keyframes gradient {
+  50% {
+    background-position: 100% 0; } }
+
+@keyframes gradient {
+  50% {
+    background-position: 100% 0; } }
+
+.black-precentage-section {
+  margin-top: -35px; }
+
+.printer-map {
+  width: 100%; }
+
+.printer-section {
+  width: 2000px;
+  height: 1000px; }
+
+.led-positioning {
+  position: absolute; }
+
+.led-blue {
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  background-color: #24E0FF;
+  border-radius: 50%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px; }
+
+body {
+  background-color: #eee; }
+
+body, .navBar {
+  text-align: center; }
+
+.navBar {
+  display: inline-block;
+  background-color: #444;
+  margin: 40px auto 0 auto;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 8px 30px -4px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 8px 30px -4px rgba(0, 0, 0, 0.6); }
+
+.navBar .navMenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+.navBar .navMenu .menuItem {
+  display: inline-block;
+  margin: 0; }
+
+.navBar .navMenu .menuItem .itemLink {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  height: 50px;
+  width: 100px; }
+
+.navBar .navMenu .menuItem .itemLink:hover {
+  background-color: #999;
+  color: #444;
+  -webkit-transition: all .4s;
+  -o-transition: all .4s;
+  transition: all .4s; }
+
+.navBar .navMenu .menuItem .first {
+  border-radius: 3px 0 0 3px; }
+
+.navBar .navMenu .menuItem .last {
+  border-radius: 0 3px 3px 0; }
+
+.navBar .navMenu .menuItem .itemLink .itemIcon {
+  display: block;
+  padding: 4px 0 0 0;
+  line-height: 20px; }
