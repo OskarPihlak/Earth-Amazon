@@ -53,7 +53,7 @@ module.exports = (sql_conditional) => {
 
 function getSnmpAdresses() {
     return new Promise((resolve, rejected) => {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional;
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional + ';';
         let query = db.query(sql_statement_get, function (error, sql_data) {
             if (error) reject(error);
             let snmpAdresses = sql_data.map(row => {

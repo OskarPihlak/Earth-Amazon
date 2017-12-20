@@ -10,55 +10,19 @@
         <section class="black-precentage-section printer-section">
             <article class="printer-map">
                 <div>
+                    {{#each printers_4k}}
+                        <div class="led-box led-positioning" style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
+                            {{#ifEquals this.requested this.name}}
+                                <div class="led-green"></div>
+                            {{else}}
+                                <div class="led-blue"></div>
+                            {{/ifEquals}}
+                        </div>
+                    {{/each}}
 
-                    <div class="led-box led-positioning" style="top: 364px;left: 1309px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HP5225dn'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
 
 
-                    <div class="led-box led-positioning" style="top: 364px;left: 1283px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HP400'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
 
-                    <div class="led-box led-positioning" style="top: 700px;left: 1273px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HP_P3005'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
-
-                    <div class="led-box led-positioning" style="top: 692px;left: 881px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HP521dn'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
-
-                    <div class="led-box led-positioning" style="top: 626px;left: 1214px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HP_CP5225n'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
-
-                    <div class="led-box led-positioning" style="top: 600px;left: 1214px;">
-                        {{#ifEquals printer_name 'pr_tln_4k_HPLJ_5200'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
 
                     <img src="/images/4th-floor.png" width="1640" height="1000" alt="10-floor">
 

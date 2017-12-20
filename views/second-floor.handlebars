@@ -11,32 +11,16 @@
             <article class="printer-map">
                 <div>
 
-                    <div class="led-box led-positioning" style="top: 450px;left: 1260px;">
-                        {{#ifEquals printer_name 'pr_tln_2k_HPPro8610'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
+                    {{#each printers_2k}}
+                        <div class="led-box led-positioning" style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
+                            {{#ifEquals this.requested this.name}}
+                                <div class="led-green"></div>
+                            {{else}}
+                                <div class="led-blue"></div>
+                            {{/ifEquals}}
+                        </div>
+                    {{/each}}
 
-
-                    <div class="led-box led-positioning" style="top: 309px;left: 1211px;">
-                        {{#ifEquals printer_name 'pr_tln_2k_HP476dn'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
-
-
-
-                    <div class="led-box led-positioning" style="top: 571px;left: 542px;">
-                        {{#ifEquals printer_name 'pr_tln_2k_HP1320n'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
                     <img src="/images/2nd-floor.png" width="1640" height="1000" alt="10-floor">
 
                 </div>

@@ -10,26 +10,18 @@
         <section class="black-precentage-section printer-section">
             <article class="printer-map">
                 <div>
-
-                    <div class="led-box led-positioning" style="    top: 250px;
-    left: 1070px;">
-                        {{#ifEquals printer_name 'pr_tln_10k_HP2420n'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
-
-                    <div class="led-box led-positioning" style="top: 260px;
-    left: 1100px;">
-                        {{#ifEquals printer_name 'pr_tln_10k_HPM476dn'}}
-                            <div class="led-green"></div>
-                        {{else}}
-                            <div class="led-blue"></div>
-                        {{/ifEquals}}
-                    </div>
+                    {{#each printers_10k}}
+                        <p>{{this.name}}</p>
+                        <div class="led-box led-positioning"
+                             style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
+                            {{#ifEquals this.requested this.name}}
+                                <div class="led-green"></div>
+                            {{else}}
+                                <div class="led-blue"></div>
+                            {{/ifEquals}}
+                        </div>
+                    {{/each}}
                     <img src="/images/10th-floor.png" width="1640" height="1000" alt="10-floor">
-
                 </div>
             </article>
         </section>
@@ -37,5 +29,5 @@
             <button>BACK</button>
         </form>
     </div>
-    </div>
+</div>
 </div>
