@@ -1012,3 +1012,18 @@ body, .navBar {
   display: block;
   padding: 4px 0 0 0;
   line-height: 20px; }
+
+.hidden-button {
+  padding: 0;
+  float: left; }
+
+#additional-data {
+  color: #fff;
+  position: absolute;
+  background-color: #524b4b;
+  -webkit-transition: 2s;
+  -o-transition: 2s;
+  transition: 2s;
+  margin: 0 0 20px 30px;
+  border-radius: 4px;
+  padding: 3px; }

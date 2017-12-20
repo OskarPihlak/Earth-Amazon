@@ -1,11 +1,3 @@
-let monthNames = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-];
-let date = new Date();
-let last_updated = 'Last updated: '+ date.getHours() + ':' +("0" + date.getMinutes()).slice(-2)+' ' +date.getDate()+'. '+ monthNames[date.getMonth()];
-
-$('.data-last-updated').text(last_updated);
-
 if (navigator.onLine) {
     $('#internet-access-indicator').addClass('led-green');
 } else{
@@ -49,9 +41,8 @@ $(document).ready(function(){
     });
 });
 
-
-var count = 1;
-var countEl = document.getElementById("count");
+count = 1;
+countEl = document.getElementById("count");
 function plus(){
     count++;
     countEl.value = count;
@@ -62,8 +53,7 @@ function minus(){
         countEl.value = count;
     }
 }
-
-/////////////////
+//Change value inside input
 
 $('.quantity').each(function() {
     let spinner = $(this),
@@ -80,7 +70,6 @@ $('.quantity').each(function() {
         } else {
             newVal = oldValue + 1;
         }
-        //console.log(oldValue);
         spinner.closest('form').find(".cartridge-storage").val(newVal);
         spinner.find("input").trigger("change");
     });
@@ -95,24 +84,18 @@ $('.quantity').each(function() {
         spinner.closest('form').find(".cartridge-storage").val(newVal);
         spinner.find("input").trigger("change");
     });
-
 });
-/////////////
 
+//Sends data to back-end
 $('form input').change(function() {
     $(this).closest('form').submit();
     $(this).closest('form').find('.cartridge-name').submit();
     $(this).closest('form').closest('.printer').find('.printer-title').submit();
     console.log( $(this).closest('form').closest('.printer').find('.printer-title'));
-
-    //console.log($(this).val());
     console.log($(this).closest('.printer').find('.printer-title').val());
-   // console.log($(this).closest('form').find('.cartridge').text());
-
 });
 
-///////////////////////////////
-
+//Retain scroll location after reload
 $(window).scroll(function() {
     sessionStorage.scrollTop = $(this).scrollTop();
 });
@@ -122,3 +105,17 @@ $(document).ready(function() {
         $(window).scrollTop(sessionStorage.scrollTop);
     }
 });
+
+//toggle data on click
+
+    $('.hidden-button').click(()=> {
+        console.log('clicked');
+        $('#additional-data').toggle();
+    });
+   /* let selected_element = document.getElementById("additional-data");
+    if (selected_element.style.display === "none") {
+        selected_element.style.display = "block";
+        selected_element.style.margin = '0 0 20px 30px;'
+    } else {
+        selected_element.style.display = "none";
+    }*/

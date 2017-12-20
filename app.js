@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const Handlebars = require('handlebars');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
-const printer_data = require('./assets/js/printer-data.js');
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
+const routing_get = require('./assets/js/routing-get.js');
 i = 0;
 
 function concatStyle(response, style){
@@ -66,14 +66,11 @@ Handlebars.registerHelper('testHelper', function(property) {
     return 'foo: ' + Ember.get(this, property);
 });
 
-let temporary_file_array = [];
 app.get('/', function (req, res) {
     printer_data_promise("WHERE color = true OR color = false ").then(response =>{
         let sql_statement_get = 'SELECT * FROM inc_supply_status';
         let query = db.query(sql_statement_get, function (error, sql_data) {
             if (error) throw error;
-            console.log(response.length);
-            let i = 0;
 
             res.render('main', {
                 printers: response
@@ -81,24 +78,20 @@ app.get('/', function (req, res) {
         });
     }).catch(error => {console.log(error)});
 });
-result=[];
+
 app.get('/12k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '12k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
         res.render('twelf-floor', {
-            printer_name: req.params.id,
             printers_12k:response,
-
         });
-       // console.log(JSON.stringify(response.length));
-
     });
 });
+
 app.get('/10k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '10k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
         res.render('tenth-floor', {
-            printer_name: req.params.id,
             printers_10k:response
         });
     });
@@ -108,7 +101,6 @@ app.get('/6k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '6k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
         res.render('sixth-floor', {
-            printer_name: req.params.id,
             printers_6k:response
         });
     });
@@ -118,7 +110,6 @@ app.get('/4k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '4k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
         res.render('fourth-floor', {
-            printer_name: req.params.id,
             printers_4k:response
         });
     });
@@ -128,7 +119,6 @@ app.get('/3k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '3k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
         res.render('third-floor', {
-            printer_name: req.params.id,
             printers_3k: response
         });
     });
@@ -137,19 +127,18 @@ app.get('/3k/:id', function (req, res) {
 app.get('/2k/:id', function (req, res) {
     printer_data_promise("WHERE floor = '2k'").then(response => {
         requestedPrinterJoinToResponse(response, req);
-
         res.render('second-floor', {
-            printer_name: req.params.id,
             printers_2k: response
         });
     });
 });
 
 app.get('/1k/:id', function (req, res) {
-
-    res.render('first-floor', {
-        printer_name: req.params.id,
-        printer_data:[{name:''}]
+    printer_data_promise("WHERE floor = '1k'").then(response => {
+        requestedPrinterJoinToResponse(response, req);
+        res.render('first-floor', {
+            printers_1k: response
+        });
     });
 });
 
