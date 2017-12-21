@@ -11,19 +11,24 @@
             <article class="printer-map">
                 <div>
                     {{#each printers_4k}}
-                    <button class="hidden-button">
-                        <div class="led-box led-positioning" style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
-                            {{#ifEquals this.requested this.name}}
-                                <div class="led-green"></div>
-                            {{else}}
-                                <div class="led-blue"></div>
-                            {{/ifEquals}}
-                        </div>
-                    </button>
-                        <div id="additional-data" style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
-                            <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
-                            <p>{{this.name}}</p>
-                        </div>
+                            <button onClick="reply_click(this.id)" class="hidden-button" id="{{@index}}">
+                                <div class="led-box led-positioning"
+                                     style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
+                                    {{#ifEquals this.requested this.name}}
+                                        <div class="led-green"></div>
+                                    {{else}}
+                                        <div class="led-blue"></div>
+                                    {{/ifEquals}}
+                                </div>
+                            </button>
+                                {{#ifEquals this.requested this.name}}
+                                <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
+                                {{else}}
+                                <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
+                                {{/ifEquals}}
+                                <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
+                                <p>{{this.name}}</p>
+                            </div>
                     {{/each}}
                     <img src="/images/4th-floor.png" width="1640" height="1000" alt="10-floor">
 

@@ -10,7 +10,7 @@
         <section class="black-precentage-section printer-section">
             <article class="printer-map">
                 <div>
-                    {{#each printers_1k}}
+                    {{#each printers_5k}}
                         <button onClick="reply_click(this.id)" class="hidden-button" id="{{@index}}">
                             <div class="led-box led-positioning"
                                  style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
@@ -22,23 +22,20 @@
                             </div>
                         </button>
                         {{#ifEquals this.requested this.name}}
-                        <div id="additional-data" class="{{@index}}"
-                             style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
+                        <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
                         {{else}}
-                        <div id="additional-data" class="{{@index}}"
-                             style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
+                        <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
                         {{/ifEquals}}
                         <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
                         <p>{{this.name}}</p>
-
                     </div>
                     {{/each}}
-                    <img src="/images/1st-floor.png" width="1640" height="1000" alt="12-floor" usemap="#12_floor">
+                    <img src="/images/5th-floor.png" width="1640" height="1000" alt="10-floor">
+
                 </div>
             </article>
         </section>
     </div>
-
 </div>
 <form action="/">
     <button>BACK</button>

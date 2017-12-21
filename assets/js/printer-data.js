@@ -1,4 +1,5 @@
 //Deprecated module
+//Legacy code
 module.exports = (printers) => {
     const snmp = require("net-snmp");
     let oids;

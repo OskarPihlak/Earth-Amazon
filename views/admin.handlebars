@@ -1,0 +1,43 @@
+<style>
+    body{
+        background: url('http://jahdaicintron.com/wp-content/uploads/2013/07/5.jpg') no-repeat center;
+        background-size: cover;
+        height: 100%;
+        font-family: Ubuntu;
+        font-size: 18px;
+        color: #fff;
+        text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.4)
+    }
+
+
+</style>
+<table>
+<thead>
+<tr>
+    <th>NAME</th>
+    <th>IP</th>
+</tr>
+</thead>
+    <tbody>
+{{#each printers_all}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.ip}}</td>
+        </tr>
+{{/each}}
+</tbody>
+</table>
+
+
+<!--<button id="contact">Add a printer</button>-->
+
+<div id="contactForm">
+    <form method="post" action="/admin/add-printer">
+        <p class="add-printer-text">ADD A PRINTER</p>
+        <input class="input" placeholder="Printer" type="text" required />
+        <input class="input" placeholder="IP" type="text" required />
+        <input  class="input" placeholder="1 if color 0 if not" type="number" min="0" max="1" required />
+        <button class="formBtn" href="/admin/add-printer" >SUBMIT</button>
+        <button class="formBtn" type="reset" >RESET</button>
+    </form>
+</div>
