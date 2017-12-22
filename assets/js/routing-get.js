@@ -25,8 +25,9 @@ module.exports = function(app) {
 
     app.get('/', function (req, res) {
         printer_data_promise("WHERE color = true OR color = false ").then(response => {
-            let sql_statement_get = 'SELECT * FROM inc_supply_status';
+            let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
             let query = db.query(sql_statement_get, function (error, sql_data) {
+                requestedPrinterJoinToResponse(response, sql_data);
                 if (error) throw error;
 
                 res.render('main', {

@@ -286,64 +286,6 @@ END // CHART'S RULES
   }
 }
 
-.actions
-{
-  display: flex;
-
-  justify-content: center;
-
-  margin-bottom: 0;
-  padding-bottom: 2em;
-  border-bottom: 1px dotted rgba($gray, .4);
-}
-label
-{
-  box-sizing: border-box;
-  padding: 1em;
-  margin: 0 .2em;
-
-  cursor: pointer;
-  transition: all .15s ease-in-out;
-
-  color: $navy;
-  border: 1px solid rgba($white, .6);
-  border-radius: 0;
-
-  flex: 1;
-  &:first-child
-  {
-    margin-left: 0;
-
-    border-radius: .2em 0 0 .2em;
-  }
-  &:last-child
-  {
-    margin-right: 0;
-
-    border-radius: 0 .2em .2em 0;
-  }
-}
-
-input[id='exercise-1']:checked ~ .actions label[for='exercise-1'],
-input[id='exercise-2']:checked ~ .actions label[for='exercise-2'],
-input[id='exercise-3']:checked ~ .actions label[for='exercise-3'],
-input[id='exercise-4']:checked ~ .actions label[for='exercise-4'],
-
-input[id='pos-0']:checked ~ .actions label[for='pos-0'],
-input[id='pos-1']:checked ~ .actions label[for='pos-1'],
-input[id='pos-2']:checked ~ .actions label[for='pos-2'],
-input[id='pos-3']:checked ~ .actions label[for='pos-3'],
-
-input[id='red']:checked ~ .actions label[for='red'],
-input[id='cyan']:checked ~ .actions label[for='cyan'],
-input[id='lime']:checked ~ .actions label[for='lime']
-{
-  color: $lime;
-  border: 1px solid darken($navy, 15);
-  background-color: $navy;
-}
-
-
 input[id='red']:checked ~ .chart
 {
   @extend .bar.red;
@@ -373,11 +315,6 @@ input[id='pos-3']:checked ~ .chart
 {
   @extend .bar-100;
 }
-
-
-
-
-
 
 input[id='exercise-2']:checked ~ .chart.grid
 {
@@ -657,6 +594,7 @@ body {
   margin: 0;
 }
 
+/* animated button */
 .button-special-style {
 
   font-family: 'Varela Round', sans-serif;
@@ -685,6 +623,7 @@ body {
   }
 }
 
+/* printer wrapping styles */
 .black-precentage-section{
   margin-top: -35px;
 }
@@ -696,6 +635,8 @@ body {
   width: 2000px;
   height: 1000px;
 }
+
+/* led lights */
 .led-positioning {
   position: absolute;
 }
@@ -709,15 +650,8 @@ body {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
 }
 
-body {
-  background-color: #eee;
-}
-
-body, .navBar {
-  text-align: center;
-}
-
 .navBar {
+  text-align: center;
   display: inline-block;
   background-color: #444;
   margin: 40px auto 0 auto;
@@ -886,204 +820,7 @@ tr td:first-child
   color:#fff;
 }
 
-//navbar
-
-ul.sdt_menu{
-  margin:0;
-  padding:0;
-  list-style: none;
-  font-family:"Myriad Pro", "Trebuchet MS", sans-serif;
-  color: green;
-  font-size:14px;
-  width:1100px;
-  top: 20px;
-}
-ul.sdt_menu a{
-  text-decoration:none;
-  outline:none;
-}
-ul.sdt_menu li{
-  float:left;
-  width:210px;
-  height:85px;
-  position:relative;
-  cursor:pointer;
-  top: 20px;
-  background: #222;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-ul.sdt_menu li > a{
-  position:absolute;
-  left:0px;
-  width:210px;
-  height:85px;
-  z-index:12;
-  background:transparent no-repeat bottom right;
-  -moz-box-shadow:0px 0px 2px #000 inset;
-  -webkit-box-shadow:0px 0px 2px #000 inset;
-  box-shadow:0px 0px 2px #000 inset;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
-ul.sdt_menu li a img{
-  border:none;
-  position:absolute;
-  width:210px;
-  height:85px;
-  bottom:0px;
-  left: 0px;
-  z-index:100;
-  -moz-box-shadow:0px 0px 4px #000;
-  -webkit-box-shadow:0px 0px 4px #000;
-  box-shadow:0px 0px 4px #000;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  opacity: 0;
-
-}
-ul.sdt_menu li span.sdt_wrap{
-  position:absolute;
-  top:25px;
-  left:0px;
-  width:210px;
-  height:60px;
-  z-index:15;
-  border-radius: 5px;
-
-}
-ul.sdt_menu li span.sdt_active{
-  position:absolute;
-  background:#222;
-  top:85px;
-  width:210px;
-  height:0px;
-  left:0px;
-  z-index:14;
-  -moz-box-shadow:0px 0px 4px #000 inset;
-  -webkit-box-shadow:0px 0px 4px #000 inset;
-  box-shadow:0px 0px 4px #000 inset;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-ul.sdt_menu li span span.sdt_link,
-ul.sdt_menu li span span.sdt_descr,
-ul.sdt_menu li div.sdt_box a{
-  margin-left:15px;
-  text-transform:uppercase;
-  text-shadow:1px 1px 1px #000;
-}
-ul.sdt_menu li span span.sdt_link{
-  color:#999;
-  font-size:24px;
-  float:left;
-  clear:both;
-}
-ul.sdt_menu li span span.sdt_descr{
-  color:#ccc;
-  float:left;
-  clear:both;
-  width:155px; /*For dumbass IE7*/
-  font-size:10px;
-  letter-spacing:1px;
-}
-#sdt_box{
-  display:block;
-  position:absolute;
-  width:210px;
-  overflow:hidden;
-  height:70px;
-  top:86px;
-  left:0px;
-  display:none;
-  background:#333;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-#sdt_box a{
-  float:left;
-  clear:both;
-  line-height:26px;
-  text-align: middle bottom;
-  color:#ccc;
-  margin-left:15px;
-  text-transform:uppercase;
-  text-shadow:1px 1px 1px #000;
-  margin-top: 4px;
-  margin-bottom: -2px;
-
-}
-#sdt_box a:first-child{
-  margin-top: 4px;
-}
-#sdt_box a:hover{
-  color:#fff;
-}
-#sdt_box1{
-  display:block;
-  position:absolute;
-  width:210px;
-  overflow:hidden;
-  height:70px;
-  top:86px;
-  left:0px;
-  display:none;
-  background:#333;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-#sdt_box1 a{
-  float:left;
-  clear:both;
-  line-height:26px;
-  text-align: middle bottom;
-  color:#ccc;
-  margin-left:15px;
-  text-transform:uppercase;
-  text-shadow:1px 1px 1px #000;
-  margin-top: 4px;
-  margin-bottom: -2px;
-
-}
-#sdt_box1 a:first-child{
-  margin-top: 4px;
-}
-#sdt_box1 a:hover{
-  color:#fff;
-}
-#sdt_box2{
-  display:block;
-  position:absolute;
-  width:210px;
-  overflow:hidden;
-  height:70px;
-  top:86px;
-  left:0px;
-  display:none;
-  background:#333;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-#sdt_box2 a{
-  float:left;
-  clear:both;
-  line-height:26px;
-  text-align: center;
-  vertical-align: bottom;
-  color:#ccc;
-  margin-left:15px;
-  text-transform:uppercase;
-  text-shadow:1px 1px 1px #000;
-  margin-top: 4px;
-  margin-bottom: -2px;
-
-}
-#sdt_box2 a:first-child{
-  margin-top: 4px;
-}
-#sdt_box2 a:hover{
-  color:#fff;
-}
+/* */
 .Main{
   background: #222;
 }
@@ -1093,7 +830,7 @@ ul.sdt_menu li span span.sdt_descr{
   margin-right: auto;
 }
 
-//dropdown button
+/*dropdown button */
 
 .dropbtn {
   background-color: #444444;
