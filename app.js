@@ -12,7 +12,6 @@ const routing_post = require('./assets/js/routing-post.js');
 i = 0;
 //create connection
 
-
 //app init
 let app = express();
 

@@ -86,6 +86,13 @@ $('.quantity').each(function() {
     });
 });
 
+
+
+
+
+
+
+
 //Sends data to back-end
 $('form input').change(function() {
     let form = $(this).closest('form');
@@ -93,6 +100,23 @@ $('form input').change(function() {
     form.find('.cartridge-name').submit();
     form.closest('.printer').find('.printer-title').submit();
 });
+
+
+function savePrinterData(data){
+    let ip =$('#'+ data +'-ip.admin_input');
+    let name = $('#'+ data +'-name.admin_input');
+    let key = $('#'+ data +'-key.admin_input');
+   ip.attr('value', ip.val());
+   name.attr('value', name.val());
+    key.submit();
+    ip.submit();
+    name.submit();
+}
+
+
+
+
+
 
 //Retain scroll location after reload
 $(window).scroll(function() {
@@ -110,7 +134,7 @@ function reply_click(clicked_id)
 {
     $('.' + clicked_id).toggle();
 }
-
+//admin
 //printer adding form
 $(function() {
     // contact form animations
@@ -126,5 +150,6 @@ $(function() {
             container.fadeOut();
         }
     });
-
 });
+
+//change

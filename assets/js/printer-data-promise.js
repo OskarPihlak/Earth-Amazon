@@ -31,7 +31,7 @@ module.exports = (sql_conditional) => {
 
 function getSnmpAdresses() {
     return new Promise((resolve, rejected) => {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional + ';';
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional;
         let query = db.query(sql_statement_get, function (error, sql_data) {
             if (error) reject(error);
             let snmpAdresses = sql_data.map(row => {
@@ -49,7 +49,7 @@ function getSnmpAdresses() {
             return resolve(snmpAdresses);
         });
     });
-};
+}
         let oidsArray = {
         pr_name: ["1.3.6.1.2.1.1.5.0"],
         bw: ["1.3.6.1.2.1.43.11.1.1.6.1.1",        //black name
@@ -142,16 +142,17 @@ function getSnmpAdresses() {
             let session = snmp.createSession(printer.ip, "public");
             session.get(oids, (err, data) => {
                 if (err) {
-                    console.log('Horses are green', err);
+                    console.log('session_get_error', err);
                     return reject(err);
                 }
+
+
                 printer_data_parse(printer, data).then(data => {
                     return resolve(data);
                 }).catch(error => {
-                    console.log('Or maby dis', error);
+                    console.log('printer_data_parse_error', error);
                     reject(error);
                 });
-
             });
         });
     };
@@ -159,16 +160,16 @@ function getSnmpAdresses() {
     return getSnmpAdresses().then( adresses =>{
         return Promise.all( adresses.map((adress)=>{
             if (adress.color === true && adress.max_capacity === false) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray));
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray)).catch(function(err) {return err;});
             }
             else if (adress.color === false && adress.max_capacity === true) {
-               return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw));
+               return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)).catch(function(err) {return err;});
             }
             else if (adress.color === false && adress.max_capacity === false) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw));
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw)).catch(function(err) {return err;});
             }
             else if (adress.color === true && adress.max_capacity === true) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color));
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)).catch(function(err) {return err;});
             }
         }));
     })
