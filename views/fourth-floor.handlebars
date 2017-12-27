@@ -11,24 +11,47 @@
             <article class="printer-map">
                 <div>
                     {{#each printers_4k}}
-                            <button onClick="reply_click(this.id)" class="hidden-button" id="{{@index}}">
-                                <div class="led-box led-positioning"
-                                     style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
-                                    {{#ifEquals this.requested this.name}}
-                                        <div class="led-green"></div>
-                                    {{else}}
-                                        <div class="led-blue"></div>
-                                    {{/ifEquals}}
-                                </div>
-                            </button>
+                        <button onClick="reply_click(this.id)" class="hidden-button button-special-style"
+                                id="{{@index}}">
+
+                            <div class="led-box led-positioning" id="led-positioning-{{@index}}"
+                                 style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
                                 {{#ifEquals this.requested this.name}}
-                                <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
+                                    <div class="led-green"></div>
                                 {{else}}
-                                <div id="additional-data" class="{{@index}}" style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
+                                    <div class="led-blue"></div>
                                 {{/ifEquals}}
-                                <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
-                                <p>{{this.name}}</p>
                             </div>
+                        </button>
+
+                        {{#ifEquals this.requested this.name}}
+                        <div id="additional-data-positioning-{{@index}}" class="{{@index}} additional-data"
+                             style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
+                        {{else}}
+                        <div id="additional-data-positioning-{{@index}}" class="{{@index}} additional-data"
+                             style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
+                        {{/ifEquals}}
+                        <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
+                        <p>{{this.name}}</p>
+                        <button class="button-special-style">Connect</button>
+                        <button class="button-special-style toggle-position" id="position-changing-button">Position</button>
+
+                        <div class="printer-marker-positioning" id="" style="display: none;">
+                            <label for="top-{{@index}}">Top</label>
+                            <input id="top-{{@index}}" name="top" class="top" type="number" onkeydown="repositionMarker({{@index}})" value="{{this.position_top}}">
+                            <label for="left-{{@index}}">Left</label>
+                            <input id="left-{{@index}}" name="left" class="left" type="number" onkeydown="repositionMarker({{@index}})" value="{{this.position_left}}">
+
+                            <form method="post" action="/update/marker/position">
+                                <button id="button-position" class="button-special-style" style="width: 100%;border-radius: 3px;">Save</button>
+                                <input hidden name="top" class="top-post" value="{{this.position_top}}">
+                                <input hidden name="left" class="left-post" value="{{this.position_left}}">
+                                <input hidden name="floor" value="{{this.floor}}">
+                                <input hidden name="name" value="{{this.name}}">
+                            </form>
+
+                        </div>
+                    </div>
                     {{/each}}
                     <img src="/images/4-floor.png" width="1640" height="1000" alt="10-floor">
 
@@ -38,5 +61,5 @@
     </div>
 </div>
 <form action="/">
-    <button>BACK</button>
+    <button class="button-special-style">BACK</button>
 </form>

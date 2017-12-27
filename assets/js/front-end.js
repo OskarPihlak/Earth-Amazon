@@ -152,4 +152,23 @@ $(function() {
     });
 });
 
-//change
+//change width on positioning toggle
+$('.toggle-position').click(function() {
+    $('.printer-marker-positioning').toggle();
+});
+
+function repositionMarker (data){
+
+setTimeout(()=>{
+ let top = parseInt($('#top-'+data).val());
+ let left = parseInt($('#left-'+data).val());
+
+  let x = 20 + top;
+ $('.top-post').val(top);
+ $('.left-post').val(left);
+ $('#line-top-'+data).attr('style','height:'+ x +'px; top:'+ (-20 -top) +'px;');
+ $('#led-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px;' );
+ $('#additional-data-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px; display:block');
+},20)
+}
+

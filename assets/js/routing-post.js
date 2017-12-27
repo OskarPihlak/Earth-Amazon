@@ -35,6 +35,20 @@ module.exports = function(app) {
         });
     });
 
+    app.post('/update/marker/position', urlEncodedParser, function (req, res) {
+        console.log(req.body.top);
+        console.log(req.body.left);
+
+        let sql_statement_put = "UPDATE printers_inc_supply.snmpadresses SET position_top='" + req.body.top + "', position_left='" + req.body.left + "' WHERE name='" + req.body.name + "';";
+        console.log(sql_statement_put);
+        let query = db.query(sql_statement_put, function (error, data) {
+            if (error) throw error;
+            res.redirect('/'+req.body.floor+'/'+req.body.name);
+        });
+    });
+
+
+
     app.post('/admin/add-printer', urlEncodedParser, function (req, res) {
         console.log(req);
         printer_data_promise("WHERE color = true OR color = false ").then(response => {

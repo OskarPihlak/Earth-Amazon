@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+
 $yellow: #f1c40f;
 $lime: #76c900;
 $navy: #0a4069;
@@ -12,8 +13,7 @@ $lightGray: lighten($gray, 30);
 $transitionDuration: .3s;
 $transition: all $transitionDuration ease-in-out;
 
-body
-{
+body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   font-weight: 300;
@@ -24,67 +24,64 @@ body
   color: $gray;
   background: #d0d0d0;
 }
-h1
-{
+
+h1 {
   font-size: 2.5em;
 
   margin: 2em 0 .5em;
 }
-h2
-{
+
+h2 {
   margin-bottom: 3em;
 }
+
 em,
-strong
-{
+strong {
   font-weight: 700;
 }
-input
-{
+
+input {
 
 }
-header p
-{
+
+header p {
   margin-bottom: 0;
 }
-section
-{
+
+section {
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin-bottom: -3em;
   padding: 0;
-  &:last-of-type
-  {
+  &:last-of-type {
     margin-bottom: 0;
   }
-  article
-  {
+  article {
     align-self: center;
     width: 20em;
     margin-bottom: 2em;
     p,
-    &:last-of-type
-    {
+    &:last-of-type {
       margin-bottom: 0;
     }
   }
 }
-p
-{
+
+p {
   line-height: 1.5em;
-  span
-  {
+  span {
     display: block;
   }
 }
-#container{
+
+#container {
   flex-flow: wrap;
 }
-.container
-{
+
+.container {
   flex-flow: wrap;
-  width:100%;
+  width: 100%;
   z-index: 1;
   display: flex;
   overflow: hidden;
@@ -102,8 +99,7 @@ START // CHART'S RULES
  -> "if you're picking code, don't forget the variables :)"
 */
 
-.chart
-{
+.chart {
   font-size: 1em;
 
   perspective: 1000px;
@@ -114,8 +110,7 @@ START // CHART'S RULES
 $faceColor: rgba($white, .3);
 $growColor: rgba($red, .6);
 
-.bar
-{
+.bar {
   font-size: 1em;
 
   position: relative;
@@ -127,8 +122,7 @@ $growColor: rgba($red, .6);
 
   transform-style: preserve-3d;
 
-  .face
-  {
+  .face {
     font-size: 2em;
 
     position: relative;
@@ -139,36 +133,29 @@ $growColor: rgba($red, .6);
     background-color: $faceColor;
 
     &.side-a,
-    &.side-b
-    {
+    &.side-b {
       width: 2em;
     }
   }
-  .side-a
-  {
+  .side-a {
     transform: rotateX(90deg) rotateY(-90deg) translateX(2em) translateY(1em) translateZ(1em);
   }
-  .side-b
-  {
+  .side-b {
     transform: rotateX(90deg) rotateY(-90deg) translateX(4em) translateY(1em) translateZ(-1em);
     position: absolute;
     right: 0;
   }
-  .side-0
-  {
+  .side-0 {
     transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(-1em);
   }
-  .side-1
-  {
+  .side-1 {
     transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(3em);
   }
-  .top
-  {
+  .top {
     transform: rotateX(0deg) rotateY(0) translateX(0em) translateY(4em) translateZ(2em);
   }
-  .floor
-  {
-    box-shadow: 0 .1em 0.6em rgba(0,0,0,.3), .6em -0.5em 3em rgba(0,0,0,.3), 1em -1em 8em $white;
+  .floor {
+    box-shadow: 0 .1em 0.6em rgba(0, 0, 0, .3), .6em -0.5em 3em rgba(0, 0, 0, .3), 1em -1em 8em $white;
   }
 }
 
@@ -185,65 +172,75 @@ $growColor: rgba($red, .6);
     transform: scale(1, -1);
   }
 }
-.p-adjust{
+
+.p-adjust {
   margin: 0;
-  &-black{
-    margin:0;
+  &-black {
+    margin: 0;
     color: #fff;
   }
 }
 
-@mixin drawSkin($color, $name)
-{
-  .bar.#{$name}
-  {
+@mixin drawSkin($color, $name) {
+  .bar.#{$name} {
     .side-a,
       // &.bar-100 .side-b,
-    .growing-bar
-    {
+    .growing-bar {
       background-color: rgba($color, .6);
     }
-    .side-0 .growing-bar
-    {
+    .side-0 .growing-bar {
       box-shadow: -0.5em -1.5em 4em $color;
     }
-    .floor .growing-bar
-    {
+    .floor .growing-bar {
       box-shadow: 0em 0em 2em $color;
     }
   }
 }
 
-@mixin drawFaces($color, $name)
-{
-  .chart .bar.#{$name} .face
-  {
+@mixin drawFaces($color, $name) {
+  .chart .bar.#{$name} .face {
     background-color: rgba($color, .2);
   }
 }
 
 @include drawSkin(rgba($yellow, .8), 'yellow');
-@include drawSkin(rgba($red, .8), 'red');
+/*@include drawSkin(rgba($red, .8), 'red');*/
 @include drawSkin($cyan, 'cyan');
 @include drawSkin(rgba($navy, .8), 'navy');
 @include drawSkin($lime, 'lime');
 @include drawSkin($white, 'white');
 @include drawSkin($gray, 'gray');
+@include drawSkin($gray, 'gray');
 
 @include drawFaces(rgba($yellow, .6), 'yellow-face');
 @include drawFaces($lime, 'lime-face');
-@include drawFaces(rgba($red, .6), 'red-face');
+/*@include drawFaces(rgba($red, .6), 'red-face');*/
 @include drawFaces(rgba($navy, .6), 'navy-face');
 @include drawFaces($cyan, 'cyan-face');
 @include drawFaces($gray, 'gray-face');
 @include drawFaces($lightGray, 'lightGray-face');
+//@include drawFaces(, 'lightGray-face');
+.blink-red {
+  background-color: #ff0505;
+  animation: blinkRed 4s infinite;
+}
 
-@for $i from 0 to 101
-{
-  .bar-#{$i}
-  {
-    .growing-bar
-    {
+@keyframes blinkRed {
+  from {
+    background-color: #ff0505;
+  }
+  50% {
+    background-color: #aa020d;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #aa0008 0 -1px 9px, #ff0505 0 2px 0;
+  }
+  to {
+    background-color: #ff0505;
+  }
+}
+
+@for $i from 0 to 101 {
+  .bar-#{$i} {
+    .growing-bar {
       width: percentage($i/100);
     }
   }
@@ -255,120 +252,100 @@ END // CHART'S RULES
 *
 */
 
-.chart.grid
-{
+.chart.grid {
   display: flex;
   flex-direction: row;
-  .exercise
-  {
+  .exercise {
 
     flex: 0 0 100%;
     display: flex;
-    .bar
-    {
+    .bar {
       flex: 1;
       margin: 0 .5em;
-      &:nth-child(2)
-      {
+      &:nth-child(2) {
         z-index: 8;
         flex: 1 0 40%;
       }
-      &:first-child
-      {
+      &:first-child {
         z-index: 10;
         margin-left: 0;
       }
-      &:last-child
-      {
+      &:last-child {
         margin-right: 0;
       }
     }
   }
 }
 
-input[id='red']:checked ~ .chart
+/*input[id='red']:checked ~ .chart
 {
   @extend .bar.red;
-}
-input[id='cyan']:checked ~ .chart
-{
+}*/
+input[id='cyan']:checked ~ .chart {
   @extend .bar.cyan;
 }
-input[id='lime']:checked ~ .chart
-{
+
+input[id='lime']:checked ~ .chart {
   @extend .bar.lime;
 }
 
-input[id='pos-0']:checked ~ .chart
-{
+input[id='pos-0']:checked ~ .chart {
   @extend .bar-25;
 }
-input[id='pos-1']:checked ~ .chart
-{
+
+input[id='pos-1']:checked ~ .chart {
   @extend .bar-50;
 }
-input[id='pos-2']:checked ~ .chart
-{
+
+input[id='pos-2']:checked ~ .chart {
   @extend .bar-75;
 }
-input[id='pos-3']:checked ~ .chart
-{
+
+input[id='pos-3']:checked ~ .chart {
   @extend .bar-100;
 }
 
-input[id='exercise-2']:checked ~ .chart.grid
-{
-  .exercise  .bar
-  {
-    &:nth-child(1)
-    {
+input[id='exercise-2']:checked ~ .chart.grid {
+  .exercise .bar {
+    &:nth-child(1) {
       flex: 1 0 0%;
       @extend .bar-20;
     }
-    &:nth-child(2)
-    {
+    &:nth-child(2) {
       flex: 1;
       @extend .bar-50;
     }
-    &:nth-child(3)
-    {
+    &:nth-child(3) {
       flex: 1 0 30%;
       @extend .bar-80;
     }
   }
 }
-input[id='exercise-3']:checked ~ .chart.grid
-{
-  .exercise  .bar
-  {
+
+input[id='exercise-3']:checked ~ .chart.grid {
+  .exercise .bar {
     &:nth-child(1),
     &:nth-child(2),
-    &:nth-child(3)
-    {
+    &:nth-child(3) {
       flex: 1;
       @extend .bar-70;
     }
   }
 }
-input[id='exercise-4']:checked ~ .chart.grid
-{
-  .exercise  .bar
-  {
+
+input[id='exercise-4']:checked ~ .chart.grid {
+  .exercise .bar {
     &:nth-child(1),
-    &:nth-child(2)
-    {
+    &:nth-child(2) {
       flex: 1 0 30%;
       @extend .bar-50;
     }
-    &:nth-child(3)
-    {
+    &:nth-child(3) {
       flex: 1;
       @extend .bar-100;
     }
   }
 }
-
-
 
 .led-green {
   display: inline-block;
@@ -384,38 +361,78 @@ input[id='exercise-4']:checked ~ .chart.grid
   -o-animation: blinkGreen 4s infinite;
   animation: blinkGreen 4s infinite;
 }
+
 @-webkit-keyframes blinkGreen {
-  from { background-color: #01ff0b; }
-  50% { background-color: #06aa00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0; }
-  to { background-color: #01ff0b; }
-}
-@-moz-keyframes blinkGreen {
-  from { background-color: #01ff0b; }
-  50% { background-color: #06aa00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0; }
-  to { background-color: #01ff0b; }
-}
-@-ms-keyframes blinkGreen {
-  from { background-color: #01ff0b; }
-  50% { background-color: #06aa00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0; }
-  to { background-color: #01ff0b; }
-}
-@-o-keyframes blinkGreen {
-  from { background-color: #01ff0b; }
-  50% { background-color: #06aa00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0; }
-  to { background-color: #01ff0b; }
-}
-@keyframes blinkGreen {
-  from { background-color: #01ff0b; }
-  50% { background-color: #06aa00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0; }
-  to { background-color: #01ff0b; }
+  from {
+    background-color: #01ff0b;
+  }
+  50% {
+    background-color: #06aa00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
+  }
+  to {
+    background-color: #01ff0b;
+  }
 }
 
-.internet-access-notification{
+@-moz-keyframes blinkGreen {
+  from {
+    background-color: #01ff0b;
+  }
+  50% {
+    background-color: #06aa00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
+  }
+  to {
+    background-color: #01ff0b;
+  }
+}
+
+@-ms-keyframes blinkGreen {
+  from {
+    background-color: #01ff0b;
+  }
+  50% {
+    background-color: #06aa00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
+  }
+  to {
+    background-color: #01ff0b;
+  }
+}
+
+@-o-keyframes blinkGreen {
+  from {
+    background-color: #01ff0b;
+  }
+  50% {
+    background-color: #06aa00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
+  }
+  to {
+    background-color: #01ff0b;
+  }
+}
+
+@keyframes blinkGreen {
+  from {
+    background-color: #01ff0b;
+  }
+  50% {
+    background-color: #06aa00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
+  }
+  to {
+    background-color: #01ff0b;
+  }
+}
+
+.internet-access-notification {
   color: #00ff00;
   display: inline-block;
 }
 
-.led-box{
+.led-box {
   float: right;
   display: inline-block;
 }
@@ -436,31 +453,71 @@ input[id='exercise-4']:checked ~ .chart.grid
 }
 
 @-webkit-keyframes blinkRed {
-  from { background-color: #F00; }
-  50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
-  to { background-color: #F00; }
+  from {
+    background-color: #F00;
+  }
+  50% {
+    background-color: #A00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #F00;
+  }
 }
+
 @-moz-keyframes blinkRed {
-  from { background-color: #F00; }
-  50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
-  to { background-color: #F00; }
+  from {
+    background-color: #F00;
+  }
+  50% {
+    background-color: #A00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #F00;
+  }
 }
+
 @-ms-keyframes blinkRed {
-  from { background-color: #F00; }
-  50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
-  to { background-color: #F00; }
+  from {
+    background-color: #F00;
+  }
+  50% {
+    background-color: #A00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #F00;
+  }
 }
+
 @-o-keyframes blinkRed {
-  from { background-color: #F00; }
-  50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
-  to { background-color: #F00; }
+  from {
+    background-color: #F00;
+  }
+  50% {
+    background-color: #A00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #F00;
+  }
 }
+
 @keyframes blinkRed {
-  from { background-color: #F00; }
-  50% { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
-  to { background-color: #F00; }
+  from {
+    background-color: #F00;
+  }
+  50% {
+    background-color: #A00;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
+  }
+  to {
+    background-color: #F00;
+  }
 }
-.printer{
+
+.printer {
   display: inline-table;
   margin: 30px;
   float: left;
@@ -490,22 +547,23 @@ input[id='exercise-4']:checked ~ .chart.grid
   }
 }
 
-.cartridge{
-  margin:40px 0 0 0;
+.cartridge {
+  margin: 40px 0 0 0;
   display: block;
   width: 260px;
   font-size: 14px;
 }
 
-.bar-cartridge{
+.bar-cartridge {
   margin: -50px 0 0 0;
 }
+
 .quantity {
   position: relative;
   z-index: 22;
   height: 40px;
   margin: 42px 0 -53px 0;
-  &-cartridge-info{
+  &-cartridge-info {
     font-size: 14.6px;
     text-align: left;
     bottom: 10px;
@@ -513,16 +571,13 @@ input[id='exercise-4']:checked ~ .chart.grid
   }
 }
 
-
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button
-{
+input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type=number]
-{
+input[type=number] {
   -moz-appearance: textfield;
 }
 
@@ -550,7 +605,7 @@ input[type=number]
 .quantity-nav {
   position: absolute;
   right: 0;
-  top:-2px;
+  top: -2px;
   height: 30px;
   z-index: 22;
 }
@@ -587,7 +642,6 @@ input[type=number]
   height: 50%;
 }
 
-
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
 
 body {
@@ -603,9 +657,9 @@ body {
   letter-spacing: 0.1em;
   color: #e8e8e8;
   border: none;
-  border-radius: 10px;
+  border-radius: 3px;
   outline: none;
-  background: linear-gradient(45deg,#d350db,teal,#d350db);
+  background: linear-gradient(45deg, #d350db, teal, #d350db);
   background-size: 400% 400%;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -624,14 +678,15 @@ body {
 }
 
 /* printer wrapping styles */
-.black-precentage-section{
+.black-precentage-section {
   margin-top: -35px;
 }
 
-.printer-map{
+.printer-map {
   width: 100%;
 }
-.printer-section{
+
+.printer-section {
   width: 2000px;
   height: 1000px;
 }
@@ -699,17 +754,16 @@ body {
 }
 
 //hides the buttton on the floor plan
-.hidden-button{
+.hidden-button {
   padding: 0;
   float: left;
 }
 
-#additional-data{
+.additional-data {
   color: #fff;
   position: absolute;
   background-color: rgb(82, 75, 75);
-  transition: 2s;
-  margin:0 0 20px 30px;
+  margin: 0 0 20px 30px;
   border-radius: 4px;
   padding: 3px;
   display: none;
@@ -721,31 +775,28 @@ body {
   background-color: transparent;
   border: transparent;
 }
-table
-{
+
+table {
   text-align: center;
-  border-collapse:collapse;
+  border-collapse: collapse;
   margin: 20px auto;
 
   background: rgba(255, 255, 255, 0.15);
 }
 
-td, th
-{
+td, th {
   padding: 16px;
   width: 220px;
   line-height: 18px;
   font-weight: 300;
 }
 
-thead
-{
+thead {
   display: block;
   background: rgba(255, 255, 255, 0.5);
 }
 
-th
-{
+th {
   border-bottom: 0;
   color: white;
   color: #444;
@@ -754,48 +805,47 @@ th
   text-align: center;
 }
 
-th:last-child
-{
+th:last-child {
   width: 219px;
 }
 
-tbody
-{
+tbody {
   width: 100%;
   overflow: auto;
   display: block;
 }
 
-tr:nth-child(even)
-{
+tr:nth-child(even) {
   background: rgba(255, 255, 255, 0.15);
 }
 
-tr td:first-child
-{
+tr td:first-child {
   font-weight: bold;
 }
+
 //admin form styles
 
-#contact:active { background: #444; }
+#contact:active {
+  background: #444;
+}
 
 #contactForm {
   display: none;
 
-  color:black;
+  color: black;
   padding: 2em;
   width: 400px;
   text-align: center;
   background-color: #565656;
-  border-radius:2px;
+  border-radius: 2px;
   position: fixed;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
-  -webkit-transform: translate(-50%,-50%)
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%)
 
 }
+
 .formBtn {
   width: 140px;
   display: inline-block;
@@ -818,15 +868,17 @@ tr td:first-child
   width: 280px;
   padding: .4em;
 }
-.add-printer-text{
-  color:#fff;
+
+.add-printer-text {
+  color: #fff;
 }
 
 /* */
-.Main{
+.Main {
   background: #222;
 }
-#Menu{
+
+#Menu {
   width: 1050px;
   margin-left: auto;
   margin-right: auto;
@@ -856,9 +908,9 @@ tr td:first-child
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color:transparent;
+  background-color: transparent;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -871,7 +923,9 @@ tr td:first-child
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+  background-color: #f1f1f1
+}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
@@ -885,5 +939,20 @@ tr td:first-child
   transition: all .4s;
 }
 
+.printer-marker-positioning {
+  width: 160px;
+  margin: 10px 0 10px 0;
+}
 
-
+.left, .top {
+  width: 100%;
+  color: gray;
+  text-align: center;
+}
+.line-top {
+  border-left: 3px solid #307902;
+  position: absolute;
+  left: -18px;
+  margin-left: -1px;
+  bottom: 100%;
+}

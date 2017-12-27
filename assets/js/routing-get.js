@@ -29,8 +29,10 @@ module.exports = function(app) {
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
             let query = db.query(sql_statement_get, function (error, sql_data) {
-
-                console.log(response);
+                //requestedPrinterJoinToResponse(response,sql_data);
+                for(let i=0; i<response.length; i++){
+                    response[i].requested = req.params.id;
+                }
                 if (error) throw error;
 
                 res.render('main', {

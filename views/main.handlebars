@@ -24,8 +24,11 @@
                             <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
                             <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
                         </form>
-
+                        {{#lessOrEquals this.cartridge.black.value 50}}
                         <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
+                            {{else}}
+                        <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} red">
+                        {{/lessOrEquals}}
                             <div class="face top">
                                 <div class="growing-bar"></div>
                             </div>

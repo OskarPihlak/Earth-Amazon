@@ -232,15 +232,25 @@ START // CHART'S RULES
   -webkit-box-shadow: 0em 0em 2em #444;
   box-shadow: 0em 0em 2em #444; }
 
+.bar.gray .side-a,
+.bar.gray .growing-bar {
+  background-color: rgba(68, 68, 68, 0.6); }
+
+.bar.gray .side-0 .growing-bar {
+  -webkit-box-shadow: -0.5em -1.5em 4em #444;
+  box-shadow: -0.5em -1.5em 4em #444; }
+
+.bar.gray .floor .growing-bar {
+  -webkit-box-shadow: 0em 0em 2em #444;
+  box-shadow: 0em 0em 2em #444; }
+
 .chart .bar.yellow-face .face {
   background-color: rgba(241, 196, 15, 0.2); }
 
 .chart .bar.lime-face .face {
   background-color: rgba(118, 201, 0, 0.2); }
 
-.chart .bar.red-face .face {
-  background-color: rgba(236, 0, 140, 0.2); }
-
+/*@include drawFaces(rgba($red, .6), 'red-face');*/
 .chart .bar.navy-face .face {
   background-color: rgba(10, 64, 105, 0.2); }
 
@@ -252,6 +262,21 @@ START // CHART'S RULES
 
 .chart .bar.lightGray-face .face {
   background-color: rgba(145, 145, 145, 0.2); }
+
+.blink-red {
+  background-color: #ff0505;
+  -webkit-animation: blinkRed 4s infinite;
+  animation: blinkRed 4s infinite; }
+
+@keyframes blinkRed {
+  from {
+    background-color: #ff0505; }
+  50% {
+    background-color: #aa020d;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #aa0008 0 -1px 9px, #ff0505 0 2px 0;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #aa0008 0 -1px 9px, #ff0505 0 2px 0; }
+  to {
+    background-color: #ff0505; } }
 
 .bar-0 .growing-bar {
   width: 0%; }
@@ -592,6 +617,10 @@ END // CHART'S RULES
       .chart.grid .exercise .bar:last-child {
         margin-right: 0; }
 
+/*input[id='red']:checked ~ .chart
+{
+  @extend .bar.red;
+}*/
 input[id='exercise-2']:checked ~ .chart.grid .exercise .bar:nth-child(1) {
   -webkit-box-flex: 1;
   -ms-flex: 1 0 0%;
@@ -872,7 +901,7 @@ body {
   letter-spacing: 0.1em;
   color: #e8e8e8;
   border: none;
-  border-radius: 10px;
+  border-radius: 3px;
   outline: none;
   background: -webkit-linear-gradient(45deg, #d350db, teal, #d350db);
   background: -o-linear-gradient(45deg, #d350db, teal, #d350db);
@@ -967,13 +996,10 @@ body {
   padding: 0;
   float: left; }
 
-#additional-data {
+.additional-data {
   color: #fff;
   position: absolute;
   background-color: #524b4b;
-  -webkit-transition: 2s;
-  -o-transition: 2s;
-  transition: 2s;
   margin: 0 0 20px 30px;
   border-radius: 4px;
   padding: 3px;
@@ -1120,3 +1146,19 @@ tr td:first-child {
   -webkit-transition: all .4s;
   -o-transition: all .4s;
   transition: all .4s; }
+
+.printer-marker-positioning {
+  width: 160px;
+  margin: 10px 0 10px 0; }
+
+.left, .top {
+  width: 100%;
+  color: gray;
+  text-align: center; }
+
+.line-top {
+  border-left: 3px solid #31708f;
+  position: absolute;
+  left: -18px;
+  margin-left: -3px;
+  bottom: 100%; }
