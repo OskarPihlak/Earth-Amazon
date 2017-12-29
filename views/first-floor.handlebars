@@ -11,8 +11,10 @@
             <article class="printer-map">
                 <div>
                     {{#each printers_1k}}
-                        <button onClick="reply_click(this.id)" class="hidden-button" id="{{@index}}">
-                            <div class="led-box led-positioning"
+                        <button onClick="reply_click(this.id)" class="hidden-button button-special-style"
+                                id="{{@index}}">
+
+                            <div class="led-box led-positioning" id="led-positioning-{{@index}}"
                                  style="top: {{this.position_top}}px;left: {{this.position_left}}px;">
                                 {{#ifEquals this.requested this.name}}
                                     <div class="led-green"></div>
@@ -21,16 +23,69 @@
                                 {{/ifEquals}}
                             </div>
                         </button>
+
                         {{#ifEquals this.requested this.name}}
-                        <div id="additional-data" class="{{@index}}"
+                        <div id="additional-data-positioning-{{@index}}" class="{{@index}} additional-data"
                              style="left:{{this.position_left}}px; top:{{this.position_top}}px;display: block;">
                         {{else}}
-                        <div id="additional-data" class="{{@index}}"
+                        <div id="additional-data-positioning-{{@index}}" class="{{@index}} additional-data"
                              style="left:{{this.position_left}}px; top:{{this.position_top}}px;">
                         {{/ifEquals}}
                         <a href="//{{this.ip}}/"><p>{{this.ip}}</p></a>
                         <p>{{this.name}}</p>
+                        {{#if this.color}}
+                            <div class="progress">
+                                <div class="progress-bar gray-bar-map" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{this.cartridge.black.value}}%">
+                                    {{this.cartridge.black.value}}%
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar cyan-bar-map" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{this.cartridge.cyan.value}}%">
+                                    {{this.cartridge.cyan.value}}%
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar yellow-bar-map" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{this.cartridge.yellow.value}}%">
+                                    {{this.cartridge.yellow.value}}%
+                                </div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar magenta-bar-map" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{this.cartridge.magenta.value}}%">
+                                    {{this.cartridge.magenta.value}}%
+                                </div>
+                            </div>
+                        {{else}}
+                            <div class="progress">
+                                <div class="progress-bar gray-bar-map" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:{{this.cartridge.black.value}}%">
+                                    {{this.cartridge.black.value}}%
+                                </div>
+                            </div>
+                        {{/if}}
+                        <button class="button-special-style">Connect</button>
+                        <button class="button-special-style toggle-position" id="position-changing-button">Position</button>
 
+                        <div class="printer-marker-positioning" id="" style="display: none;">
+                            <div class="line-top" id="line-top-{{@index}}" style="height:{{math this.position_top "+" 20}}px;"></div>
+                            <hr class="line-left" id="line-left-{{@index}}" width="{{math this.position_left "-" 179}}px">
+                            <label for="top-{{@index}}">Top</label>
+                            <input id="top-{{@index}}" name="top" class="top" type="number" onkeydown="repositionMarker({{@index}})" value="{{this.position_top}}">
+                            <label for="left-{{@index}}">Left</label>
+                            <input id="left-{{@index}}" name="left" class="left" type="number" onkeydown="repositionMarker({{@index}})" value="{{this.position_left}}">
+
+                            <form method="post" action="/update/marker/position">
+                                <button id="button-position" class="button-special-style" style="width: 100%;border-radius: 3px;">Save</button>
+                                <input hidden name="top" class="top-post" value="{{this.position_top}}">
+                                <input hidden name="left" class="left-post" value="{{this.position_left}}">
+                                <input hidden name="floor" value="{{this.floor}}">
+                                <input hidden name="name" value="{{this.name}}">
+                            </form>
+
+                        </div>
                     </div>
                     {{/each}}
                     <img src="/images/1-floor.png" width="1640" height="1000" alt="12-floor" usemap="#12_floor">

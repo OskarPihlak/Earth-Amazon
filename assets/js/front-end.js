@@ -163,10 +163,11 @@ setTimeout(()=>{
  let top = parseInt($('#top-'+data).val());
  let left = parseInt($('#left-'+data).val());
 
-  let x = 20 + top;
+  let adjustedTopHeight = 20 + top;
  $('.top-post').val(top);
  $('.left-post').val(left);
- $('#line-top-'+data).attr('style','height:'+ x +'px; top:'+ (-20 -top) +'px;');
+ $('#line-top-'+data).attr('style','height:'+ adjustedTopHeight +'px; top:'+ (-20 -top) +'px;');
+ $('#line-left-'+data).attr('width',(left-180) +'px;');
  $('#led-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px;' );
  $('#additional-data-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px; display:block');
 },20)

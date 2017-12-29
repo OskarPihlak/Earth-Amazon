@@ -7,6 +7,10 @@ const mysql = require('mysql');
 const Handlebars = require('handlebars');
 const ActiveDirectory = require('activedirectory');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
+const FBMessenger = require('fb-messenger');
+//let messenger = new FBMessenger(<YOUR TOKEN>, 'SILENT_PUSH')
+
+//messenger.sendTextMessage(105109516938725, 'Hello');
 
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
 const routing_get = require('./assets/js/routing-get.js');

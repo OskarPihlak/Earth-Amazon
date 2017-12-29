@@ -73,6 +73,7 @@ module.exports = function(app) {
     app.get('/10k', function (req, res) {
         printer_data_promise("WHERE floor = '10k'").then(response => {
             requestedPrinterJoinToResponse(response, req);
+            console.log(JSON.stringify(response));
             res.render('tenth-floor', {
                 printers_10k: response
             });
