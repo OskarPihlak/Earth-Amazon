@@ -2,7 +2,7 @@ let mysql = require('mysql');
 
 
 module.exports.db_create_connection = ()=>{
-    let db = mysql.createConnection({
+    db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'printers',
         password: 'printers',
