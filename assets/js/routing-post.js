@@ -3,25 +3,10 @@ module.exports = function(app) {
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const printer_data_promise = require('./printer-data-promise');
+    const database = require('./db.js');
+    const helpers = require('./helpers.js');
+    database.db_connect();
 
-    let db = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: '',
-        database: 'printers_inc_supply'
-    });
-
-    db.connect(function (err) {
-        if (err) throw err;
-        console.log('Mysql connected to printers_inc_supply on 127.0.0.1');
-    });
-
-    function requestedPrinterJoinToResponse(response, req){
-        for(let i=0; i<response.length; i++){
-            response[i].requested = req.params.id;
-        }
-        return response;
-    }
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req.body.printer_ip);

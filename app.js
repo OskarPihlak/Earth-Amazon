@@ -4,26 +4,20 @@ const exphbs = require('express-handlebars');
 const snmp = require("net-snmp");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const Handlebars = require('handlebars');
 const ActiveDirectory = require('activedirectory');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
 const FBMessenger = require('fb-messenger');
-//let messenger = new FBMessenger(<YOUR TOKEN>, 'SILENT_PUSH')
-
-//messenger.sendTextMessage(105109516938725, 'Hello');
 
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
 const routing_get = require('./assets/js/routing-get.js');
 const routing_post = require('./assets/js/routing-post.js');
+const helpers = require('./assets/js/helpers');
 
 let config = { url: 'ldap://dc.domain.com',
     baseDN: 'dc=domain,dc=com',
     username: 'username@domain.com',
     password: 'password' };
 let ad = new ActiveDirectory(config);
-
-i = 0;
-//create connection
 
 //app init
 let app = express();
@@ -39,34 +33,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'layout'}));
 app.set('view engine', 'handlebars');
 
-Handlebars.registerHelper("math", function(lvalue, operator, rvalue, options) {
-    lvalue = parseFloat(lvalue);
-    rvalue = parseFloat(rvalue);
-
-    return {
-        "+": lvalue + rvalue,
-        "-": lvalue - rvalue,
-        "*": lvalue * rvalue,
-        "/": lvalue / rvalue,
-        "%": lvalue % rvalue
-    }[operator];
-});
-
-Handlebars.registerHelper('ifEquals', function(a, b, options) {
-    if (a === b) {
-        return options.fn(this);
-    }
-    return options.inverse(this);
-});
-// less than or equal to
-Handlebars.registerHelper('lessOrEquals', function( a, b ){
-    let next =  arguments[arguments.length-1];
-    return (a >= b) ? next.fn(this) : next.inverse(this);
-});
-Handlebars.registerHelper('testHelper', function(property) {
-    return 'foo: ' + Ember.get(this, property);
-});
-
+helpers.handlebars();
 routing_get(app);
 routing_post(app);
 process.on('uncaughtException', function (err) {

@@ -3,33 +3,18 @@ module.exports = function(app) {
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const printer_data_promise = require('./printer-data-promise');
-
-    let db = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: '',
-        database: 'printers_inc_supply'
-    });
-
-    db.connect(function (err) {
-        if (err) throw err;
-        console.log('Mysql connected to printers_inc_supply on 127.0.0.1');
-    });
-
-    function requestedPrinterJoinToResponse(response, req){
-        for(let i=0; i<response.length; i++){
-            response[i].requested = req.params.id;
-        }
-        return response;
-    }
+    const database = require('./db.js');
+    const helpers = require('./helpers.js');
+    
+    database.db_connect();
 
     app.get('/', function (req, res) {
         console.log('response');
         printer_data_promise("WHERE ip IS NOT NULL").then(response => {
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
-            let query = db.query(sql_statement_get, function (error, sql_data) {
-                //requestedPrinterJoinToResponse(response,sql_data);
+            let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
+                //helpers.requestedPrinterJoinToResponse(response,sql_data);
                 for(let i=0; i<response.length; i++){
                     response[i].requested = req.params.id;
                 }
@@ -44,7 +29,7 @@ module.exports = function(app) {
 
     app.get('/12k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '12k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
             });
@@ -53,7 +38,7 @@ module.exports = function(app) {
 
     app.get('/12k', function (req, res) {
         printer_data_promise("WHERE floor = '12k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
             });
@@ -62,7 +47,7 @@ module.exports = function(app) {
 
     app.get('/10k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '10k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             console.log(response);
             res.render('tenth-floor', {
                 printers_10k: response
@@ -72,7 +57,7 @@ module.exports = function(app) {
 
     app.get('/10k', function (req, res) {
         printer_data_promise("WHERE floor = '10k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             console.log(JSON.stringify(response));
             res.render('tenth-floor', {
                 printers_10k: response
@@ -82,7 +67,7 @@ module.exports = function(app) {
 
     app.get('/6k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '6k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('sixth-floor', {
                 printers_6k: response
             });
@@ -91,7 +76,7 @@ module.exports = function(app) {
 
     app.get('/6k', function (req, res) {
         printer_data_promise("WHERE floor = '6k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('sixth-floor', {
                 printers_6k: response
             });
@@ -100,7 +85,7 @@ module.exports = function(app) {
 
     app.get('/5k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '5k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fift-floor', {
                 printers_5k: response
             });
@@ -109,7 +94,7 @@ module.exports = function(app) {
 
     app.get('/5k', function (req, res) {
         printer_data_promise("WHERE floor = '5k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fift-floor', {
                 printers_5k: response
             });
@@ -118,7 +103,7 @@ module.exports = function(app) {
 
     app.get('/4k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '4k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fourth-floor', {
                 printers_4k: response
             });
@@ -127,7 +112,7 @@ module.exports = function(app) {
 
     app.get('/4k', function (req, res) {
         printer_data_promise("WHERE floor = '4k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fourth-floor', {
                 printers_4k: response
             });
@@ -136,7 +121,7 @@ module.exports = function(app) {
 
     app.get('/3k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '3k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('third-floor', {
                 printers_3k: response
             });
@@ -145,7 +130,7 @@ module.exports = function(app) {
 
     app.get('/3k', function (req, res) {
         printer_data_promise("WHERE floor = '3k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('third-floor', {
                 printers_3k: response
             });
@@ -154,7 +139,7 @@ module.exports = function(app) {
 
     app.get('/2k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '2k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('second-floor', {
                 printers_2k: response
             });
@@ -163,7 +148,7 @@ module.exports = function(app) {
 
     app.get('/2k', function (req, res) {
         printer_data_promise("WHERE floor = '2k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('second-floor', {
                 printers_2k: response
             });
@@ -172,7 +157,7 @@ module.exports = function(app) {
 
     app.get('/1k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '1k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('first-floor', {
                 printers_1k: response
             });
@@ -181,7 +166,7 @@ module.exports = function(app) {
 
     app.get('/1k', function (req, res) {
         printer_data_promise("WHERE floor = '1k'").then(response => {
-            requestedPrinterJoinToResponse(response, req);
+            helpers.requestedPrinterJoinToResponse(response, req);
             res.render('first-floor', {
                 printers_1k: response
             });
