@@ -23,5 +23,9 @@
     "progressbar.js": "^1.0.1",
     "mysql": "^2.15.0",
     "popper.js": "^1.12.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/OskarPihlak/Earth-Amazon.git"
   }
 }
