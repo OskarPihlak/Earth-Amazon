@@ -7,7 +7,8 @@ module.exports = (sql_conditional) => {
         host: '127.0.0.1',
         user: 'root',
         password: '',
-        database: 'printers_inc_supply'
+        database: 'printers_inc_supply',
+        insecureAuth : true
     });
     db.connect(function (err) {
 
