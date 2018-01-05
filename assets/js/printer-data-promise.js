@@ -109,7 +109,7 @@ function getSnmpAdresses() {
             }
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status WHERE printer_name ="' + printer.name + '"';
-            database.db_connect().query(sql_statement_get, function (error, sql_data) {
+            database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
                 if (error) return reject(error);
                 if (printer.color === true) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
