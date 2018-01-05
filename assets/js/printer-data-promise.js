@@ -31,10 +31,10 @@ module.exports = (sql_conditional) => {
     let colors_loop_info = black_and_white_loop_info.concat(colors_info);
 
 function getSnmpAdresses() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, rejected) => {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional;
         let query = db.query(sql_statement_get, function (error, sql_data) {
-            if (error) reject(error);
+            if (error) throw(error);
             let snmpAdresses = sql_data.map(row => {
                 return {
                     ip: row.ip,
