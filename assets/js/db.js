@@ -6,7 +6,8 @@ module.exports.db_create_connection = ()=>{
         host: '127.0.0.1',
         user: 'junn',
         password: 'kala',
-        database: 'printers_inc_supply'
+        database: 'printers_inc_supply',
+        insecureAuth : true
     });
     return db;
 };
