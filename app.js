@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const snmp = require("net-snmp");
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const ActiveDirectory = require('activedirectory');

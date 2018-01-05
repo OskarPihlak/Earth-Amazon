@@ -4,9 +4,9 @@ let mysql = require('mysql');
 module.exports.db_create_connection = ()=>{
     db = mysql.createConnection({
         host: '127.0.0.1',
-        user: 'junn',
-        password: 'kala',
-        database: 'printers_inc_supply',
+        user: 'printers',
+        password: 'priners',
+        database: 'printers',
         insecureAuth : true
     });
     return db;

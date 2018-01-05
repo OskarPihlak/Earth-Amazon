@@ -3,18 +3,9 @@ module.exports = (sql_conditional) => {
 
     const snmp = require("net-snmp");
     const mysql = require('mysql');
-    let db = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: '',
-        database: 'printers_inc_supply',
-        insecureAuth : true
-    });
-    db.connect(function (err) {
+    const database = require('./db');
+    database.db_connect();
 
-        if (err) throw err;
-        console.log('Mysql connected to printers_inc_supply on 127.0.0.1');
-    });
 
     let colorArray = [];
     let black_and_white_loop_info = [
@@ -32,8 +23,8 @@ module.exports = (sql_conditional) => {
 
 function getSnmpAdresses() {
     return new Promise((resolve, rejected) => {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional;
-        let query = db.query(sql_statement_get, function (error, sql_data) {
+        let sql_statement_get = 'SELECT * FROM printers.snmpadresses ' + sql_conditional;
+        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
             if (error) throw(error);
             let snmpAdresses = sql_data.map(row => {
                 return {
@@ -118,7 +109,7 @@ function getSnmpAdresses() {
             }
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status WHERE printer_name ="' + printer.name + '"';
-            db.query(sql_statement_get, function (error, sql_data) {
+            database.db_connect().query(sql_statement_get, function (error, sql_data) {
                 if (error) return reject(error);
                 if (printer.color === true) {
                     for (let x = 0; x < colors_loop_info.length; x++) {
