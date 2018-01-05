@@ -5,7 +5,7 @@ module.exports.db_create_connection = ()=>{
     db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'printers',
-        password: 'priners',
+        password: 'printers',
         database: 'printers_inc_supply',
         insecureAuth : true
     });
