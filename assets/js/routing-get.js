@@ -9,7 +9,7 @@ module.exports = function(app) {
     database.db_connect();
 
     app.get('/', function (req, res) {
-        console.log('response');
+        console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL").then(response => {
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status';

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const ActiveDirectory = require('activedirectory');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
+const methodOverride = require('method-override');
 const FBMessenger = require('fb-messenger');
 
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
@@ -31,6 +32,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'layout'}));
 app.set('view engine', 'handlebars');
+
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!')
+});
 
 helpers.handlebars();
 routing_get(app);

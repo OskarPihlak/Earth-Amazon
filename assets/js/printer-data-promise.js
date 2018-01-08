@@ -135,6 +135,7 @@ function getSnmpAdresses() {
             session.get(oids, (err, data) => {
                 if (err) {
                     console.log('session_get_error', err);
+                    console.log('session_get_data', data);
                     return reject(err);
                 }
 

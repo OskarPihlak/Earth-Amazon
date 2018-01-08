@@ -18,11 +18,15 @@
     "fb-messenger": "^1.2.0",
     "handlebars": "^4.0.11",
     "jquery": "^3.2.1",
+    "method-override": "^2.3.10",
+    "mysql": "^2.15.0",
     "net-snmp": "^1.2.0",
     "path": "^0.12.7",
-    "progressbar.js": "^1.0.1",
-    "mysql": "^2.15.0",
-    "popper.js": "^1.12.9"
+    "popper.js": "^1.12.9",
+    "progressbar.js": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon":"^1.14.8"
   },
   "repository": {
     "type": "git",
