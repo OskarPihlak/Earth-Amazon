@@ -11,7 +11,7 @@
   "dependencies": {
     "activedirectory": "^0.7.2",
     "body-parser": "^1.18.2",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.0.0-beta.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
@@ -22,11 +22,11 @@
     "mysql": "^2.15.0",
     "net-snmp": "^1.2.0",
     "path": "^0.12.7",
-    "popper.js": "^1.12.9",
+    "popper.js": "^1.13.0",
     "progressbar.js": "^1.0.1"
   },
   "devDependencies": {
-    "nodemon":"^1.14.8"
+    "nodemon": "^1.14.8"
   },
   "repository": {
     "type": "git",
