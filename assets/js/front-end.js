@@ -1,61 +1,64 @@
 if (navigator.onLine) {
     $('#internet-access-indicator').addClass('led-green');
-} else{
+} else {
     $('#internet-access-indicator').addClass('led-red');
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     // This button will increment the value
-    $('[data-quantity="plus"]').click(function(e){
+    $('[data-quantity="plus"]').click(function (e) {
         // Stop acting like a button
         e.preventDefault();
         // Get the field name
         let fieldName = $(this).attr('data-field');
         // Get its current value
-        let currentVal = parseInt($('input[name='+fieldName+']').val());
+        let currentVal = parseInt($('input[name=' + fieldName + ']').val());
         // If is not undefined
         if (!isNaN(currentVal)) {
             // Increment
-            $('input[name='+fieldName+']').val(currentVal + 1);
+            $('input[name=' + fieldName + ']').val(currentVal + 1);
         } else {
             // Otherwise put a 0 there
-            $('input[name='+fieldName+']').val(0);
+            $('input[name=' + fieldName + ']').val(0);
         }
     });
     // This button will decrement the value till 0
-    $('[data-quantity="minus"]').click(function(e) {
+    $('[data-quantity="minus"]').click(function (e) {
         // Stop acting like a button
         e.preventDefault();
         // Get the field name
         let fieldName = $(this).attr('data-field');
         // Get its current value
-        let currentVal = parseInt($('input[name='+fieldName+']').val());
+        let currentVal = parseInt($('input[name=' + fieldName + ']').val());
         // If it isn't undefined or its greater than 0
         if (!isNaN(currentVal) && currentVal > 0) {
             // Decrement one
-            $('input[name='+fieldName+']').val(currentVal - 1);
+            $('input[name=' + fieldName + ']').val(currentVal - 1);
         } else {
             // Otherwise put a 0 there
-            $('input[name='+fieldName+']').val(0);
+            $('input[name=' + fieldName + ']').val(0);
         }
     });
 });
 
 count = 1;
 countEl = document.getElementById("count");
-function plus(){
+
+function plus() {
     count++;
     countEl.value = count;
 }
-function minus(){
+
+function minus() {
     if (count > 1) {
         count--;
         countEl.value = count;
     }
 }
+
 //Change value inside input
 
-$('.quantity').each(function() {
+$('.quantity').each(function () {
     let spinner = $(this),
         input = spinner.find('input[type="number"]'),
         btnUp = spinner.find('.quantity-up'),
@@ -63,7 +66,7 @@ $('.quantity').each(function() {
         min = input.attr('min'),
         max = input.attr('max');
 
-    btnUp.click(function() {
+    btnUp.click(function () {
         let oldValue = parseFloat(input.val());
         if (oldValue >= max) {
             newVal = oldValue;
@@ -74,7 +77,7 @@ $('.quantity').each(function() {
         spinner.find("input").trigger("change");
     });
 
-    btnDown.click(function() {
+    btnDown.click(function () {
         let oldValue = parseFloat(input.val());
         if (oldValue <= min) {
             newVal = oldValue;
@@ -87,14 +90,8 @@ $('.quantity').each(function() {
 });
 
 
-
-
-
-
-
-
 //Sends data to back-end
-$('form input').change(function() {
+$('form input').change(function () {
     let form = $(this).closest('form');
     form.submit();
     form.find('.cartridge-name').submit();
@@ -102,43 +99,39 @@ $('form input').change(function() {
 });
 
 
-function savePrinterData(data){
-    let ip =$('#'+ data +'-ip.admin_input');
-    let name = $('#'+ data +'-name.admin_input');
-    let key = $('#'+ data +'-key.admin_input');
-   ip.attr('value', ip.val());
-   name.attr('value', name.val());
+function savePrinterData(data) {
+    let ip = $('#' + data + '-ip.admin_input');
+    let name = $('#' + data + '-name.admin_input');
+    let key = $('#' + data + '-key.admin_input');
+    ip.attr('value', ip.val());
+    name.attr('value', name.val());
     key.submit();
     ip.submit();
     name.submit();
 }
 
 
-
-
-
-
 //Retain scroll location after reload
-$(window).scroll(function() {
+$(window).scroll(function () {
     sessionStorage.scrollTop = $(this).scrollTop();
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     if (sessionStorage.scrollTop !== "undefined") {
         $(window).scrollTop(sessionStorage.scrollTop);
     }
 });
 
 //toggle data on click
-function reply_click(clicked_id)
-{
+function reply_click(clicked_id) {
     $('.' + clicked_id).toggle();
 }
+
 //admin
 //printer adding form
-$(function() {
+$(function () {
     // contact form animations
-    $('#contact').click(function() {
+    $('#contact').click(function () {
         $('#contactForm').fadeToggle();
     });
     $(document).mouseup(function (e) {
@@ -153,23 +146,34 @@ $(function() {
 });
 
 //change width on positioning toggle
-$('.toggle-position').click(function() {
+$('.toggle-position').click(function () {
     $('.printer-marker-positioning').toggle();
 });
 
-function repositionMarker (data){
+function repositionMarker(data) {
 
-setTimeout(()=>{
- let top = parseInt($('#top-'+data).val());
- let left = parseInt($('#left-'+data).val());
+    setTimeout(() => {
+        let top = parseInt($('#top-' + data).val());
+        let left = parseInt($('#left-' + data).val());
 
-  let adjustedTopHeight = 20 + top;
- $('.top-post').val(top);
- $('.left-post').val(left);
- $('#line-top-'+data).attr('style','height:'+ adjustedTopHeight +'px; top:'+ (-20 -top) +'px;');
- $('#line-left-'+data).attr('width',(left-180) +'px;');
- $('#led-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px;' );
- $('#additional-data-positioning-'+data).attr('style','top: '+ top +'px;left: '+ left +'px; display:block');
-},20)
+        let adjustedTopHeight = 20 + top;
+        $('.top-post').val(top);
+        $('.left-post').val(left);
+        $('#line-top-' + data).attr('style', 'height:' + adjustedTopHeight + 'px; top:' + (-20 - top) + 'px;');
+        $('#line-left-' + data).attr('width', (left - 180) + 'px;');
+        $('#led-positioning-' + data).attr('style', 'top: ' + top + 'px;left: ' + left + 'px;');
+        $('#additional-data-positioning-' + data).attr('style', 'top: ' + top + 'px;left: ' + left + 'px; display:block');
+    }, 20)
 }
 
+function valueChanged(data)
+{
+   console.log('change');
+    if($('#'+data).is(":checked")) {
+        console.log('show');
+        $('.printer-' + data).show();
+    }
+    else {
+        $('.printer-' + data).hide();
+    }
+}

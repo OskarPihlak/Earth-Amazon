@@ -10,20 +10,57 @@ $gray: #444;
 $black: #000;
 $lightGray: lighten($gray, 30);
 
+.yellow-bar {
+  background-color: #f1c40f;
+}
 
-.yellow-bar{background-color: #f1c40f;}
-.lime-bar{background-color: #76c900;}
-.navy-bar{background-color: #0a4069;}
-.cyan-bar{background-color:  #57caf4;}
-.red-bar{background-color:  #ec008c;}
-.white-bar{background-color:  #fefefe;}
-.gray-bar{background-color:  #444;}
-.black-bar{background-color:  #000;}
-.lightGray-bar{background-color:  lighten($gray, 30);}
-.gray-bar-map{background-color: rgba(68, 68, 68, 0.6);}
-.cyan-bar-map{background-color: rgba(87, 202, 244, 0.6);}
-.magenta-bar-map{background-color: rgba(236, 0, 140, 0.6);}
-.yellow-bar-map{background-color: rgba(241, 196, 15, 0.6);}
+.lime-bar {
+  background-color: #76c900;
+}
+
+.navy-bar {
+  background-color: #0a4069;
+}
+
+.cyan-bar {
+  background-color: #57caf4;
+}
+
+.red-bar {
+  background-color: #ec008c;
+}
+
+.white-bar {
+  background-color: #fefefe;
+}
+
+.gray-bar {
+  background-color: #444;
+}
+
+.black-bar {
+  background-color: #000;
+}
+
+.lightGray-bar {
+  background-color: lighten($gray, 30);
+}
+
+.gray-bar-map {
+  background-color: rgba(68, 68, 68, 0.6);
+}
+
+.cyan-bar-map {
+  background-color: rgba(87, 202, 244, 0.6);
+}
+
+.magenta-bar-map {
+  background-color: rgba(236, 0, 140, 0.6);
+}
+
+.yellow-bar-map {
+  background-color: rgba(241, 196, 15, 0.6);
+}
 
 $transitionDuration: .3s;
 $transition: all $transitionDuration ease-in-out;
@@ -964,6 +1001,7 @@ tr td:first-child {
   color: gray;
   text-align: center;
 }
+
 .line-top {
   border-left: 3px solid #307902;
   position: absolute;
@@ -971,12 +1009,28 @@ tr td:first-child {
   margin-left: -1px;
   bottom: 100%;
 }
-.line-left{
+
+.line-left {
   position: absolute;
   right: 195px;
   top: -10px;
   border-top: 3px solid #36708e;
 }
-.progress{
+
+.progress {
   margin: 10px 0 0 0;
+}
+
+.btn-settings {
+  margin: 10px;
+  width: 173px;
+  height: 50px;
+}
+.btn-color{
+  color: #ffffff;
+}
+
+.btn-checkbox-filter{
+  display: inline-block;
+  margin: 0 1px 0 0;
 }

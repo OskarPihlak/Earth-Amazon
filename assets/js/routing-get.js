@@ -1,11 +1,11 @@
-module.exports = function(app) {
+module.exports = function (app) {
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const printer_data_promise = require('./printer-data-promise');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
-    
+
     database.db_connect();
 
     app.get('/', function (req, res) {
@@ -15,13 +15,15 @@ module.exports = function(app) {
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
             let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
                 //helpers.requestedPrinterJoinToResponse(response,sql_data);
-                for(let i=0; i<response.length; i++){
+                for (let i = 0; i < response.length; i++) {
                     response[i].requested = req.params.id;
                 }
+                let floors = helpers.numberOfFloors(response).number_of_floors;
                 if (error) throw error;
 
                 res.render('main', {
-                    printers: response
+                    printers: response,
+                    floors: floors
                 });
             });
         })
@@ -175,12 +177,24 @@ module.exports = function(app) {
 
     app.get('/admin', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
-        let query = db.query(sql_statement_get, function (error, sql_data) {
+        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
             if (error) throw error;
 
             res.render('admin', {
                 printers_all: sql_data
             });
         });
-    })
+    });
+
+    app.get('/floors', function (req, res) {
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.printer_name_floor;';
+        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
+            let number_of_floors = helpers.numberOfFloors(sql_data).number_of_floors;
+            if (error) throw error;
+
+            res.render('floors', {
+                floors: number_of_floors
+            });
+        });
+    });
 };

@@ -50,4 +50,13 @@ module.exports = function(app) {
             res.redirect('/');
         });
     });
+
+    app.post('/checkbox', urlEncodedParser, function (req, res) {
+        console.log(req.body);
+        //let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply='" + req.body.inc_storage_count + "' WHERE cartridge_name='" + req.body.inc_storage_name + "';";
+       // let query = database.db_create_connection().query(sql_statement_put, function (error, data) {
+
+            res.redirect('/');
+        });
+   // });
 };

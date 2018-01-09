@@ -1,202 +1,237 @@
 <div class="container">
-<div class="container" id="container">
-    {{#each printers}}
-      {{#if this.color}}
-        <div class="printer">
-            <div class="pr-12k title">
-                <a name="title" href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-            <form action="/{{this.floor}}/{{this.name}}">
-            <button class="button-special-style {{this.name}}"href="/{{this.floor}}/{{this.name}}">Asukoht</button>
-            </form>
-                <section class="black-precentage-section">
-                <article>
-                    <div class="chart">
+    <div style="background-color: white;width: 309px;
+    margin: 0 auto;
+    border-radius: 3px;">
+        {{#each floors}}
+            <div class="btn-checkbox-filter">
+                <label for="{{this}}">{{this}}</label>
+                <input checked id="{{this}}" class="floor-{{this}}" value="{{this}}" type="checkbox"
+                       onchange="valueChanged('{{this}}')">
+            </div>
+        {{/each}}
+    </div>
+    <div class="container" id="container">
+        {{#each printers}}
+            {{#if this.color}}
+                <div class="printer printer-{{this.floor}}">
+                    <div class="pr-12k title">
+                        <a name="title" href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+                    <form action="/{{this.floor}}/{{this.name}}">
+                        <button class="button-special-style {{this.name}}" href="/{{this.floor}}/{{this.name}}">
+                            Asukoht
+                        </button>
+                    </form>
+                    <section class="black-precentage-section">
+                        <article>
+                            <div class="chart">
 
-                        <form method="post">
-                            <div class="quantity">
-                                <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.black.supply.storage}}">
-                                <div class="quantity-nav">
-                                    <div class="quantity-button quantity-up">+</div>
-                                    <div class="quantity-button quantity-down">-</div>
+                                <form method="post">
+                                    <div class="quantity">
+                                        <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
+                                               step="1" value="{{this.cartridge.black.supply.storage}}">
+                                        <div class="quantity-nav">
+                                            <div class="quantity-button quantity-up">+</div>
+                                            <div class="quantity-button quantity-down">-</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="printer-title" name="inc_storage_title"
+                                           value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                                           value="{{this.cartridge.black.name}}">
+                                </form>
+                                <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
+                                    <div class="face top">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-0">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face floor">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-a"></div>
+                                    <div class="face side-b"></div>
+                                    <div class="face side-1">
+                                        <div class="growing-bar growing-bar-adjustment"><p
+                                                class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
+                                    </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
-                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
-                        </form>
-                        <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
-                            <div class="face top">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-0">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face floor">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-a"></div>
-                            <div class="face side-b"></div>
-                            <div class="face side-1">
-                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </section>
+                        </article>
+                    </section>
 
-            <section>
-                <article>
-                    <div class="chart">
+                    <section>
+                        <article>
+                            <div class="chart">
 
-                        <form method="post">
-                            <div class="quantity">
-                                <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.cyan.supply.storage}}">
-                                <div class="quantity-nav">
-                                    <div class="quantity-button quantity-up">+</div>
-                                    <div class="quantity-button quantity-down">-</div>
+                                <form method="post">
+                                    <div class="quantity">
+                                        <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
+                                               step="1" value="{{this.cartridge.cyan.supply.storage}}">
+                                        <div class="quantity-nav">
+                                            <div class="quantity-button quantity-up">+</div>
+                                            <div class="quantity-button quantity-down">-</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="printer-title" name="inc_storage_title"
+                                           value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                                           value="{{this.cartridge.cyan.name}}">
+                                </form>
+
+                                <div class="bar bar-cartridge bar-{{this.cartridge.cyan.value}} cyan">
+                                    <div class="face top">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-0">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face floor">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-a"></div>
+                                    <div class="face side-b"></div>
+                                    <div class="face side-1">
+                                        <div class="growing-bar growing-bar-adjustment"><p
+                                                class="p-adjust">{{this.cartridge.cyan.value}}%</p></div>
+                                    </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
-                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.cyan.name}}">
-                        </form>
+                        </article>
+                    </section>
+                    <section>
+                        <article>
+                            <div class="chart">
 
-                        <div class="bar bar-cartridge bar-{{this.cartridge.cyan.value}} cyan">
-                            <div class="face top">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-0">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face floor">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-a"></div>
-                            <div class="face side-b"></div>
-                            <div class="face side-1">
-                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.cyan.value}}%</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </section>
-            <section>
-                <article>
-                    <div class="chart">
+                                <form method="post">
+                                    <div class="quantity">
+                                        <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
+                                               step="1" value="{{this.cartridge.magenta.supply.storage}}">
+                                        <div class="quantity-nav">
+                                            <div class="quantity-button quantity-up">+</div>
+                                            <div class="quantity-button quantity-down">-</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="printer-title" name="inc_storage_title"
+                                           value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                                           value="{{this.cartridge.magenta.name}}">
+                                </form>
 
-                        <form method="post">
-                            <div class="quantity">
-                                <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.magenta.supply.storage}}">
-                                <div class="quantity-nav">
-                                    <div class="quantity-button quantity-up">+</div>
-                                    <div class="quantity-button quantity-down">-</div>
+                                <div class="bar bar-cartridge bar-{{this.cartridge.magenta.value}} magenta">
+                                    <div class="face top">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-0">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face floor">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-a"></div>
+                                    <div class="face side-b"></div>
+                                    <div class="face side-1">
+                                        <div class="growing-bar growing-bar-adjustment"><p
+                                                class="p-adjust">{{this.cartridge.magenta.value}}%</p></div>
+                                    </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
-                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.magenta.name}}">
-                        </form>
-
-                        <div class="bar bar-cartridge bar-{{this.cartridge.magenta.value}} magenta">
-                            <div class="face top">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-0">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face floor">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-a"></div>
-                            <div class="face side-b"></div>
-                            <div class="face side-1">
-                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.magenta.value}}%</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </section>
-            <section>
-                <article>
-                    <div class="chart">
-                        <form method="post">
-                            <div class="quantity">
-                                <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
-                                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.yellow.supply.storage}}">
-                                <div class="quantity-nav">
-                                    <div class="quantity-button quantity-up">+</div>
-                                    <div class="quantity-button quantity-down">-</div>
+                        </article>
+                    </section>
+                    <section>
+                        <article>
+                            <div class="chart">
+                                <form method="post">
+                                    <div class="quantity">
+                                        <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
+                                               step="1" value="{{this.cartridge.yellow.supply.storage}}">
+                                        <div class="quantity-nav">
+                                            <div class="quantity-button quantity-up">+</div>
+                                            <div class="quantity-button quantity-down">-</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="printer-title" name="inc_storage_title"
+                                           value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                                           value="{{this.cartridge.yellow.name}}">
+                                </form>
+                                <div class="bar bar-cartridge bar-{{this.cartridge.yellow.value}} yellow">
+                                    <div class="face top">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-0">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face floor">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-a"></div>
+                                    <div class="face side-b"></div>
+                                    <div class="face side-1">
+                                        <div class="growing-bar growing-bar-adjustment"><p
+                                                class="p-adjust">{{this.cartridge.yellow.value}}%</p></div>
+                                    </div>
                                 </div>
                             </div>
-                            <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
-                            <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.yellow.name}}">
-                        </form>
-                        <div class="bar bar-cartridge bar-{{this.cartridge.yellow.value}} yellow">
-                            <div class="face top">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-0">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face floor">
-                                <div class="growing-bar"></div>
-                            </div>
-                            <div class="face side-a"></div>
-                            <div class="face side-b"></div>
-                            <div class="face side-1">
-                                <div class="growing-bar growing-bar-adjustment"><p class="p-adjust">{{this.cartridge.yellow.value}}%</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </section>
-        </div>
+                        </article>
+                    </section>
+                </div>
 
-      {{else}}
+            {{else}}
 
-          <div class="printer">
-              <div class="title"><a href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-              <form action="/{{this.floor}}/{{this.name}}">
-                  <button class="button-special-style {{this.name}}"href="/{{this.floor}}/{{this.name}}">Asukoht</button>
-              </form>
-              <section class="black-precentage-section">
-                  <article>
-                      <div class="chart">
+                <div class="printer printer-{{this.floor}}">
+                    <div class="title"><a href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
+                    <form action="/{{this.floor}}/{{this.name}}">
+                        <button class="button-special-style {{this.name}}" href="/{{this.floor}}/{{this.name}}">
+                            Asukoht
+                        </button>
+                    </form>
+                    <section class="black-precentage-section">
+                        <article>
+                            <div class="chart">
 
-                          <form method="post">
-                              <div class="quantity">
-                                  <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                  <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.black.supply.storage}}">
-                                  <div class="quantity-nav">
-                                      <div class="quantity-button quantity-up">+</div>
-                                      <div class="quantity-button quantity-down">-</div>
-                                  </div>
-                              </div>
-                              <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
-                              <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
-                          </form>
+                                <form method="post">
+                                    <div class="quantity">
+                                        <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
+                                               step="1" value="{{this.cartridge.black.supply.storage}}">
+                                        <div class="quantity-nav">
+                                            <div class="quantity-button quantity-up">+</div>
+                                            <div class="quantity-button quantity-down">-</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" class="printer-title" name="inc_storage_title"
+                                           value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                                           value="{{this.cartridge.black.name}}">
+                                </form>
 
-                          <div class="bar bar-{{this.cartridge.black.value}} gray">
-                              <div class="face top">
-                                  <div class="growing-bar"></div>
-                              </div>
-                              <div class="face side-0">
-                                  <div class="growing-bar"></div>
-                              </div>
-                              <div class="face floor">
-                                  <div class="growing-bar"></div>
-                              </div>
-                              <div class="face side-a"></div>
-                              <div class="face side-b"></div>
-                              <div class="face side-1">
-                                  <div class="growing-bar growing-bar-adjustment"><p class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
-                              </div>
-                          </div>
-                      </div>
-                  </article>
-              </section>
-          </div>
-    {{/if}}
-   {{/each}}
-</div>
+                                <div class="bar bar-{{this.cartridge.black.value}} gray">
+                                    <div class="face top">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-0">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face floor">
+                                        <div class="growing-bar"></div>
+                                    </div>
+                                    <div class="face side-a"></div>
+                                    <div class="face side-b"></div>
+                                    <div class="face side-1">
+                                        <div class="growing-bar growing-bar-adjustment"><p
+                                                class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            {{/if}}
+        {{/each}}
+    </div>
 </div>
