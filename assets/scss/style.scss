@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+
 
 $yellow: #f1c40f;
 $lime: #76c900;
@@ -70,16 +70,18 @@ body {
   font-size: 16px;
   font-weight: 300;
   line-height: 1em;
-
+  margin: 0;
   text-align: center;
-
   color: $gray;
-  background: #d0d0d0;
+  background: linear-gradient(to right, #8e9eab, #eef2f3);
+ /* #808080, #4CA1AF
+  #1D4350, #A43931
+  #4CA1AF, #C4E0E5
+  #8e9eab, #eef2f3*/
 }
 
 h1 {
   font-size: 2.5em;
-
   margin: 2em 0 .5em;
 }
 
@@ -87,13 +89,8 @@ h2 {
   margin-bottom: 3em;
 }
 
-em,
-strong {
+em, strong {
   font-weight: 700;
-}
-
-input {
-
 }
 
 header p {
@@ -138,22 +135,17 @@ p {
   display: flex;
   overflow: hidden;
   flex-direction: column;
-
   justify-content: center;
-
   margin-bottom: 4em;
 }
 
 /*
-*
-*
 START // CHART'S RULES
  -> "if you're picking code, don't forget the variables :)"
 */
 
 .chart {
   font-size: 1em;
-
   perspective: 1000px;
   perspective-origin: 50% 50%;
   backface-visibility: visible;
@@ -164,24 +156,17 @@ $growColor: rgba($red, .6);
 
 .bar {
   font-size: 1em;
-
   position: relative;
-
   height: 10em;
-
   transition: $transition;
   transform: rotateX(60deg) rotateY(0deg);
-
   transform-style: preserve-3d;
 
   .face {
     font-size: 2em;
-
     position: relative;
-
     width: 100%;
     height: 2em;
-
     background-color: $faceColor;
 
     &.side-a,
@@ -244,7 +229,7 @@ $growColor: rgba($red, .6);
       box-shadow: -0.5em -1.5em 4em $color;
     }
     .floor .growing-bar {
-      box-shadow: 0em 0em 2em $color;
+      box-shadow: 0 0 2em $color;
     }
   }
 }
@@ -300,8 +285,6 @@ $growColor: rgba($red, .6);
 
 /*
 END // CHART'S RULES
-*
-*
 */
 
 .chart.grid {
@@ -360,7 +343,7 @@ input[id='pos-3']:checked ~ .chart {
 input[id='exercise-2']:checked ~ .chart.grid {
   .exercise .bar {
     &:nth-child(1) {
-      flex: 1 0 0%;
+      flex: 1 0 0;
       @extend .bar-20;
     }
     &:nth-child(2) {
@@ -409,7 +392,6 @@ input[id='exercise-4']:checked ~ .chart.grid {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
   -webkit-animation: blinkGreen 4s infinite;
   -moz-animation: blinkGreen 4s infinite;
-  -ms-animation: blinkGreen 4s infinite;
   -o-animation: blinkGreen 4s infinite;
   animation: blinkGreen 4s infinite;
 }
@@ -499,7 +481,6 @@ input[id='exercise-4']:checked ~ .chart.grid {
   box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
   -webkit-animation: blinkRed 0.5s infinite;
   -moz-animation: blinkRed 0.5s infinite;
-  -ms-animation: blinkRed 0.5s infinite;
   -o-animation: blinkRed 0.5s infinite;
   animation: blinkRed 0.5s infinite;
 }
@@ -569,13 +550,6 @@ input[id='exercise-4']:checked ~ .chart.grid {
   }
 }
 
-.printer {
-  display: inline-table;
-  margin: 30px;
-  float: left;
-  position: relative;
-}
-
 .plus-minus-input {
   align-items: center;
 
@@ -584,11 +558,6 @@ input[id='exercise-4']:checked ~ .chart.grid {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     padding: 1rem;
-
-    &::-webkit-inner-spin-button,
-    ::-webkit-outer-spin-button {
-      appearance: none;
-    }
   }
 
   .input-group-button {
@@ -642,9 +611,8 @@ input[type=number] {
   line-height: 1.65;
   float: left;
   display: block;
-  padding: 0;
   margin: 0;
-  padding-left: 20px;
+  padding: 0 0 0 20px;
   border: 1px solid #eee;
   border-radius: 3px;
   z-index: 22;
@@ -677,7 +645,6 @@ input[type=number] {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  -o-user-select: none;
   user-select: none;
 }
 
@@ -696,13 +663,9 @@ input[type=number] {
 
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
 
-body {
-  margin: 0;
-}
 
 /* animated button */
 .button-special-style {
-
   font-family: 'Varela Round', sans-serif;
   height: 25px;
   font-size: 10px;
@@ -734,15 +697,6 @@ body {
   margin-top: -35px;
 }
 
-.printer-map {
-  width: 100%;
-}
-
-.printer-section {
-  width: 2000px;
-  height: 1000px;
-}
-
 /* led lights */
 .led-positioning {
   position: absolute;
@@ -763,7 +717,7 @@ body {
   background-color: #444;
   margin: 40px auto 0 auto;
   border-radius: 3px;
-  box-shadow: 0px 8px 30px -4px hsla(0, 0%, 0%, 0.6);
+  box-shadow: 0 8px 30px -4px hsla(0, 0%, 0%, 0.6);
 }
 
 .navBar .navMenu {
@@ -850,10 +804,9 @@ thead {
 
 th {
   border-bottom: 0;
-  color: white;
   color: #444;
   font-weight: 700;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
   text-align: center;
 }
 
@@ -883,7 +836,6 @@ tr td:first-child {
 
 #contactForm {
   display: none;
-
   color: black;
   padding: 2em;
   width: 400px;
@@ -895,13 +847,11 @@ tr td:first-child {
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%)
-
 }
 
 .formBtn {
   width: 140px;
   display: inline-block;
-
   background: teal;
   color: #fff;
   font-weight: 100;
@@ -915,7 +865,6 @@ tr td:first-child {
   font-family: inherit;
   text-transform: inherit;
   font-size: inherit;
-
   display: block;
   width: 280px;
   padding: .4em;
@@ -962,7 +911,7 @@ tr td:first-child {
   position: absolute;
   background-color: transparent;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -991,46 +940,65 @@ tr td:first-child {
   transition: all .4s;
 }
 
-.printer-marker-positioning {
-  width: 160px;
-  margin: 10px 0 10px 0;
-}
-
 .left, .top {
   width: 100%;
   color: gray;
   text-align: center;
 }
 
-.line-top {
-  border-left: 3px solid #307902;
-  position: absolute;
-  left: -18px;
-  margin-left: -1px;
-  bottom: 100%;
-}
-
-.line-left {
-  position: absolute;
-  right: 195px;
-  top: -10px;
-  border-top: 3px solid #36708e;
+.line{
+  &-top{
+    border-left: 3px solid #307902;
+    position: absolute;
+    left: -18px;
+    margin-left: -1px;
+    bottom: 100%;
+  }
+  &-left{
+    position: absolute;
+    right: 195px;
+    top: -10px;
+    border-top: 3px solid #36708e;
+  }
 }
 
 .progress {
   margin: 10px 0 0 0;
 }
 
-.btn-settings {
-  margin: 10px;
-  width: 173px;
-  height: 50px;
-}
-.btn-color{
-  color: #ffffff;
+.btn{
+  &-settings{
+    margin: 10px;
+    width: 173px;
+    height: 50px;
+  }
+  &-color{
+    color: #ffffff;
+  }
+  &-checkbox{
+    &-filter{
+      display: inline-block;
+      margin: 0 1px 0 0;
+    }
+  }
 }
 
-.btn-checkbox-filter{
-  display: inline-block;
-  margin: 0 1px 0 0;
+.printer {
+  display: inline-table;
+  margin: 30px;
+  float: left;
+  position: relative;
+  &-map{
+    width: 100%;
+  }
+  &-section{
+    width: 2000px;
+    height: 1000px;
+  }
+  &-marker{
+    &-positioning{
+      width: 160px;
+      margin: 10px 0 10px 0;
+    }
+  }
 }
