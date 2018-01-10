@@ -11,8 +11,11 @@
 
 
 </style>
-
-<table>
+<!--<div class="input-admin-search">
+<button class="button-special-style">Search</button>
+<input id="input-admin-search" class="input-admin-search">
+</div>-->
+    <table>
     <thead>
     <tr>
         <th>NR</th>
@@ -33,12 +36,15 @@
                 <td>no</td>
             {{/if}}
             <td>
-                <form method="post" action="/admin/update">
+                <form method="post" action="/admin/update" style="display:inline-block">
                     <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name" value="{{this.name}}"/>
                     <input type="hidden" class="admin_input" id="{{@index}}-ip" name="printer_ip" value="{{this.ip}}"/>
                     <input type="hidden" class="admin_input" id="{{@index}}-key" name="printer_key_name" value="{{this.key_name}}"/>
                     <button onclick="savePrinterData({{@index}})" class="button-special-style" id="{{@index}}">Save
                     </button>
+                </form>
+                <form action="/{{this.floor}}/{{this.name}}" style="display:inline-block">
+                    <button class="button-special-style" >Asukoht</button>
                 </form>
             </td>
         </tr>
@@ -47,7 +53,7 @@
 </table>
 
 
-<button class="button-special-style" id="contact">Add a printer</button>
+<!--<button class="button-special-style" id="contact">Add a printer</button>-->
 
 <div id="contactForm">
     <form method="post" action="/admin/add-printer">

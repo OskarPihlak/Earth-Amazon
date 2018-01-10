@@ -859,7 +859,7 @@ tr td:first-child {
   border: none;
   height: 30px;
 }
-
+/*input-admin-search*/
 .input {
   margin: .8em auto;
   font-family: inherit;
@@ -868,6 +868,15 @@ tr td:first-child {
   display: block;
   width: 280px;
   padding: .4em;
+  &-admin{
+    &-search{
+      position: relative;
+      display: block;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 20px 0 0 0;
+    }
+  }
 }
 
 .add-printer-text {

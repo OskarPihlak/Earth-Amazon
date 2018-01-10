@@ -1089,6 +1089,14 @@ tr td:first-child {
   display: block;
   width: 280px;
   padding: .4em; }
+  .input-admin-search {
+    position: relative;
+    display: block;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    margin: 20px 0 0 0; }
 
 .add-printer-text {
   color: #fff; }
