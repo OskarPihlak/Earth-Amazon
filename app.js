@@ -45,7 +45,7 @@ process.on('uncaughtException', function (err) {
     console.log(err);
 });
 
-app.set('port', (process.env.PORT) || 5001);
+app.set('port', (process.env.PORT) || 80);
 app.listen(app.get('port'), function () {
     console.log('Server started on port ' + app.get('port'))
 });
