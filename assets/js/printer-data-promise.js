@@ -38,7 +38,7 @@ function getSnmpAdresses() {
                     position_top: row.position_top
                 };
             });
-           database.db_create_connection().end(()=>{
+           database.db_create_connection().destroy(()=>{
                console.log('connection ended');
            });
 
@@ -128,7 +128,7 @@ function getSnmpAdresses() {
                     }
                 }
 
-                database.db_create_connection().end(()=>{
+                database.db_create_connection().destroy(()=>{
                     console.log('connection ended');
                 });
                 return resolve(printer);

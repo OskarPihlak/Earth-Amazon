@@ -188,7 +188,7 @@ module.exports = function (app) {
                 printers_all: sql_data
             });
         });
-        database.db_create_connection().end(()=>{
+        database.db_create_connection().destroy(()=>{
             console.log('connection ended');
         });
     });
@@ -203,7 +203,7 @@ module.exports = function (app) {
                 floors: number_of_floors
             });
         });
-        database.db_create_connection().end(()=>{
+        database.db_create_connection().destroy(()=>{
             console.log('connection ended');
         });
     });
