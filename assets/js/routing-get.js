@@ -21,10 +21,14 @@ module.exports = function (app) {
                 let floors = helpers.numberOfFloors(response).number_of_floors;
                 if (error) throw error;
 
+                console.log(floors);
                 res.render('main', {
                     printers: response,
                     floors: floors
                 });
+            });
+            database.db_create_connection().end(()=>{
+                console.log('connection ended');
             });
         })
     });
@@ -184,6 +188,9 @@ module.exports = function (app) {
                 printers_all: sql_data
             });
         });
+        database.db_create_connection().end(()=>{
+            console.log('connection ended');
+        });
     });
 
     app.get('/floors', function (req, res) {
@@ -195,6 +202,9 @@ module.exports = function (app) {
             res.render('floors', {
                 floors: number_of_floors
             });
+        });
+        database.db_create_connection().end(()=>{
+            console.log('connection ended');
         });
     });
 };
