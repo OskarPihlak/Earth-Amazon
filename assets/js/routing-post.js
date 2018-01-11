@@ -18,6 +18,9 @@ module.exports = function(app) {
             if (error) throw error;
             res.redirect('/admin');
         });
+        database.db_create_connection().end(()=>{
+            console.log('connection ended');
+        });
     });
 
     app.post('/update/marker/position', urlEncodedParser, function (req, res) {
@@ -29,6 +32,9 @@ module.exports = function(app) {
         let query = database.db_create_connection().query(sql_statement_put, function (error, data) {
             if (error) throw error;
             res.redirect('/'+req.body.floor+'/'+req.body.name);
+        });
+        database.db_create_connection().end(()=>{
+            console.log('connection ended');
         });
     });
 
@@ -48,6 +54,9 @@ module.exports = function(app) {
             console.log(data);
             if (error) throw error;
             res.redirect('/');
+        });
+        database.db_create_connection().end(()=>{
+            console.log('connection ended');
         });
     });
 

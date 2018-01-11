@@ -5,7 +5,7 @@ module.exports = (sql_conditional) => {
     const mysql = require('mysql');
     const database = require('./db');
     database.db_connect();
-
+    console.log(database.db_connect());
 
     let colorArray = [];
     let black_and_white_loop_info = [
@@ -38,6 +38,10 @@ function getSnmpAdresses() {
                     position_top: row.position_top
                 };
             });
+           database.db_create_connection().end(()=>{
+               console.log('connection ended');
+           });
+
             return resolve(snmpAdresses);
         });
     });
@@ -123,6 +127,10 @@ function getSnmpAdresses() {
                         printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
                     }
                 }
+
+                database.db_create_connection().end(()=>{
+                    console.log('connection ended');
+                });
                 return resolve(printer);
             });
         });
