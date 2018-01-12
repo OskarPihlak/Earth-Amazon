@@ -1,4 +1,5 @@
 const Handlebars = require('handlebars');
+let database = require('./db.js');
 
 module.exports.requestedPrinterJoinToResponse = (response, req) => {
     for (let i = 0; i < response.length; i++) {
@@ -64,6 +65,10 @@ module.exports.numberOfFloors = (sql_data) => {
 
     let number_of_floors = floorArray.unique();
     return {number_of_floors :number_of_floors};
+};
+
+module.exports.pool = ()=>{
+    return pool = database.db_define_database();
 };
 
 

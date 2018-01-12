@@ -1,11 +1,8 @@
-module.exports = (sql_conditional) => {
-
+module.exports = (sql_conditional, pool) => {
 
     const snmp = require("net-snmp");
     const mysql = require('mysql');
-    const database = require('./db');
-    database.db_connect();
-    console.log(database.db_connect());
+    let helpers = require('./helpers.js');
 
     let colorArray = [];
     let black_and_white_loop_info = [
@@ -21,32 +18,34 @@ module.exports = (sql_conditional) => {
         {inc_name: 'yellow', cartridge_number: 7, inc_number: 8, max_capacity_bw: 3, max_capacity_color: 12}];
     let colors_loop_info = black_and_white_loop_info.concat(colors_info);
 
-function getSnmpAdresses() {
-    return new Promise((resolve, rejected) => {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ' + sql_conditional;
-        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
-            if (error) throw(error);
-            let snmpAdresses = sql_data.map(row => {
-                return {
-                    ip: row.ip,
-                    color: !!row.color,
-                    name: row.name,
-                    key: row.key_name,
-                    max_capacity: !!row.max_capacity,
-                    floor: row.floor,
-                    position_left: row.position_left,
-                    position_top: row.position_top
-                };
-            });
-           database.db_create_connection().destroy(()=>{
-               console.log('connection ended');
-           });
+    function getSnmpAdresses() {
+        return new Promise((resolve, rejected) => {
+            let sql_statement_get = 'SELECT * FROM snmpadresses ' + sql_conditional;
 
-            return resolve(snmpAdresses);
+            pool.getConnection((err, connection) => {
+                connection.query(sql_statement_get, function (error, result) {
+
+                    if (error) throw(error);
+                    let snmpAdresses = result.map(row => {
+                        return {
+                            ip: row.ip,
+                            color: !!row.color,
+                            name: row.name,
+                            key: row.key_name,
+                            max_capacity: !!row.max_capacity,
+                            floor: row.floor,
+                            position_left: row.position_left,
+                            position_top: row.position_top
+                        };
+                    });
+                    return resolve(snmpAdresses);
+                });
+                connection.release();
+            });
         });
-    });
-}
-        let oidsArray = {
+    }
+
+    let oidsArray = {
         pr_name: ["1.3.6.1.2.1.1.5.0"],
         bw: ["1.3.6.1.2.1.43.11.1.1.6.1.1",        //black name
             "1.3.6.1.2.1.43.11.1.1.9.1.1"],       //black cartridge
@@ -113,25 +112,25 @@ function getSnmpAdresses() {
             }
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status WHERE printer_name ="' + printer.name + '"';
-            database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
-                if (error) return reject(error);
-                if (printer.color === true) {
-                    for (let x = 0; x < colors_loop_info.length; x++) {
-                        let printer_name = colors_loop_info[x].inc_name;
-                        printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
-                    }
+            pool.getConnection((err, connection) => {
 
-                } else if (printer.color === false) {
-                    for (let x = 0; x < black_and_white_loop_info.length; x++) {
-                        let printer_name = black_and_white_loop_info[x].inc_name;
-                        printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
-                    }
-                }
+                connection.query(sql_statement_get, function (error, sql_data) {
+                    if (error) return reject(error);
+                    if (printer.color === true) {
+                        for (let x = 0; x < colors_loop_info.length; x++) {
+                            let printer_name = colors_loop_info[x].inc_name;
+                            printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+                        }
 
-                database.db_create_connection().destroy(()=>{
-                    console.log('connection ended');
+                    } else if (printer.color === false) {
+                        for (let x = 0; x < black_and_white_loop_info.length; x++) {
+                            let printer_name = black_and_white_loop_info[x].inc_name;
+                            printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                        }
+                    }
+                    return resolve(printer);
                 });
-                return resolve(printer);
+                connection.release();
             });
         });
     }
@@ -158,19 +157,27 @@ function getSnmpAdresses() {
         });
     };
 //Construct correct oids for printers
-    return getSnmpAdresses().then( adresses =>{
-        return Promise.all( adresses.map((adress)=>{
+    return getSnmpAdresses().then(adresses => {
+        return Promise.all(adresses.map((adress) => {
             if (adress.color === true && adress.max_capacity === false) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray)).catch(function(err) {return err;});
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray)).catch(function (err) {
+                    return err;
+                });
             }
             else if (adress.color === false && adress.max_capacity === true) {
-               return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)).catch(function(err) {return err;});
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)).catch(function (err) {
+                    return err;
+                });
             }
             else if (adress.color === false && adress.max_capacity === false) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw)).catch(function(err) {return err;});
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw)).catch(function (err) {
+                    return err;
+                });
             }
             else if (adress.color === true && adress.max_capacity === true) {
-                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)).catch(function(err) {return err;});
+                return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)).catch(function (err) {
+                    return err;
+                });
             }
         }));
     })

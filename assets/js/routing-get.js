@@ -5,36 +5,36 @@ module.exports = function (app) {
     const printer_data_promise = require('./printer-data-promise');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
-
-    database.db_connect();
+    let pool = database.db_define_database();
 
     app.get('/', function (req, res) {
         console.log('requested main-page');
-        printer_data_promise("WHERE ip IS NOT NULL").then(response => {
+        printer_data_promise("WHERE ip IS NOT NULL", pool).then(response => {
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
-            let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
-                //helpers.requestedPrinterJoinToResponse(response,sql_data);
-                for (let i = 0; i < response.length; i++) {
-                    response[i].requested = req.params.id;
-                }
-                let floors = helpers.numberOfFloors(response).number_of_floors;
-                if (error) throw error;
+            pool.getConnection((err, connection) => {
+                connection.query(sql_statement_get, function (error, result, fields) {
 
-                console.log(floors);
-                res.render('main', {
-                    printers: response,
-                    floors: floors
+                    //helpers.requestedPrinterJoinToResponse(response,sql_data);
+                    for (let i = 0; i < response.length; i++) {
+                        response[i].requested = req.params.id;
+                    }
+                    let floors = helpers.numberOfFloors(response).number_of_floors;
+                    if (error) throw error;
+
+                    console.log(floors);
+                    res.render('main', {
+                        printers: response,
+                        floors: floors
+                    });
+                    connection.release();
                 });
-            });
-            database.db_create_connection().end(()=>{
-                console.log('connection ended');
-            });
+            })
         })
     });
 
     app.get('/12k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '12k'").then(response => {
+        printer_data_promise("WHERE floor = '12k'",pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
@@ -43,7 +43,7 @@ module.exports = function (app) {
     });
 
     app.get('/12k', function (req, res) {
-        printer_data_promise("WHERE floor = '12k'").then(response => {
+        printer_data_promise("WHERE floor = '12k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
@@ -52,7 +52,7 @@ module.exports = function (app) {
     });
 
     app.get('/10k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '10k'").then(response => {
+        printer_data_promise("WHERE floor = '10k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             console.log(response);
             res.render('tenth-floor', {
@@ -62,7 +62,7 @@ module.exports = function (app) {
     });
 
     app.get('/10k', function (req, res) {
-        printer_data_promise("WHERE floor = '10k'").then(response => {
+        printer_data_promise("WHERE floor = '10k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             console.log(JSON.stringify(response));
             res.render('tenth-floor', {
@@ -72,7 +72,7 @@ module.exports = function (app) {
     });
 
     app.get('/6k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '6k'").then(response => {
+        printer_data_promise("WHERE floor = '6k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('sixth-floor', {
                 printers_6k: response
@@ -81,7 +81,7 @@ module.exports = function (app) {
     });
 
     app.get('/6k', function (req, res) {
-        printer_data_promise("WHERE floor = '6k'").then(response => {
+        printer_data_promise("WHERE floor = '6k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('sixth-floor', {
                 printers_6k: response
@@ -90,7 +90,7 @@ module.exports = function (app) {
     });
 
     app.get('/5k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '5k'").then(response => {
+        printer_data_promise("WHERE floor = '5k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fift-floor', {
                 printers_5k: response
@@ -99,7 +99,7 @@ module.exports = function (app) {
     });
 
     app.get('/5k', function (req, res) {
-        printer_data_promise("WHERE floor = '5k'").then(response => {
+        printer_data_promise("WHERE floor = '5k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fift-floor', {
                 printers_5k: response
@@ -108,7 +108,7 @@ module.exports = function (app) {
     });
 
     app.get('/4k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '4k'").then(response => {
+        printer_data_promise("WHERE floor = '4k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fourth-floor', {
                 printers_4k: response
@@ -117,7 +117,7 @@ module.exports = function (app) {
     });
 
     app.get('/4k', function (req, res) {
-        printer_data_promise("WHERE floor = '4k'").then(response => {
+        printer_data_promise("WHERE floor = '4k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('fourth-floor', {
                 printers_4k: response
@@ -126,7 +126,7 @@ module.exports = function (app) {
     });
 
     app.get('/3k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '3k'").then(response => {
+        printer_data_promise("WHERE floor = '3k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('third-floor', {
                 printers_3k: response
@@ -135,7 +135,7 @@ module.exports = function (app) {
     });
 
     app.get('/3k', function (req, res) {
-        printer_data_promise("WHERE floor = '3k'").then(response => {
+        printer_data_promise("WHERE floor = '3k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('third-floor', {
                 printers_3k: response
@@ -144,7 +144,7 @@ module.exports = function (app) {
     });
 
     app.get('/2k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '2k'").then(response => {
+        printer_data_promise("WHERE floor = '2k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('second-floor', {
                 printers_2k: response
@@ -153,7 +153,7 @@ module.exports = function (app) {
     });
 
     app.get('/2k', function (req, res) {
-        printer_data_promise("WHERE floor = '2k'").then(response => {
+        printer_data_promise("WHERE floor = '2k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('second-floor', {
                 printers_2k: response
@@ -162,7 +162,7 @@ module.exports = function (app) {
     });
 
     app.get('/1k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '1k'").then(response => {
+        printer_data_promise("WHERE floor = '1k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('first-floor', {
                 printers_1k: response
@@ -171,7 +171,7 @@ module.exports = function (app) {
     });
 
     app.get('/1k', function (req, res) {
-        printer_data_promise("WHERE floor = '1k'").then(response => {
+        printer_data_promise("WHERE floor = '1k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('first-floor', {
                 printers_1k: response
@@ -179,32 +179,38 @@ module.exports = function (app) {
         })
     });
 
+
     app.get('/admin', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
-        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
-            if (error) throw error;
+        pool.getConnection((err, connection) => {
+            console.log(pool);
+            connection.query(sql_statement_get, function (error, result) {
 
-            res.render('admin', {
-                printers_all: sql_data
+                if (error) throw error;
+
+                res.render('admin', {
+                    printers_all: result
+                });
             });
-        });
-        database.db_create_connection().destroy(()=>{
-            console.log('connection ended');
+            connection.release();
         });
     });
 
+
     app.get('/floors', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.printer_name_floor;';
-        let query = database.db_create_connection().query(sql_statement_get, function (error, sql_data) {
-            let number_of_floors = helpers.numberOfFloors(sql_data).number_of_floors;
-            if (error) throw error;
 
-            res.render('floors', {
-                floors: number_of_floors
+        pool.getConnection((err, connection) => {
+
+            connection.query(sql_statement_get, function (error, sql_data) {
+                let number_of_floors = helpers.numberOfFloors(sql_data).number_of_floors;
+                if (error) throw error;
+
+                res.render('floors', {
+                    floors: number_of_floors
+                });
             });
-        });
-        database.db_create_connection().destroy(()=>{
-            console.log('connection ended');
+            connection.release();
         });
     });
 };
