@@ -877,6 +877,13 @@ tr td:first-child {
       margin: 20px 0 0 0;
     }
   }
+  &-toggle{
+    background-color: white;
+    border-radius: 5px;
+    height: 50px;
+    text-align: center;
+    color: #404040;
+  }
 }
 
 .add-printer-text {
@@ -1010,4 +1017,12 @@ tr td:first-child {
       margin: 10px 0 10px 0;
     }
   }
+  &-add{
+    width:188px;
+    color:#808080;
+    text-align: center;
+  }
+}
+.tr-toggle{
+  background-color: #333333;
 }

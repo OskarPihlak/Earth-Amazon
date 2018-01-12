@@ -37,11 +37,30 @@ module.exports = function (app) {
     });
 
 
-    app.post('/admin/add-printer', urlEncodedParser, function (req, res) {
-        console.log(req);
-        printer_data_promise("WHERE color = true OR color = false ").then(response => {
+    app.post('/admin/printer/add', urlEncodedParser, function (req, res) {
+        if(req.body.input_ip_submit !== '' && req.body.input_name_submit !== ''){
+
+            let sql_snmp_adresses_insert = `INSERT INTO printers_inc_supply.snmpadresses SET ip='${req.body.input_ip_submit}', color=${req.body.input_color_submit}, name='${req.body.input_name_submit}', key_name='${req.body.input_name_submit}__' , max_capacity=${req.body.input_max_capacity_submit}, floor='${req.body.input_floor_submit}k',position_left=400, position_top=400;`;
+            let sql_printer_name_floor_insert =`INSERT INTO printers_inc_supply.printer_name_floor SET printer_naming='${req.body.input_name_submit}', floor=${req.body.input_floor_submit};`;
+
+            pool.getConnection((err,connection)=>{
+                connection.query(sql_snmp_adresses_insert, (error, data)=>{
+                    if (error) throw error;
+                });
+                connection.release();
+            });
+
+            pool.getConnection((err,connection)=>{
+                connection.query(sql_printer_name_floor_insert, (error, data)=>{
+                    if (error) throw error;
+                });
+                connection.release();
+            });
             res.redirect('/admin');
-        });
+
+        }else{
+            res.redirect('/admin');
+        }
     });
 
     app.post('/', urlEncodedParser, function (req, res) {

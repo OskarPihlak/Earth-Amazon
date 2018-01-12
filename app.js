@@ -11,6 +11,7 @@ const FBMessenger = require('fb-messenger');
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
 const routing_get = require('./assets/js/routing-get.js');
 const routing_post = require('./assets/js/routing-post.js');
+const routing_delete = require('./assets/js/routing-delete.js');
 const helpers = require('./assets/js/helpers');
 
 let config = { url: 'ldap://dc.domain.com',
@@ -41,6 +42,7 @@ app.use(function (err, req, res, next) {
 helpers.handlebars();
 routing_get(app);
 routing_post(app);
+routing_delete(app);
 process.on('uncaughtException', function (err) {
     console.log(err);
 });

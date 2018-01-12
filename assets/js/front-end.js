@@ -151,7 +151,6 @@ $('.toggle-position').click(function () {
 });
 
 function repositionMarker(data) {
-
     setTimeout(() => {
         let top = parseInt($('#top-' + data).val());
         let left = parseInt($('#left-' + data).val());
@@ -166,14 +165,33 @@ function repositionMarker(data) {
     }, 20)
 }
 
-function valueChanged(data)
-{
+function valueChanged(data) {
    console.log('change');
-    if($('#'+data).is(":checked")) {
-        console.log('show');
-        $('.printer-' + data).show();
-    }
-    else {
-        $('.printer-' + data).hide();
-    }
+    if($('#'+data).is(":checked")) { $('.printer-' + data).show();}
+    else { $('.printer-' + data).hide(); }
+}
+
+function modifyToggle(data) {
+    $('#save-' + data).toggle();
+    $('#delete-'+data).toggle();
+    $('#'+data+'-name').toggleClass('input-toggle');
+    $('#'+data+'-ip').toggleClass('input-toggle');
+    $("#row-"+data).toggleClass("tr-toggle");
+}
+
+function addPrinter() {
+    let input_ip = $('#input-ip-submit').val($('#input-ip').val()).submit();
+    let input_name =$('#input-name-submit').val($('#input-name').val()).submit();
+    let input_floor = $('#input-floor-submit').val($('#input-floor').val()).submit();
+    let input_color = $('#input-color-submit').val(!!$('#input-color').is(":checked")).submit();
+    let input_max_capacity = $('#input-max-capacity-submit').val(!!$('#input-max-capacity').is(":checked")).submit();
+}
+
+function deletePrinter(data){
+    $('#input_name_delete-'+data).val($('#'+data+'-name').val()).submit();
+    $('#input_ip_delete-'+data).val($('#'+data+'-ip').val()).submit();
+}
+
+function togglePrinterAdd(){
+    $('#printer-creation').toggle();
 }

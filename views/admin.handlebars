@@ -8,14 +8,63 @@
         color: #fff;
         text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.4)
     }
-
-
 </style>
-<!--<div class="input-admin-search">
-<button class="button-special-style">Search</button>
-<input id="input-admin-search" class="input-admin-search">
-</div>-->
-    <table>
+<button class="button-special-style" id="printer-add-table-toggle" onclick="togglePrinterAdd()" style="display: block;left: 50%;position: relative;transform: translateX(-50%);">
+    Add a printer
+</button>
+    <table id="printer-creation" style="display: none">
+        <thead>
+        <tr>
+            <th>IP</th>
+            <th>COLOR</th>
+            <th>NAME</th>
+            <th>MAX CAPACITY</th>
+            <th>FLOOR</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+       <tr>
+           <td>
+               <input id="input-ip" class="printer-add" required>
+           </td>
+           <td>
+               <input id="input-color" class="printer-add" type="checkbox">
+           </td>
+           <td>
+               <input id="input-name" class="printer-add" required>
+           </td>
+           <td>
+               <input id="input-max-capacity" class="printer-add" type="checkbox">
+           </td>
+           <td>
+               <select id="input-floor" class="printer-add">
+                   <option>12</option>
+                   <option>10</option>
+                   <option>6</option>
+                   <option>5</option>
+                   <option>4</option>
+                   <option>3</option>
+                   <option>2</option>
+                   <option>1</option>
+               </select>
+           </td>
+           <td>
+              <form method="post" action="/admin/printer/add">
+                   <button id="button-printer-add" class="button-special-style" onclick="addPrinter()">Add</button>
+                   <input hidden name="input_ip_submit"           id="input-ip-submit">
+                   <input hidden name="input_color_submit"        id="input-color-submit">
+                   <input hidden name="input_name_submit"         id="input-name-submit">
+                   <input hidden name="input_max_capacity_submit" id="input-max-capacity-submit">
+                   <input hidden name="input_floor_submit"        id="input-floor-submit">
+               </form>
+           </td>
+       </tr>
+        </tbody>
+    </table>
+
+
+<table>
     <thead>
     <tr>
         <th>NR</th>
@@ -26,25 +75,41 @@
     </thead>
     <tbody>
     {{#each printers_all}}
-        <tr>
+        <tr id="row-{{@index}}">
             <td>{{@index}}</td>
             <td><input class="admin_input" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/></td>
             <td><input class="admin_input" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/></td>
             {{#if this.color}}
-            <td>yes</td>
-                {{else}}
+                <td>yes</td>
+            {{else}}
                 <td>no</td>
             {{/if}}
             <td>
+                <button class="button-special-style" id="modify-{{@index}}" onclick="modifyToggle({{@index}})">Modify
+                </button>
                 <form method="post" action="/admin/update" style="display:inline-block">
-                    <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name" value="{{this.name}}"/>
+                    <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name"
+                           value="{{this.name}}"/>
                     <input type="hidden" class="admin_input" id="{{@index}}-ip" name="printer_ip" value="{{this.ip}}"/>
-                    <input type="hidden" class="admin_input" id="{{@index}}-key" name="printer_key_name" value="{{this.key_name}}"/>
-                    <button onclick="savePrinterData({{@index}})" class="button-special-style" id="{{@index}}">Save
+                    <input type="hidden" class="admin_input" id="{{@index}}-key" name="printer_key_name"
+                           value="{{this.key_name}}"/>
+                    <button onclick="savePrinterData({{@index}})" class="button-special-style" id="save-{{@index}}"
+                            style="display: none">Save
                     </button>
                 </form>
+
+
+                <form method="post" action="/admin/printer/delete" style="display:inline-block">
+                    <button class="button-special-style" id="delete-{{@index}}" onclick="deletePrinter({{@index}})" style="display: none">Delete</button>
+                    <input hidden name="input_name_delete" id="input_name_delete-{{@index}}">
+                    <input hidden name="input_ip_delete" id="input_ip_delete-{{@index}}">
+                </form>
+
+
+
+
                 <form action="/{{this.floor}}/{{this.name}}" style="display:inline-block">
-                    <button class="button-special-style" >Asukoht</button>
+                    <button class="button-special-style">Asukoht</button>
                 </form>
             </td>
         </tr>
@@ -53,15 +118,8 @@
 </table>
 
 
-<!--<button class="button-special-style" id="contact">Add a printer</button>-->
 
-<div id="contactForm">
-    <form method="post" action="/admin/add-printer">
-        <p class="add-printer-text">ADD A PRINTER</p>
-        <input class="input" placeholder="Printer" type="text" required/>
-        <input class="input" placeholder="IP" type="text" required/>
-        <input class="input" placeholder="1 if color 0 if not" type="number" min="0" max="1" required/>
-        <button class="formBtn" href="/admin/add-printer">SUBMIT</button>
-        <button class="formBtn" type="reset">RESET</button>
-    </form>
-</div>
+
+
+
+

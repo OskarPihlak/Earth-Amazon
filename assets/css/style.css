@@ -1081,6 +1081,7 @@ tr td:first-child {
   border: none;
   height: 30px; }
 
+/*input-admin-search*/
 .input {
   margin: .8em auto;
   font-family: inherit;
@@ -1097,6 +1098,12 @@ tr td:first-child {
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);
     margin: 20px 0 0 0; }
+  .input-toggle {
+    background-color: white;
+    border-radius: 5px;
+    height: 50px;
+    text-align: center;
+    color: #404040; }
 
 .add-printer-text {
   color: #fff; }
@@ -1206,3 +1213,10 @@ tr td:first-child {
   .printer-marker-positioning {
     width: 160px;
     margin: 10px 0 10px 0; }
+  .printer-add {
+    width: 188px;
+    color: #808080;
+    text-align: center; }
+
+.tr-toggle {
+  background-color: #333333; }

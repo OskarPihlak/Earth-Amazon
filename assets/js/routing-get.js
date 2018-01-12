@@ -187,7 +187,6 @@ module.exports = function (app) {
             connection.query(sql_statement_get, function (error, result) {
 
                 if (error) throw error;
-
                 res.render('admin', {
                     printers_all: result
                 });
@@ -195,7 +194,6 @@ module.exports = function (app) {
             connection.release();
         });
     });
-
 
     app.get('/floors', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.printer_name_floor;';
@@ -214,3 +212,4 @@ module.exports = function (app) {
         });
     });
 };
+
