@@ -12,7 +12,7 @@ module.exports = function (app) {
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req);
-        let sql_statement_put = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', color='" + req.body.printer_color + "', max_capacity="+ req.body.printer_max_capacity +" WHERE key_name='" + req.body.printer_key_name + "';";
+        let sql_statement_put = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', color=" + req.body.printer_color + ", max_capacity="+ req.body.printer_max_capacity +" WHERE key_name='" + req.body.printer_key_name + "';";
         console.log(sql_statement_put);
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_put, function (error, data) {

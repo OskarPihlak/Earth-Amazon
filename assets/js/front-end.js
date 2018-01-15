@@ -57,7 +57,6 @@ function minus() {
 }
 
 //Change value inside input
-
 $('.quantity').each(function () {
     let spinner = $(this),
         input = spinner.find('input[type="number"]'),
@@ -89,7 +88,6 @@ $('.quantity').each(function () {
     });
 });
 
-
 //Sends data to back-end
 $('form input').change(function () {
     let form = $(this).closest('form');
@@ -98,18 +96,18 @@ $('form input').change(function () {
     form.closest('.printer').find('.printer-title').submit();
 });
 
-
 function savePrinterData(data) {
-    let ip = $('#' + data + '-ip.admin_input').submit();
-    let name = $('#' + data + '-name.admin_input').submit();
-    let key = $('#' + data + '-key.admin_input').submit();
-    let color = $('#'+data+'-color').val(!!$('.input-identification-color-'+data).is(":checked")).submit();
-    let max_capacity =  $('#'+data+'-max-capacity').val(!!$('.input-identification-max-capacity-'+data).is(":checked")).submit();
-
-    console.log($('.input-identification-color-'+data).is(":checked"));
-    console.log($('.input-identification-max-capacity-'+data).is(":checked"));
+    let password_autentication = prompt('Enter the password to UPDATE printer');
+    if (password_autentication === 'Midagi1lusat') {
+        let ip = $('#' + data + '-ip.admin_input').submit();
+        let name = $('#' + data + '-name.admin_input').submit();
+        let key = $('#' + data + '-key.admin_input').submit();
+        let color = $('#' + data + '-color').val(!!$('.input-identification-color-' + data).is(":checked")).submit();
+        let max_capacity = $('#' + data + '-max-capacity').val(!!$('.input-identification-max-capacity-' + data).is(":checked")).submit();
+    } else {
+        alert('Wrong password');
+    }
 }
-
 
 //Retain scroll location after reload
 $(window).scroll(function () {
@@ -189,11 +187,15 @@ function addPrinter() {
     let input_max_capacity = $('#input-max-capacity-submit').val(!!$('#input-max-capacity').is(":checked")).submit();
 }
 
-function deletePrinter(data){
-    $('#input_name_delete-'+data).val($('#'+data+'-name').val()).submit();
-    $('#input_ip_delete-'+data).val($('#'+data+'-ip').val()).submit();
+function deletePrinter(data) {
+    let delete_promt = prompt('Enter the password to DELETE the printer');
+    if (delete_promt === 'Midagi1lusat') {
+        $('#input_name_delete-' + data).val($('#' + data + '-name').val()).submit();
+        $('#input_ip_delete-' + data).val($('#' + data + '-ip').val()).submit();
+    } else {
+        alert('Wrong password');
+    }
 }
-
-function togglePrinterAdd(){
+function togglePrinterAdd() {
     $('#printer-creation').toggle();
 }
