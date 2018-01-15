@@ -100,14 +100,14 @@ $('form input').change(function () {
 
 
 function savePrinterData(data) {
-    let ip = $('#' + data + '-ip.admin_input');
-    let name = $('#' + data + '-name.admin_input');
-    let key = $('#' + data + '-key.admin_input');
-    ip.attr('value', ip.val());
-    name.attr('value', name.val());
-    key.submit();
-    ip.submit();
-    name.submit();
+    let ip = $('#' + data + '-ip.admin_input').submit();
+    let name = $('#' + data + '-name.admin_input').submit();
+    let key = $('#' + data + '-key.admin_input').submit();
+    let color = $('#'+data+'-color').val(!!$('.input-identification-color-'+data).is(":checked")).submit();
+    let max_capacity =  $('#'+data+'-max-capacity').val(!!$('.input-identification-max-capacity-'+data).is(":checked")).submit();
+
+    console.log($('.input-identification-color-'+data).is(":checked"));
+    console.log($('.input-identification-max-capacity-'+data).is(":checked"));
 }
 
 
@@ -154,7 +154,6 @@ function repositionMarker(data) {
     setTimeout(() => {
         let top = parseInt($('#top-' + data).val());
         let left = parseInt($('#left-' + data).val());
-
         let adjustedTopHeight = 20 + top;
         $('.top-post').val(top);
         $('.left-post').val(left);
@@ -173,10 +172,13 @@ function valueChanged(data) {
 
 function modifyToggle(data) {
     $('#save-' + data).toggle();
-    $('#delete-'+data).toggle();
-    $('#'+data+'-name').toggleClass('input-toggle');
-    $('#'+data+'-ip').toggleClass('input-toggle');
-    $("#row-"+data).toggleClass("tr-toggle");
+    $('#delete-' + data).toggle();
+    $('#' + data + '-name').toggleClass('input-toggle');
+    $('#' + data + '-ip').toggleClass('input-toggle');
+    $("#row-" + data).toggleClass("tr-toggle");
+    $('.identification-' + data).toggle();
+    $('.input-identification-color-' + data).toggleClass('input-display');
+    $('.input-identification-max-capacity-' + data).toggleClass('input-display');
 }
 
 function addPrinter() {

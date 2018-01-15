@@ -71,28 +71,52 @@
         <th>NAME</th>
         <th>IP</th>
         <th>COLOR</th>
+        <th>NEEDS CALCULATIONS</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
     {{#each printers_all}}
         <tr id="row-{{@index}}">
             <td>{{@index}}</td>
-            <td><input class="admin_input" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/></td>
-            <td><input class="admin_input" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/></td>
+            <td><input class="admin_input admin_input-cell" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/></td>
+            <td><input class="admin_input admin_input-cell" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/></td>
+            <td class="input-color" id="color-{{@index}}">
+
+
             {{#if this.color}}
-                <td>yes</td>
+                <p class="identification-{{@index}}">yes</p>
+                <input checked class="input-identification-color-{{@index}} input-display" type="checkbox">
             {{else}}
-                <td>no</td>
+                <p class="identification-{{@index}} ">no</p>
+                <input class="input-identification-color-{{@index}} input-display" type="checkbox">
+
+
+
+            </td>
             {{/if}}
+
+            <td class="input-max-capacity" id="max-capacity-{{@index}}">
+                {{#if this.max_capacity}}
+                    <p class="identification-{{@index}}">true</p>
+                    <input checked class="input-identification-max-capacity-{{@index}} input-display" type="checkbox">
+                    {{else}}
+                    <p class="identification-{{@index}} ">false</p>
+                    <input class="input-identification-max-capacity-{{@index}} input-display" type="checkbox">
+                {{/if}}
+            </td>
             <td>
                 <button class="button-special-style" id="modify-{{@index}}" onclick="modifyToggle({{@index}})">Modify
                 </button>
                 <form method="post" action="/admin/update" style="display:inline-block">
-                    <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name"
-                           value="{{this.name}}"/>
-                    <input type="hidden" class="admin_input" id="{{@index}}-ip" name="printer_ip" value="{{this.ip}}"/>
-                    <input type="hidden" class="admin_input" id="{{@index}}-key" name="printer_key_name"
-                           value="{{this.key_name}}"/>
+
+                    <input type="hidden" class="admin_input" id="{{@index}}-name"          name="printer_name"         value="{{this.name}}"/>
+                    <input type="hidden" class="admin_input" id="{{@index}}-ip"            name="printer_ip"           value="{{this.ip}}"/>
+                    <input type="hidden" class="admin_input" id="{{@index}}-key"           name="printer_key_name"     value="{{this.key_name}}"/>
+                    <input type="hidden" class="admin_input" id="{{@index}}-color"         name="printer_color"        />
+                    <input type="hidden" class="admin_input" id="{{@index}}-max-capacity"  name="printer_max_capacity" />
+
+
                     <button onclick="savePrinterData({{@index}})" class="button-special-style" id="save-{{@index}}"
                             style="display: none">Save
                     </button>
@@ -104,9 +128,6 @@
                     <input hidden name="input_name_delete" id="input_name_delete-{{@index}}">
                     <input hidden name="input_ip_delete" id="input_ip_delete-{{@index}}">
                 </form>
-
-
-
 
                 <form action="/{{this.floor}}/{{this.name}}" style="display:inline-block">
                     <button class="button-special-style">Asukoht</button>

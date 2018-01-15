@@ -780,6 +780,9 @@ input[type=number] {
 .admin_input {
   background-color: transparent;
   border: transparent;
+  &-cell{
+    text-align: center;
+  }
 }
 
 table {
@@ -792,7 +795,7 @@ table {
 
 td, th {
   padding: 16px;
-  width: 220px;
+  width: 250px;
   line-height: 18px;
   font-weight: 300;
 }
@@ -883,6 +886,9 @@ tr td:first-child {
     height: 50px;
     text-align: center;
     color: #404040;
+  }
+  &-display{
+    display: none;
   }
 }
 

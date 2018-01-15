@@ -1015,6 +1015,8 @@ input[type=number] {
 .admin_input {
   background-color: transparent;
   border: transparent; }
+  .admin_input-cell {
+    text-align: center; }
 
 table {
   text-align: center;
@@ -1024,7 +1026,7 @@ table {
 
 td, th {
   padding: 16px;
-  width: 220px;
+  width: 250px;
   line-height: 18px;
   font-weight: 300; }
 
@@ -1104,6 +1106,8 @@ tr td:first-child {
     height: 50px;
     text-align: center;
     color: #404040; }
+  .input-display {
+    display: none; }
 
 .add-printer-text {
   color: #fff; }
