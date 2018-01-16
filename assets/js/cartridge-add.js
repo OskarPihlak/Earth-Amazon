@@ -17,7 +17,7 @@ module.exports.cartridge_add = (ip, printer_name, printer_color, pool) => {
 
     function printer_name_parse(printer, data) {
         return new Promise((resolve, reject) => {
-            if (printer_color === true) {
+            if (printer_color === 'true') {
                 for (let i = 0; i < colors_in_color_printer; i++) {
                     let sql_statement_post_cartridge = `INSERT INTO printers_inc_supply.inc_supply_status SET printer_name='${printer_name}', cartridge_name='${(data[i].value).toString()}', cartridge_supply=0;`;
                     console.log(sql_statement_post_cartridge);
@@ -54,7 +54,7 @@ module.exports.cartridge_add = (ip, printer_name, printer_color, pool) => {
         });
     };
 
-    if (printer_color === true) {
+    if (printer_color === 'true') {
         let toner_names = oidsArray.bw_cartridge_name.concat(colorsArray);
         session_get(ip, toner_names);
     } else {
