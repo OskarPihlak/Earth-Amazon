@@ -104,6 +104,7 @@ function savePrinterData(data) {
         let key = $('#' + data + '-key.admin_input').submit();
         let color = $('#' + data + '-color').val(!!$('.input-identification-color-' + data).is(":checked")).submit();
         let max_capacity = $('#' + data + '-max-capacity').val(!!$('.input-identification-max-capacity-' + data).is(":checked")).submit();
+        let floor = $('#' + data + '-floor').val($('#input-status-floor-'+data).val()).submit();
     } else {
         alert('Wrong password');
     }
@@ -176,6 +177,8 @@ function modifyToggle(data) {
     $('.identification-' + data).toggle();
     $('.input-identification-color-' + data).toggleClass('input-display');
     $('.input-identification-max-capacity-' + data).toggleClass('input-display');
+    $('.static-floor-data-'+data).toggle();
+    $('#input-status-floor-'+data).toggleClass('input-display');
 }
 
 function addPrinter() {

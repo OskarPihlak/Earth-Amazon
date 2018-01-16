@@ -182,13 +182,16 @@ module.exports = function (app) {
 
     app.get('/admin', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
+
         pool.getConnection((err, connection) => {
             console.log(pool);
             connection.query(sql_statement_get, function (error, result) {
-
+                let floors = helpers.numberOfFloors(result).number_of_floors;
+console.log(floors);
                 if (error) throw error;
                 res.render('admin', {
-                    printers_all: result
+                    printers_all: result,
+                    floors:floors
                 });
             });
             connection.release();
@@ -196,7 +199,7 @@ module.exports = function (app) {
     });
 
     app.get('/floors', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.printer_name_floor;';
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
 
         pool.getConnection((err, connection) => {
 

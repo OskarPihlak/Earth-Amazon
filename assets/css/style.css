@@ -1221,6 +1221,10 @@ tr td:first-child {
     width: 188px;
     color: #808080;
     text-align: center; }
+  .printer-status {
+    width: 188px;
+    color: #808080;
+    text-align: center; }
 
 .tr-toggle {
   background-color: #333333; }

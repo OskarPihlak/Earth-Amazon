@@ -9,6 +9,7 @@
         text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.4)
     }
 </style>
+
 <button class="button-special-style" id="printer-add-table-toggle" onclick="togglePrinterAdd()" style="display: block;left: 50%;position: relative;transform: translateX(-50%);">
     Add a printer
 </button>
@@ -39,14 +40,9 @@
            </td>
            <td>
                <select id="input-floor" class="printer-add">
-                   <option>12</option>
-                   <option>10</option>
-                   <option>6</option>
-                   <option>5</option>
-                   <option>4</option>
-                   <option>3</option>
-                   <option>2</option>
-                   <option>1</option>
+                   {{#each floors}}
+                       <option>{{this}}</option>
+                   {{/each}}
                </select>
            </td>
            <td>
@@ -72,13 +68,15 @@
         <th>IP</th>
         <th>COLOR</th>
         <th>NEEDS CALCULATIONS</th>
+        <th>FLOOR</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
     {{#each printers_all}}
+
         <tr id="row-{{@index}}">
-            <td>{{@index}}</td>
+            <td>{{@index}} | {{this.id}}</td>
             <td><input class="admin_input admin_input-cell" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/></td>
             <td><input class="admin_input admin_input-cell" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/></td>
             <td class="input-color" id="color-{{@index}}">
@@ -106,14 +104,34 @@
                 {{/if}}
             </td>
             <td>
+                <p class="static-floor-data-{{@index}}">{{this.floor}}</p>
+                <script type="text/javascript">
+                    window.addEventListener("load",function(){
+                            $('#input-status-floor-{{@index}}').val('{{this.floor}}');
+                    },false);
+                </script>
+                <select id="input-status-floor-{{@index}}" class="printer-add input-display" onload="floorIdentification({{@index}})">
+                    <option>12k</option>
+                    <option>10k</option>
+                    <option>6k</option>
+                    <option>5k</option>
+                    <option>4k</option>
+                    <option>3k</option>
+                    <option>2k</option>
+                    <option>1k</option>
+                </select>
+            </td>
+
+            <td>
                 <button class="button-special-style" id="modify-{{@index}}" onclick="modifyToggle({{@index}})">Modify
                 </button>
                 <form method="post" action="/admin/update" style="display:inline-block">
 
-                    <input type="hidden" class="admin_input" id="{{@index}}-name"          name="printer_name"        />
+                    <input type="hidden" class="admin_input" id="{{@index}}-name"          name="printer_name"         />
                     <input type="hidden" class="admin_input" id="{{@index}}-ip"            name="printer_ip"           />
                     <input type="hidden" class="admin_input" id="{{@index}}-color"         name="printer_color"        />
                     <input type="hidden" class="admin_input" id="{{@index}}-max-capacity"  name="printer_max_capacity" />
+                    <input type="hidden" class="admin-input" id="{{@index}}-floor"         name="printer_floor"/>
                     <input type="hidden" class="admin_input" id="{{@index}}-measure"       name="printer_measure" value="2034{{this.id}}"/>
 
                     <button onclick="savePrinterData({{@index}})" class="button-special-style" id="save-{{@index}}"
