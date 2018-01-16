@@ -110,12 +110,11 @@
                 </button>
                 <form method="post" action="/admin/update" style="display:inline-block">
 
-                    <input type="hidden" class="admin_input" id="{{@index}}-name"          name="printer_name"         value="{{this.name}}"/>
-                    <input type="hidden" class="admin_input" id="{{@index}}-ip"            name="printer_ip"           value="{{this.ip}}"/>
-                    <input type="hidden" class="admin_input" id="{{@index}}-key"           name="printer_key_name"     value="{{this.key_name}}"/>
+                    <input type="hidden" class="admin_input" id="{{@index}}-name"          name="printer_name"        />
+                    <input type="hidden" class="admin_input" id="{{@index}}-ip"            name="printer_ip"           />
                     <input type="hidden" class="admin_input" id="{{@index}}-color"         name="printer_color"        />
                     <input type="hidden" class="admin_input" id="{{@index}}-max-capacity"  name="printer_max_capacity" />
-
+                    <input type="hidden" class="admin_input" id="{{@index}}-measure"       name="printer_measure" value="2034{{this.id}}"/>
 
                     <button onclick="savePrinterData({{@index}})" class="button-special-style" id="save-{{@index}}"
                             style="display: none">Save

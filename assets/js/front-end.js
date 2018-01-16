@@ -99,8 +99,8 @@ $('form input').change(function () {
 function savePrinterData(data) {
     let password_autentication = prompt('Enter the password to UPDATE printer');
     if (password_autentication === 'Midagi1lusat') {
-        let ip = $('#' + data + '-ip.admin_input').submit();
-        let name = $('#' + data + '-name.admin_input').submit();
+        let ip = $('#' + data + '-ip.admin_input').val($('#' + data + '-ip').val()).submit();
+        let name = $('#' + data + '-name.admin_input').val($('#' + data + '-name').val()).submit();
         let key = $('#' + data + '-key.admin_input').submit();
         let color = $('#' + data + '-color').val(!!$('.input-identification-color-' + data).is(":checked")).submit();
         let max_capacity = $('#' + data + '-max-capacity').val(!!$('.input-identification-max-capacity-' + data).is(":checked")).submit();
@@ -108,7 +108,6 @@ function savePrinterData(data) {
         alert('Wrong password');
     }
 }
-
 //Retain scroll location after reload
 $(window).scroll(function () {
     sessionStorage.scrollTop = $(this).scrollTop();
