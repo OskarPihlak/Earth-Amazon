@@ -13,7 +13,7 @@ module.exports = function (app) {
             let critical_printers = [];
             for(let i =1; i< response.length; i++){
                 let toner = response[i].cartridge;
-                let critical_toner_level = 25;
+                let critical_toner_level = 15;
                 if(response[i].color){
                     if(toner.black.value < critical_toner_level ||
                        toner.cyan.value < critical_toner_level ||
