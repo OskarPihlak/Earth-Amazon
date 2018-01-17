@@ -9,7 +9,7 @@ module.exports = function (app) {
 
     app.get('/', function (req, res) {
         console.log('requested main-page');
-        printer_data_promise("WHERE ip IS NOT NULL", pool).then(response => {
+        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let critical_printers = [];
             for(let i =1; i< response.length; i++){
                 let toner = response[i].cartridge;
@@ -200,7 +200,7 @@ module.exports = function (app) {
 
 
     app.get('/admin', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC';
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
 
         pool.getConnection((err, connection) => {
             console.log(pool);
