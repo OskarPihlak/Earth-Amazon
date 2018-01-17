@@ -181,14 +181,18 @@ module.exports = function (app) {
 
 
     app.get('/admin', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC';
 
         pool.getConnection((err, connection) => {
             console.log(pool);
             connection.query(sql_statement_get, function (error, result) {
+                console.log(result);
                 let floors = helpers.numberOfFloors(result).number_of_floors;
-console.log(floors);
+
                 if (error) throw error;
+
+                console.log(floors);
+
                 res.render('admin', {
                     printers_all: result,
                     floors:floors

@@ -179,6 +179,7 @@ function modifyToggle(data) {
     $('.input-identification-max-capacity-' + data).toggleClass('input-display');
     $('.static-floor-data-'+data).toggle();
     $('#input-status-floor-'+data).toggleClass('input-display');
+    $('#modify-'+data).toggleClass('input-admin-buttons-timmed');
 }
 
 function addPrinter() {

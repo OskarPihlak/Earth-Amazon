@@ -890,6 +890,18 @@ tr td:first-child {
   &-display{
     display: none;
   }
+  &-admin-buttons{
+    width: 145px;
+    margin-left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+    &-timmed{
+      background: bottom;
+      /*  &:hover{
+        background-color: rgba(142, 158, 171, 0.23137254901960785);
+      }*/
+    }
+  }
 }
 
 .add-printer-text {

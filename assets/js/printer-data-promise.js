@@ -20,7 +20,7 @@ module.exports = (sql_conditional, pool) => {
 
     function getSnmpAdresses() {
         return new Promise((resolve, rejected) => {
-            let sql_statement_get = `SELECT * FROM snmpadresses ${sql_conditional} ORDER BY floor`;
+            let sql_statement_get = `SELECT * FROM snmpadresses ${sql_conditional};`;
 
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result) {

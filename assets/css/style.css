@@ -1108,6 +1108,18 @@ tr td:first-child {
     color: #404040; }
   .input-display {
     display: none; }
+  .input-admin-buttons {
+    width: 145px;
+    margin-left: 50%;
+    position: relative;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%); }
+    .input-admin-buttons-timmed {
+      background: bottom;
+      /*  &:hover{
+        background-color: rgba(142, 158, 171, 0.23137254901960785);
+      }*/ }
 
 .add-printer-text {
   color: #fff; }
