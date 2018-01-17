@@ -10,6 +10,38 @@
             </div>
         {{/each}}
     </div>
+    <ul class="list-group" style="margin: 25px 0 0 0;">
+    {{#each critical_printers}}
+
+        <li style="color: darkred;display: inline-block;">
+            <div>
+                <form action="/{{this.floor}}k/{{this.name}}" style="float: left;">
+                    <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
+                </form>
+                <p class="list-group-item list-group-item-action list-group-item-danger" style="float: left; line-height: 1">{{this.ip}}</p>
+            </div>
+        </li>
+
+        <ul class="list-group">
+                {{#lessOrEquals 25 this.cartridge.black.value}}
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}% </li>
+                {{/lessOrEquals}}
+
+                {{#lessOrEquals 25 this.cartridge.cyan.value}}
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}% </li>
+                {{/lessOrEquals}}
+
+                {{#lessOrEquals 25 this.cartridge.magenta.value}}
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}% </li>
+                {{/lessOrEquals}}
+
+                {{#lessOrEquals 25 this.cartridge.yellow.value}}
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}% </li>
+                {{/lessOrEquals}}
+
+        </ul>
+    {{/each}}
+    </ul>
     <div class="container" id="container">
         {{#each printers}}
             {{#if this.color}}

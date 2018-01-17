@@ -71,5 +71,29 @@ module.exports.pool = ()=>{
     return pool = database.db_define_database();
 };
 
+module.exports.criticalPrinters =
+function criticalPrinters(response){
+    let critical_printers = [];
+    for (let i = 1; i < response.length; i++) {
+        let toner = response[i].cartridge;
+        let critical_toner_level = 25;
+        if (response[i].color) {
+            if (toner.black.value < critical_toner_level ||
+                toner.cyan.value < critical_toner_level ||
+                toner.magenta.value < critical_toner_level ||
+                toner.yellow.value < critical_toner_level) {
+                console.log(response[i].cartridge);
+                critical_printers.push(response[i]);
+            }
+        } else {
+            if (toner.black.value < critical_toner_level) {
+                critical_printers.push(response[i]);
+            }
+        }
+    }
+    console.log(critical_printers);
+    return {critical_printers: critical_printers};
+};
+
 
 
