@@ -1,0 +1,23 @@
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Printer</th>
+        <th>Tooner</th>
+        <th>Laoseis</th>
+    </tr>
+    </thead>
+    <tbody>
+
+        {{#each storage}}
+            <tr>
+        <th scope="row">{{@index}}</th>
+        <td>{{this.printer_name}}</td>
+        <td>{{this.cartridge_name}}</td>
+        <td>{{this.cartridge_supply}}</td>
+            </tr>
+        {{/each}}
+
+    </tbody>
+</table>

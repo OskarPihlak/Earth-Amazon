@@ -237,5 +237,20 @@ module.exports = function (app) {
             connection.release();
         });
     });
+    app.get('/storage', function (req, res) {
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
+
+        pool.getConnection((err, connection) => {
+
+            connection.query(sql_statement_get, function (error, sql_data) {
+                if (error) throw error;
+console.log(sql_data);
+                res.render('storage', {
+                    storage: sql_data
+                });
+            });
+            connection.release();
+        });
+    });
 };
 
