@@ -222,7 +222,7 @@ module.exports = function (app) {
     });
 
     app.get('/floors', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses;';
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
 
         pool.getConnection((err, connection) => {
 
