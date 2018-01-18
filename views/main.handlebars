@@ -4,7 +4,7 @@
     border-radius: 3px;">
         {{#each floors}}
             <div class="btn-checkbox-filter">
-                <label for="{{this}}">{{this}}</label>
+                <label for="{{this}}">{{this}}k</label>
                 <input checked id="{{this}}" class="floor-{{this}}" value="{{this}}" type="checkbox"
                        onchange="valueChanged('{{this}}')">
             </div>
@@ -57,7 +57,7 @@
                         <article>
                             <div class="chart">
 
-                                <form method="post">
+                                <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
                                         <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
@@ -71,6 +71,8 @@
                                            value="{{this.name}}">
                                     <input type="hidden" class="cartridge-name" name="inc_storage_name"
                                            value="{{this.cartridge.black.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route"
+                                           value="/">
                                 </form>
                                 <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
                                     <div class="face top">
@@ -97,7 +99,7 @@
                         <article>
                             <div class="chart">
 
-                                <form method="post">
+                                <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
                                         <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
@@ -111,6 +113,8 @@
                                            value="{{this.name}}">
                                     <input type="hidden" class="cartridge-name" name="inc_storage_name"
                                            value="{{this.cartridge.cyan.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route"
+                                           value="/">
                                 </form>
 
                                 <div class="bar bar-cartridge bar-{{this.cartridge.cyan.value}} cyan">
@@ -137,7 +141,7 @@
                         <article>
                             <div class="chart">
 
-                                <form method="post">
+                                <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
                                         <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
@@ -151,6 +155,8 @@
                                            value="{{this.name}}">
                                     <input type="hidden" class="cartridge-name" name="inc_storage_name"
                                            value="{{this.cartridge.magenta.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route"
+                                           value="/">
                                 </form>
 
                                 <div class="bar bar-cartridge bar-{{this.cartridge.magenta.value}} magenta">
@@ -176,7 +182,7 @@
                     <section>
                         <article>
                             <div class="chart">
-                                <form method="post">
+                                <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
                                         <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
@@ -190,6 +196,8 @@
                                            value="{{this.name}}">
                                     <input type="hidden" class="cartridge-name" name="inc_storage_name"
                                            value="{{this.cartridge.yellow.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route"
+                                           value="/">
                                 </form>
                                 <div class="bar bar-cartridge bar-{{this.cartridge.yellow.value}} yellow">
                                     <div class="face top">
@@ -226,7 +234,7 @@
                         <article>
                             <div class="chart">
 
-                                <form method="post">
+                                <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
                                         <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
@@ -240,6 +248,8 @@
                                            value="{{this.name}}">
                                     <input type="hidden" class="cartridge-name" name="inc_storage_name"
                                            value="{{this.cartridge.black.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route"
+                                           value="/">
                                 </form>
 
                                 <div class="bar bar-{{this.cartridge.black.value}} gray">

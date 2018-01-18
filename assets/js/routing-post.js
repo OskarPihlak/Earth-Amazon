@@ -65,13 +65,14 @@ console.log(printer_floor_without_k);
         }
     });
 
-    app.post('/', urlEncodedParser, function (req, res) {
-        let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply='" + req.body.inc_storage_count + "' WHERE cartridge_name='" + req.body.inc_storage_name + "';";
+    app.post('/cartridge/storage', urlEncodedParser, function (req, res) {
+        let sql_statement_put = "UPDATE printers_inc_supply.inc_supply_status SET cartridge_supply=" + req.body.inc_storage_count + " WHERE cartridge_name='" + req.body.inc_storage_name + "';";
+        console.log(sql_statement_put);
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_put, function (error, data) {
                 console.log(data);
                 if (error) throw error;
-                res.redirect('/');
+                res.redirect(`${req.body.update_route}`);
             });
             connection.release();
         });

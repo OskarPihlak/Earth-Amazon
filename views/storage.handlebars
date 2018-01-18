@@ -1,5 +1,5 @@
 
-<table class="table">
+<table>
     <thead>
     <tr>
         <th>#</th>
@@ -13,9 +13,27 @@
         {{#each storage}}
             <tr>
         <th scope="row">{{@index}}</th>
-        <td>{{this.printer_name}}</td>
-        <td>{{this.cartridge_name}}</td>
-        <td>{{this.cartridge_supply}}</td>
+        <td>{{#each this.printers}}
+            {{this}}
+            {{/each}}
+            </td>
+        <td>{{this.cartridge}}</td>
+        <td><form method="post" action="/cartridge/storage">
+            <div class="quantity" style="margin: 5px 90px -5px 0;">
+                <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
+                       step="1" value="{{this.storage}}">
+                <div class="quantity-nav">
+                    <div class="quantity-button quantity-up">+</div>
+                    <div class="quantity-button quantity-down">-</div>
+                </div>
+            </div>
+            <input type="hidden" class="printer-title" name="inc_storage_title"
+                   value="{{this.name}}">
+            <input type="hidden" class="cartridge-name" name="inc_storage_name"
+                   value="{{this.cartridge}}">
+            <input type="hidden" class="cartridge-name" name="update_route"
+                   value="/storage">
+        </form></td>
             </tr>
         {{/each}}
 

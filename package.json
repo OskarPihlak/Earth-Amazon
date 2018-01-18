@@ -16,6 +16,8 @@
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "fb-messenger": "^1.2.0",
+    "filter-object": "^3.0.0",
+    "forever": "^0.15.3",
     "handlebars": "^4.0.11",
     "jquery": "^3.2.1",
     "method-override": "^2.3.10",
@@ -23,8 +25,7 @@
     "net-snmp": "^1.2.0",
     "path": "^0.12.7",
     "popper.js": "^1.13.0",
-    "progressbar.js": "^1.0.1",
-    "forever": "^0.15.3"
+    "progressbar.js": "^1.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.14.8"

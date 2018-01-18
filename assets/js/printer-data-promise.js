@@ -38,7 +38,6 @@ module.exports = (sql_conditional, pool) => {
                             position_top: row.position_top
                         };
                     });
-                    console.log(snmpAdresses);
                     return resolve(snmpAdresses);
                 });
                 connection.release();

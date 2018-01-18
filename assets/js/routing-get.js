@@ -2,6 +2,7 @@ module.exports = function (app) {
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
+    const filter = require('filter-object');
     const printer_data_promise = require('./printer-data-promise');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
@@ -11,24 +12,25 @@ module.exports = function (app) {
         console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let critical_printers = [];
-            for(let i =1; i< response.length; i++){
+            for (let i = 1; i < response.length; i++) {
                 let toner = response[i].cartridge;
                 let critical_toner_level = 15;
-                if(response[i].color){
-                    if(toner.black.value < critical_toner_level ||
-                       toner.cyan.value < critical_toner_level ||
-                       toner.magenta.value < critical_toner_level ||
-                       toner.yellow.value < critical_toner_level){
-                        console.log(response[i].cartridge);
+                if (response[i].color) {
+                    if (toner.black.value < critical_toner_level ||
+                        toner.cyan.value < critical_toner_level ||
+                        toner.magenta.value < critical_toner_level ||
+                        toner.yellow.value < critical_toner_level) {
                         critical_printers.push(response[i]);
                     }
                 } else {
-                    if(toner.black.value < critical_toner_level){
+                    if (toner.black.value < critical_toner_level) {
                         critical_printers.push(response[i]);
                     }
                 }
             }
-            console.log('critical',critical_printers, 'critical');
+
+
+
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result, fields) {
@@ -39,8 +41,6 @@ module.exports = function (app) {
                     }
                     let floors = helpers.numberOfFloors(response).number_of_floors;
                     if (error) throw error;
-
-                    console.log(floors);
                     res.render('main', {
                         printers: response,
                         floors: floors,
@@ -53,7 +53,7 @@ module.exports = function (app) {
     });
 
     app.get('/12k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '12k'",pool).then(response => {
+        printer_data_promise("WHERE floor = '12k'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
@@ -206,15 +206,15 @@ module.exports = function (app) {
             console.log(pool);
             connection.query(sql_statement_get, function (error, result) {
                 console.log(result);
-                let floors = helpers.numberOfFloors(result).number_of_floors;
+                let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
 
                 if (error) throw error;
 
-                console.log(floors);
+                console.log(number_of_floors);
 
                 res.render('admin', {
                     printers_all: result,
-                    floors:floors
+                    floors: number_of_floors
                 });
             });
             connection.release();
@@ -226,8 +226,8 @@ module.exports = function (app) {
 
         pool.getConnection((err, connection) => {
 
-            connection.query(sql_statement_get, function (error, sql_data) {
-                let number_of_floors = helpers.numberOfFloors(sql_data).number_of_floors;
+            connection.query(sql_statement_get, function (error, result) {
+                let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
                 if (error) throw error;
 
                 res.render('floors', {
@@ -237,16 +237,27 @@ module.exports = function (app) {
             connection.release();
         });
     });
+
+
     app.get('/storage', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
-
         pool.getConnection((err, connection) => {
-
             connection.query(sql_statement_get, function (error, sql_data) {
+
+                let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
+                for (let i = 0; i < toner_storage.length; i++) {
+                    toner_storage[i].printers = [];
+                    for (let y = 0; y < sql_data.length; y++) {
+                        if (toner_storage[i].cartridge === sql_data[y].cartridge_name) {
+                            (toner_storage[i].printers).push(sql_data[y].printer_name);
+                             toner_storage[i].storage = sql_data[y].cartridge_supply;
+                        }
+                    }
+                }
                 if (error) throw error;
-console.log(sql_data);
+
                 res.render('storage', {
-                    storage: sql_data
+                    storage: toner_storage
                 });
             });
             connection.release();
