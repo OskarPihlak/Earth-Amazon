@@ -902,6 +902,9 @@ tr td:first-child {
       }*/
     }
   }
+  &-inline{
+    display: inline-block;
+  }
 }
 
 .add-printer-text {

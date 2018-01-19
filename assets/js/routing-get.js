@@ -243,25 +243,57 @@ module.exports = function (app) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, sql_data) {
-
                 let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
-                for (let i = 0; i < toner_storage.length; i++) {
-                    toner_storage[i].printers = [];
-                    for (let y = 0; y < sql_data.length; y++) {
-                        if (toner_storage[i].cartridge === sql_data[y].cartridge_name) {
-                            (toner_storage[i].printers).push(sql_data[y].printer_name);
-                             toner_storage[i].storage = sql_data[y].cartridge_supply;
+                let sorted_storage =  helpers.printerStorageSorting(toner_storage,sql_data);
+                if (error){ throw error;}
+                let selected_toner = [];
+                for(let i = 0; i < sorted_storage.length; i++){
+                    for(let x = 0; x < (sorted_storage[i].printers).length; x++) {
+                        if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
+                            selected_toner.push(sorted_storage[i].cartridge)
                         }
                     }
                 }
-                if (error) throw error;
-
                 res.render('storage', {
-                    storage: toner_storage
+                    storage: sorted_storage
                 });
             });
             connection.release();
         });
     });
+    app.get('/storage/:id', function (req, res) {
+        console.log(req.body);
+        let selected_storage = req.params.id;
+
+        let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
+        pool.getConnection((err, connection) => {
+            connection.query(sql_statement_get, function (error, sql_data) {
+                let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
+                let sorted_storage =  helpers.printerStorageSorting(toner_storage,sql_data,selected_storage);
+                if (error){ throw error;}
+
+
+                let selected_toner = [];
+                for(let i = 0; i < sorted_storage.length; i++){
+                    for(let x = 0; x < (sorted_storage[i].printers).length; x++) {
+                        if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
+                            selected_toner.push(sorted_storage[i].cartridge)
+                        }
+                    }
+                }
+                console.log(selected_toner);
+
+
+
+                res.render('storage', {
+                    storage: sorted_storage,
+                    toners: selected_toner
+
+                });
+            });
+            connection.release();
+        });
+    });
+
 };
 

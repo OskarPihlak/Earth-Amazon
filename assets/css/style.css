@@ -1120,6 +1120,8 @@ tr td:first-child {
       /*  &:hover{
         background-color: rgba(142, 158, 171, 0.23137254901960785);
       }*/ }
+  .input-inline {
+    display: inline-block; }
 
 .add-printer-text {
   color: #fff; }

@@ -11,36 +11,45 @@
         {{/each}}
     </div>
     <ul class="list-group" style="margin: 25px 0 0 0;">
-    {{#each critical_printers}}
+        {{#each critical_printers}}
 
-        <li style="color: darkred;display: inline-block;">
-            <div>
-                <form action="/{{this.floor}}k/{{this.name}}" style="float: left;">
-                    <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
-                </form>
-                <p class="list-group-item list-group-item-action list-group-item-danger" style="float: left; line-height: 1"><a href="//{{this.ip}}/" target="_blank">{{this.ip}}</a></p>
-            </div>
-        </li>
+            <li style="color: darkred;display: inline-block;">
+                <div>
+                    <form action="/{{this.floor}}k/{{this.name}}" style="float: left;">
+                        <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
+                    </form>
+                    <p class="list-group-item list-group-item-action list-group-item-danger"
+                       style="float: left; line-height: 1"><a href="//{{this.ip}}/" target="_blank">{{this.ip}}</a></p>
+                </div>
+            </li>
 
-        <ul class="list-group">
+            <ul class="list-group">
                 {{#lessOrEquals 25 this.cartridge.black.value}}
-                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}% </li>
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}
+                        : {{this.cartridge.black.value}}%
+                    </li>
                 {{/lessOrEquals}}
 
                 {{#lessOrEquals 25 this.cartridge.cyan.value}}
-                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}% </li>
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}
+                        : {{this.cartridge.cyan.value}}%
+                    </li>
                 {{/lessOrEquals}}
 
                 {{#lessOrEquals 25 this.cartridge.magenta.value}}
-                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}% </li>
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}
+                        : {{this.cartridge.magenta.value}}%
+                    </li>
                 {{/lessOrEquals}}
 
                 {{#lessOrEquals 25 this.cartridge.yellow.value}}
-                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}% </li>
+                    <li class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}
+                        : {{this.cartridge.yellow.value}}%
+                    </li>
                 {{/lessOrEquals}}
 
-        </ul>
-    {{/each}}
+            </ul>
+        {{/each}}
     </ul>
     <div class="container" id="container">
         {{#each printers}}
@@ -48,11 +57,19 @@
                 <div class="printer printer-{{this.floor}}">
                     <div class="pr-12k title">
                         <a name="title" href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-                    <form action="/{{this.floor}}k/{{this.name}}">
-                        <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                            Asukoht
-                        </button>
-                    </form>
+                    <div>
+                        <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
+                                Asukoht
+                            </button>
+                        </form>
+                        <form class="input-inline" action="/storage/{{this.name}}">
+                            <button class="button-special-style">
+                                Laoseis
+                            </button>
+                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
+                        </form>
+                    </div>
                     <section class="black-precentage-section">
                         <article>
                             <div class="chart">

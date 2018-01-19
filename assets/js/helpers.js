@@ -37,6 +37,46 @@ module.exports.handlebars = () => {
         return 'foo: ' + Ember.get(this, property);
     });
 
+    Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options) {
+
+        var operators, result;
+
+        if (arguments.length < 3) {
+            throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+        }
+
+        if (options === undefined) {
+            options = rvalue;
+            rvalue = operator;
+            operator = "===";
+        }
+
+        operators = {
+            '==': function (l, r) { return l == r; },
+            '===': function (l, r) { return l === r; },
+            '!=': function (l, r) { return l != r; },
+            '!==': function (l, r) { return l !== r; },
+            '<': function (l, r) { return l < r; },
+            '>': function (l, r) { return l > r; },
+            '<=': function (l, r) { return l <= r; },
+            '>=': function (l, r) { return l >= r; },
+            'typeof': function (l, r) { return typeof l == r; }
+        };
+
+        if (!operators[operator]) {
+            throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+        }
+
+        result = operators[operator](lvalue, rvalue);
+
+        if (result) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+
+    });
+
 };
 
 module.exports.numberOfFloors = (sql_data) => {
@@ -125,6 +165,21 @@ module.exports.arrayToObjectArray =  function toObject(array) {
     for (let i = 0; i < array.length; ++i){
         object_array.push({cartridge: array[i]});}
     return object_array;
+};
+
+module.exports.printerStorageSorting = (toner_storage, sql_data,selected_storage)=>{
+
+    for (let i = 0; i < toner_storage.length; i++) {
+        toner_storage[i].printers = [];
+        for (let y = 0; y < sql_data.length; y++) {
+            if (toner_storage[i].cartridge === sql_data[y].cartridge_name) {
+                (toner_storage[i].printers).push(sql_data[y].printer_name);
+                toner_storage[i].storage = sql_data[y].cartridge_supply;
+                toner_storage[i].selected_printer = selected_storage;
+            }
+        }
+    }
+    return toner_storage;
 };
 
 
