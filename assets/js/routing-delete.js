@@ -5,9 +5,6 @@ module.exports = (app) => {
     let pool = database.db_define_database();
 
     app.post('/admin/printer/delete', urlEncodedParser, function (req, res) {
-
-        console.log(req);
-
         let sql_snmp_adresses_delete = `DELETE FROM printers_inc_supply.snmpadresses WHERE ip='${req.body.input_ip_delete}' AND name='${req.body.input_name_delete}';`;
         let sql_printer_cartridge_delete = `DELETE FROM printers_inc_supply.inc_supply_status WHERE printer_name='${req.body.input_name_delete}';`;
         //These request require promises
