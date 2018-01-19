@@ -167,11 +167,12 @@ module.exports.arrayToObjectArray =  function toObject(array) {
     return object_array;
 };
 
-module.exports.printerStorageSorting = (toner_storage, sql_data,selected_storage)=>{
+module.exports.printerStorageSorting = (toner_storage, sql_data,selected_storage, selected_toner)=>{
 
     for (let i = 0; i < toner_storage.length; i++) {
         toner_storage[i].printers = [];
         for (let y = 0; y < sql_data.length; y++) {
+
             if (toner_storage[i].cartridge === sql_data[y].cartridge_name) {
                 (toner_storage[i].printers).push(sql_data[y].printer_name);
                 toner_storage[i].storage = sql_data[y].cartridge_supply;

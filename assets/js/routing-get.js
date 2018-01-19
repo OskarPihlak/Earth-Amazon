@@ -246,14 +246,6 @@ module.exports = function (app) {
                 let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
                 let sorted_storage =  helpers.printerStorageSorting(toner_storage,sql_data);
                 if (error){ throw error;}
-                let selected_toner = [];
-                for(let i = 0; i < sorted_storage.length; i++){
-                    for(let x = 0; x < (sorted_storage[i].printers).length; x++) {
-                        if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
-                            selected_toner.push(sorted_storage[i].cartridge)
-                        }
-                    }
-                }
                 res.render('storage', {
                     storage: sorted_storage
                 });
@@ -264,7 +256,7 @@ module.exports = function (app) {
     app.get('/storage/:id', function (req, res) {
         console.log(req.body);
         let selected_storage = req.params.id;
-
+        console.log(selected_storage);
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, sql_data) {
@@ -273,21 +265,23 @@ module.exports = function (app) {
                 if (error){ throw error;}
 
 
-                let selected_toner = [];
+
+                let selected_toners = [];
                 for(let i = 0; i < sorted_storage.length; i++){
                     for(let x = 0; x < (sorted_storage[i].printers).length; x++) {
                         if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
-                            selected_toner.push(sorted_storage[i].cartridge)
+                            selected_toners.push(sorted_storage[i].cartridge)
                         }
                     }
                 }
-                console.log(selected_toner);
+                  for(let i=0; i< sorted_storage.length; i++){
+                      sorted_storage[i].selected_toner = selected_toners;
+                  }
 
-
+console.log(sorted_storage);
 
                 res.render('storage', {
-                    storage: sorted_storage,
-                    toners: selected_toner
+                    storage: sorted_storage
 
                 });
             });
