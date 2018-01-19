@@ -242,11 +242,19 @@
 
                 <div class="printer printer-{{this.floor}}">
                     <div class="title"><a href="//{{this.ip}}/" target="_blank">{{this.name}}<br>{{this.ip}}</a></div>
-                    <form action="/{{this.floor}}k/{{this.name}}">
-                        <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                            Asukoht
-                        </button>
-                    </form>
+                    <div>
+                        <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
+                                Asukoht
+                            </button>
+                        </form>
+                        <form class="input-inline" action="/storage/{{this.name}}">
+                            <button class="button-special-style">
+                                Laoseis
+                            </button>
+                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
+                        </form>
+                    </div>
                     <section class="black-precentage-section">
                         <article>
                             <div class="chart">
