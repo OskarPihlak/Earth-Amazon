@@ -1,46 +1,29 @@
 module.exports = function (app) {
+
+    //npm
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const filter = require('filter-object');
-    const printer_data_promise = require('./printer-data-promise');
+    //files
+    const printer_data_promise = require('./printer-data-promise.js');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
-    let pool = database.db_define_database();
+    const pool = database.db_define_database();
 
+    //main page
     app.get('/', function (req, res) {
         console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-            let critical_printers = [];
-            for (let i = 1; i < response.length; i++) {
-                let toner = response[i].cartridge;
-                let critical_toner_level = 15;
-                if (response[i].color) {
-                    if (toner.black.value < critical_toner_level ||
-                        toner.cyan.value < critical_toner_level ||
-                        toner.magenta.value < critical_toner_level ||
-                        toner.yellow.value < critical_toner_level) {
-                        critical_printers.push(response[i]);
-                    }
-                } else {
-                    if (toner.black.value < critical_toner_level) {
-                        critical_printers.push(response[i]);
-                    }
-                }
-            }
-
-
-
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
+
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result, fields) {
-
-                    //helpers.requestedPrinterJoinToResponse(response,sql_data);
-                    for (let i = 0; i < response.length; i++) {
-                        response[i].requested = req.params.id;
-                    }
                     let floors = helpers.numberOfFloors(response).number_of_floors;
+                    let critical_printers = helpers.criticalPrinters(response);
+                    for (let i = 0; i < response.length; i++) { response[i].requested = req.params.id; }
                     if (error) throw error;
+
                     res.render('main', {
                         printers: response,
                         floors: floors,
@@ -200,17 +183,17 @@ module.exports = function (app) {
 
 
     app.get('/admin', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
-
+        let sql_statement_get_snmp_adresses = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
+        let sql_statement_get_printers_inc_supply = `SELECT * FROM printers_inc_supply.inc_supply_status;`;
         pool.getConnection((err, connection) => {
-            console.log(pool);
-            connection.query(sql_statement_get, function (error, result) {
-                console.log(result);
+            let inc_supply = new Promise((resolve, reject) => {
+                connection.query(sql_statement_get_printers_inc_supply, function (error, result) {
+                    return  resolve(result);
+                }).catch(error => { throw error; });
+            });
+            connection.query(sql_statement_get_snmp_adresses, function (error, result) {
                 let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
-
                 if (error) throw error;
-
-                console.log(number_of_floors);
 
                 res.render('admin', {
                     printers_all: result,
@@ -223,9 +206,7 @@ module.exports = function (app) {
 
     app.get('/floors', function (req, res) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
-
         pool.getConnection((err, connection) => {
-
             connection.query(sql_statement_get, function (error, result) {
                 let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
                 if (error) throw error;
@@ -246,6 +227,7 @@ module.exports = function (app) {
                 let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
                 let sorted_storage =  helpers.printerStorageSorting(toner_storage,sql_data);
                 if (error){ throw error;}
+
                 res.render('storage', {
                     storage: sorted_storage
                 });
@@ -253,35 +235,20 @@ module.exports = function (app) {
             connection.release();
         });
     });
+
     app.get('/storage/:id', function (req, res) {
         let selected_storage = req.params.id;
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, sql_data) {
-                let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
-                let sorted_storage =  helpers.printerStorageSorting(toner_storage,sql_data,selected_storage);
-                if (error){ throw error;}
-
-                let selected_toners = [];
-                for(let i = 0; i < sorted_storage.length; i++){
-                    for(let x = 0; x < (sorted_storage[i].printers).length; x++) {
-                        if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
-                            selected_toners.push(sorted_storage[i].cartridge)
-                        }
-                    }
-                }
-                  for(let i=0; i< sorted_storage.length; i++){
-                      sorted_storage[i].selected_toner = selected_toners;
-                  }
-
+            if (error) {throw error}
+             let sorted_storage = helpers.storageSorting(sql_data, selected_storage);
                   res.render('storage', {
                     storage: sorted_storage
-
                 });
             });
             connection.release();
         });
     });
-
 };
 

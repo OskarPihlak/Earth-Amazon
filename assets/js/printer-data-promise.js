@@ -42,21 +42,21 @@ module.exports = (sql_conditional, pool) => {
                 });
                 connection.release();
             });
-        });
+        })
     }
 
     let oidsArray = {
         pr_name: ["1.3.6.1.2.1.1.5.0"],
-        bw: ["1.3.6.1.2.1.43.11.1.1.6.1.1",        //black name
-            "1.3.6.1.2.1.43.11.1.1.9.1.1"],       //black cartridge
+        bw: ["1.3.6.1.2.1.43.11.1.1.6.1.1",
+            "1.3.6.1.2.1.43.11.1.1.9.1.1"],
         colors: {
-            cyan_name: "1.3.6.1.2.1.43.11.1.1.6.1.2",     //cyan name
-            cyan: "1.3.6.1.2.1.43.11.1.1.9.1.2",     //cyan cartridge
-            magenta_name: "1.3.6.1.2.1.43.11.1.1.6.1.3",     //magenta name
-            magenta: "1.3.6.1.2.1.43.11.1.1.9.1.3",     //magenta cartridge
-            yellow_name: "1.3.6.1.2.1.43.11.1.1.6.1.4",     //yellow name
+            cyan_name: "1.3.6.1.2.1.43.11.1.1.6.1.2",
+            cyan: "1.3.6.1.2.1.43.11.1.1.9.1.2",
+            magenta_name: "1.3.6.1.2.1.43.11.1.1.6.1.3",
+            magenta: "1.3.6.1.2.1.43.11.1.1.9.1.3",
+            yellow_name: "1.3.6.1.2.1.43.11.1.1.6.1.4",
             yellow: "1.3.6.1.2.1.43.11.1.1.9.1.4"
-        },     //yellow cartridge
+        },
         max_capacity_bw: ["1.3.6.1.2.1.43.11.1.1.8.1.1"],
         max_capacity_color: ["1.3.6.1.2.1.43.11.1.1.8.1.2",
             "1.3.6.1.2.1.43.11.1.1.8.1.3",
@@ -137,46 +137,47 @@ module.exports = (sql_conditional, pool) => {
 
 //Parse the oids to usable data
     let session_get = (printer, oids) => {
+        console.log(printer);
         return new Promise((resolve, reject) => {
             let session = snmp.createSession(printer.ip, "public");
             session.get(oids, (err, data) => {
                 if (err) {
                     console.log('session_get_error', err);
                     console.log('session_get_data', data);
-                    return reject(err);
+                    console.log(reject(err));
                 }
-
 
                 printer_data_parse(printer, data).then(data => {
                     return resolve(data);
                 }).catch(error => {
                     console.log('printer_data_parse_error', error);
-                    reject(error);
+                    console.log(reject(error));
                 });
             });
         });
     };
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
+        console.log(adresses);
         return Promise.all(adresses.map((adress) => {
             if (adress.color === true && adress.max_capacity === false) {
                 return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray)).catch(function (err) {
-                    return err;
+                    console.log(err);
                 });
             }
             else if (adress.color === false && adress.max_capacity === true) {
                 return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, oidsArray.max_capacity_bw)).catch(function (err) {
-                    return err;
+                    console.log(err);
                 });
             }
             else if (adress.color === false && adress.max_capacity === false) {
                 return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw)).catch(function (err) {
-                    return err;
+                    console.log(err);
                 });
             }
             else if (adress.color === true && adress.max_capacity === true) {
                 return session_get(adress, oidsArray.pr_name.concat(oidsArray.bw, colorArray, oidsArray.max_capacity_bw, oidsArray.max_capacity_color)).catch(function (err) {
-                    return err;
+                    console.log(err);
                 });
             }
         }));

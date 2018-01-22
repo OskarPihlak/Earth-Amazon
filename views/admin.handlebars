@@ -3,50 +3,40 @@
         background: url('http://jahdaicintron.com/wp-content/uploads/2013/07/5.jpg') no-repeat center;
         background-size: cover;
         height: 100%;
-        font-family: Ubuntu;
+        font-family: Ubuntu, Roboto, serif;
         font-size: 18px;
         color: #fff;
         text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.4)
     }
+    p{
+        margin:0;
+    }
 </style>
-<button class="button-special-style" id="printer-add-table-toggle" onclick="togglePrinterAdd()"
-        style="display: block;left: 50%;position: relative;transform: translateX(-50%);">
-    Add a printer
-</button>
+<button class="button-special-style" id="printer-add-table-toggle" onclick="togglePrinterAdd()" style="display: block;left: 50%;position: relative;transform: translateX(-50%);">Add a printer</button>
 <table id="printer-creation" style="display: none">
     <thead>
     <tr>
         <th>IP</th>
-        <th>COLOR</th>
-        <th>NAME</th>
-        <th>MAX CAPACITY</th>
-        <th>FLOOR</th>
+        <th>VÄRV</th>
+        <th>NIMI</th>
+        <th>ALGEBRA+</th>
+        <th>KORRUS</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td>
-            <input id="input-ip" class="printer-add" required>
-        </td>
-        <td>
-            <input id="input-color" class="printer-add" type="checkbox">
-        </td>
-        <td>
-            <input id="input-name" class="printer-add" required>
-        </td>
-        <td>
-            <input id="input-max-capacity" class="printer-add" type="checkbox">
-        </td>
-        <td>
-            <select id="input-floor" class="printer-add">
+        <td><input id="input-ip" class="printer-add" required></td>
+        <td><input id="input-color" class="printer-add" type="checkbox"></td>
+        <td><input id="input-name" class="printer-add" required></td>
+        <td><input id="input-max-capacity" class="printer-add" type="checkbox"></td>
+        <td><select id="input-floor" class="printer-add">
                 {{#each floors}}
                     <option>{{this}}</option>
                 {{/each}}
             </select>
         </td>
-        <td>
-            <form method="post" action="/admin/printer/add">
+        <td><form method="post" action="/admin/printer/add">
                 <button id="button-printer-add" class="button-special-style" onclick="addPrinter()">Add</button>
                 <input hidden name="input_ip_submit" id="input-ip-submit">
                 <input hidden name="input_color_submit" id="input-color-submit">
@@ -62,13 +52,13 @@
 <table>
     <thead>
     <tr>
-        <th>NR</th>
-        <th>NAME</th>
+        <th>#</th>
+        <th>NIMI</th>
         <th>IP</th>
-        <th>COLOR</th>
-        <th>NEEDS CALCULATIONS</th>
-        <th>FLOOR</th>
-        <th></th>
+        <th>VÄRV</th>
+        <th>ALGEBRA+</th>
+        <th>KORRUS</th>
+        <th>NUPUD</th>
     </tr>
     </thead>
     <tbody>
@@ -76,9 +66,13 @@
 
         <tr id="row-{{@index}}">
             <td>{{@index}}</td>
-            <td><input class="admin_input admin_input-cell" id="{{@index}}-name" name="printer-name"
-                       value="{{this.name}}"/></td>
-            <td><input class="admin_input admin_input-cell" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/>
+            <td>
+                <p id="printer-name-{{@index}}">{{this.name}}</p>
+                <input class="admin_input admin_input-cell input-display" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/>
+            </td>
+            <td>
+                <a href="//{{this.ip}}/"><p id="printer-ip-{{@index}}" style="color:rgb(155, 207, 253);">{{this.ip}}</p></a>
+                <input  class="admin_input admin_input-cell input-display" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/>
             </td>
             <td class="input-color" id="color-{{@index}}">
                 {{#if this.color}}
@@ -118,36 +112,41 @@
             <td>
                 <div class="input-admin-buttons">
                     <button class="button-special-style" id="modify-{{@index}}" onclick="modifyToggle({{@index}})">
-                        Modify
+                        Uuenda
                     </button>
                     <form method="post" action="/admin/update" style="display:inline-block">
-
                         <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name"/>
                         <input type="hidden" class="admin_input" id="{{@index}}-ip" name="printer_ip"/>
                         <input type="hidden" class="admin_input" id="{{@index}}-color" name="printer_color"/>
-                        <input type="hidden" class="admin_input" id="{{@index}}-max-capacity"
-                               name="printer_max_capacity"/>
+                        <input type="hidden" class="admin_input" id="{{@index}}-max-capacity" name="printer_max_capacity"/>
                         <input type="hidden" class="admin-input" id="{{@index}}-floor" name="printer_floor"/>
-                        <input type="hidden" class="admin_input" id="{{@index}}-measure" name="printer_measure"
-                               value="2034{{this.id}}"/>
-
-                        <button onclick="savePrinterData({{@index}})" class="button-special-style" id="save-{{@index}}"
-                                style="display: none">Save
+                        <input type="hidden" class="admin_input" id="{{@index}}-measure" name="printer_measure" value="2034{{this.id}}"/>
+                        <input type="hidden" class="admin_input" id="{{@index}}-old-name" name="printer_old_name">
+                        <button onclick="savePrinterData({{@index}})" class="btn btn-success" id="save-{{@index}}"
+                                style="display: none;padding: 2px 4px;margin-bottom: -4px;">Salvesta
                         </button>
                     </form>
 
 
                     <form method="post" action="/admin/printer/delete" style="display:inline-block">
-                        <button class="button-special-style" id="delete-{{@index}}" onclick="deletePrinter({{@index}})"
-                                style="display: none">Delete
+                        <button class=" btn btn-danger" id="delete-{{@index}}" onclick="deletePrinter({{@index}})"
+                                style="display: none;padding: 2px 4px;margin-bottom: -4px;">Kustuta
                         </button>
                         <input hidden name="input_name_delete" id="input_name_delete-{{@index}}">
                         <input hidden name="input_ip_delete" id="input_ip_delete-{{@index}}">
                     </form>
 
-                    <form action="/{{this.floor}}k/{{this.name}}" style="display:inline-block">
-                        <button class="button-special-style">Asukoht</button>
-                    </form>
+
+
+                    <button class="button-special-style" id="button-info-{{@index}}" onclick="infoToggle({{@index}})">Info</button>
+                    <div id="div-info-{{@index}}" class="input-display">
+                        <form action="/{{this.floor}}k/{{this.name}}" style="display:inline-block">
+                            <button class="button-special-style">Asukoht</button>
+                        </form>
+                        <form action="/storage/{{this.name}}" style="display:inline-block">
+                            <button class="button-special-style">Ladu</button>
+                        </form>
+                    </div>
                 </div>
             </td>
         </tr>

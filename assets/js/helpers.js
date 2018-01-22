@@ -160,14 +160,15 @@ module.exports.uniqueCartridges = (sql_data) => {
     return {unique_array: unique_array};
 };
 
-module.exports.arrayToObjectArray =  function toObject(array) {
+module.exports.arrayToObjectArray = function toObject(array) {
     let object_array = [];
-    for (let i = 0; i < array.length; ++i){
-        object_array.push({cartridge: array[i]});}
+    for (let i = 0; i < array.length; ++i) {
+        object_array.push({cartridge: array[i]});
+    }
     return object_array;
 };
 
-module.exports.printerStorageSorting = (toner_storage, sql_data,selected_storage, selected_toner)=>{
+module.exports.printerStorageSorting = (toner_storage, sql_data, selected_storage, selected_toner) => {
 
     for (let i = 0; i < toner_storage.length; i++) {
         toner_storage[i].printers = [];
@@ -181,6 +182,48 @@ module.exports.printerStorageSorting = (toner_storage, sql_data,selected_storage
         }
     }
     return toner_storage;
+};
+
+module.exports.storageSorting = (sql_data, selected_storage, error) => {
+    let toner_storage = exports.arrayToObjectArray(exports.uniqueCartridges(sql_data).unique_array);
+    let sorted_storage = exports.printerStorageSorting(toner_storage, sql_data, selected_storage);
+    if (error) {
+        throw error;
+    }
+
+    let selected_toners = [];
+    for (let i = 0; i < sorted_storage.length; i++) {
+        for (let x = 0; x < (sorted_storage[i].printers).length; x++) {
+            if ((sorted_storage[i].printers[x]) === sorted_storage[i].selected_printer) {
+                selected_toners.push(sorted_storage[i].cartridge)
+            }
+        }
+    }
+    for (let i = 0; i < sorted_storage.length; i++) {
+        sorted_storage[i].selected_toner = selected_toners;
+    }
+    return sorted_storage;
+};
+
+module.exports.criticalPrinters = (response)=>{
+    let critical_printers = [];
+    for (let i = 1; i < response.length; i++) {
+        let toner = response[i].cartridge;
+        let critical_toner_level = 15;
+        if (response[i].color) {
+            if (toner.black.value < critical_toner_level ||
+                toner.cyan.value < critical_toner_level ||
+                toner.magenta.value < critical_toner_level ||
+                toner.yellow.value < critical_toner_level) {
+                critical_printers.push(response[i]);
+            }
+        } else {
+            if (toner.black.value < critical_toner_level) {
+                critical_printers.push(response[i]);
+            }
+        }
+    }
+    return critical_printers;
 };
 
 

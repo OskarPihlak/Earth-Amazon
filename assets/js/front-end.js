@@ -96,24 +96,10 @@ $('form input').change(function () {
     form.closest('.printer').find('.printer-title').submit();
 });
 
-function savePrinterData(data) {
-    let password_autentication = prompt('Enter the password to UPDATE printer');
-    if (password_autentication === 'Midagi1lusat') {
-        let ip = $('#' + data + '-ip.admin_input').val($('#' + data + '-ip').val()).submit();
-        let name = $('#' + data + '-name.admin_input').val($('#' + data + '-name').val()).submit();
-        let key = $('#' + data + '-key.admin_input').submit();
-        let color = $('#' + data + '-color').val(!!$('.input-identification-color-' + data).is(":checked")).submit();
-        let max_capacity = $('#' + data + '-max-capacity').val(!!$('.input-identification-max-capacity-' + data).is(":checked")).submit();
-        let floor = $('#' + data + '-floor').val($('#input-status-floor-'+data).val()).submit();
-    } else {
-        alert('Wrong password');
-    }
-}
 //Retain scroll location after reload
 $(window).scroll(function () {
     sessionStorage.scrollTop = $(this).scrollTop();
 });
-
 $(document).ready(function () {
     if (sessionStorage.scrollTop !== "undefined") {
         $(window).scrollTop(sessionStorage.scrollTop);
@@ -125,28 +111,25 @@ function reply_click(clicked_id) {
     $('.' + clicked_id).toggle();
 }
 
-//admin
-//printer adding form
-$(function () {
-    // contact form animations
-    $('#contact').click(function () {
-        $('#contactForm').fadeToggle();
-    });
-    $(document).mouseup(function (e) {
-        let container = $("#contactForm");
-
-        if (!container.is(e.target) // if the target of the click isn't the container...
-            && container.has(e.target).length === 0) // ... nor a descendant of the container
-        {
-            container.fadeOut();
-        }
-    });
-});
-
 //change width on positioning toggle
 $('.toggle-position').click(function () {
     $('.printer-marker-positioning').toggle();
 });
+
+function savePrinterData(data) {
+    let password_autentication = prompt('Enter the password to UPDATE printer');
+    if (password_autentication === 'Midagi1lusat') {
+        let ip = $('#' + data + '-ip.admin_input').val($('#' + data + '-ip').val()).submit();
+        let name = $('#' + data + '-name.admin_input').val($('#' + data + '-name').val()).submit();
+        let key = $('#' + data + '-key.admin_input').submit();
+        let color = $('#' + data + '-color').val(!!$('.input-identification-color-' + data).is(":checked")).submit();
+        let max_capacity = $('#' + data + '-max-capacity').val(!!$('.input-identification-max-capacity-' + data).is(":checked")).submit();
+        let floor = $('#' + data + '-floor').val($('#input-status-floor-'+data).val()).submit();
+        let oldname = $('#'+ data +'-old-name').val().submit();
+    } else {
+        alert('Wrong password');
+    }
+}
 
 function repositionMarker(data) {
     setTimeout(() => {
@@ -169,10 +152,10 @@ function valueChanged(data) {
 }
 
 function modifyToggle(data) {
+    let printer_name = $('#' + data + '-name');
+    let printer_ip = $('#' + data + '-ip');
     $('#save-' + data).toggle();
     $('#delete-' + data).toggle();
-    $('#' + data + '-name').toggleClass('input-toggle');
-    $('#' + data + '-ip').toggleClass('input-toggle');
     $("#row-" + data).toggleClass("tr-toggle");
     $('.identification-' + data).toggle();
     $('.input-identification-color-' + data).toggleClass('input-display');
@@ -180,6 +163,18 @@ function modifyToggle(data) {
     $('.static-floor-data-'+data).toggle();
     $('#input-status-floor-'+data).toggleClass('input-display');
     $('#modify-'+data).toggleClass('input-admin-buttons-timmed');
+    $('#'+ data +'-old-name').val(printer_name.val());
+    $('#printer-name-'+data).toggle();
+    $('#printer-ip-'+data).toggle();
+    printer_name.toggleClass('input-toggle');
+    printer_name.toggleClass('input-display');
+    printer_ip.toggleClass('input-toggle');
+    printer_ip.toggleClass('input-display');
+}
+
+function infoToggle(data){
+    $('#div-info-'+data).toggleClass('input-display');
+    $('#button-info-'+data).toggleClass('input-admin-buttons-timmed');
 }
 
 function addPrinter() {

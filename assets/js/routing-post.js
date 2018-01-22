@@ -7,30 +7,30 @@ module.exports = function (app) {
     const helpers = require('./helpers.js');
     const cartridge_add = require('./cartridge-add.js');
     let pool = database.db_define_database();
-    //cartridge_add.cartridge_add('192.168.67.47','lolol',true, pool);
-
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req);
         let printer_id = (req.body.printer_measure).slice(4);
         let sql_statement_put_snmpadresses = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', key_name='"+ req.body.printer_name +"__', color=" + req.body.printer_color + ", max_capacity="+ req.body.printer_max_capacity +", floor="+ req.body.printer_floor +" WHERE id="+ printer_id +";";
-        console.log(sql_statement_put_snmpadresses);
+        let sql_statement_put_printer_inc_supply = `UPDATE printers_inc_supply.inc_supply_status SET printer_name ='${req.body.printer_name}' WHERE printer_name='${req.body.printer_old_name}';`;
+
         pool.getConnection((err, connection) => {
-            connection.query(sql_statement_put_snmpadresses, function (error, data) {
-                if (error) throw error;
-                res.redirect('/admin');
+            connection.query(sql_statement_put_snmpadresses, function (error, data) { if (error) throw error; });
+            connection.release();
+        });
+        pool.getConnection((err, connection) => {
+            connection.query(sql_statement_put_printer_inc_supply, function (error, data) { if (error) throw error;
+            console.log(data);
             });
             connection.release();
         });
+        res.redirect('/admin');
     });
 
     app.post('/update/marker/position', urlEncodedParser, function (req, res) {
-        console.log(req.body.top);
-        console.log(req.body.left);
-
-        let sql_statement_put = "UPDATE printers_inc_supply.snmpadresses SET position_top='" + req.body.top + "', position_left='" + req.body.left + "' WHERE name='" + req.body.name + "';";
+        let sql_statement_update_snmp_adresses = "UPDATE printers_inc_supply.snmpadresses SET position_top='" + req.body.top + "', position_left='" + req.body.left + "' WHERE name='" + req.body.name + "';";
         pool.getConnection((err, connection) => {
-            connection.query(sql_statement_put, function (error, data) {
+            connection.query(sql_statement_update_snmp_adresses, function (error, data) {
                 if (error) throw error;
                 res.redirect('/' + req.body.floor + 'k/' + req.body.name);
             });
