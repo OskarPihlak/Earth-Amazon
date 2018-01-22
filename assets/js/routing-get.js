@@ -36,7 +36,7 @@ module.exports = function (app) {
     });
 
     app.get('/12k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '12k'", pool).then(response => {
+        printer_data_promise("WHERE floor = '12'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
@@ -45,7 +45,7 @@ module.exports = function (app) {
     });
 
     app.get('/12k', function (req, res) {
-        printer_data_promise("WHERE floor = '12k'", pool).then(response => {
+        printer_data_promise("WHERE floor = '12'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
             res.render('twelf-floor', {
                 printers_12k: response,
@@ -241,9 +241,9 @@ module.exports = function (app) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, sql_data) {
-            if (error) {throw error}
-             let sorted_storage = helpers.storageSorting(sql_data, selected_storage);
-                  res.render('storage', {
+                if (error) {throw error}
+                let sorted_storage = helpers.storageSorting(sql_data, selected_storage);
+                res.render('storage', {
                     storage: sorted_storage
                 });
             });
@@ -251,4 +251,3 @@ module.exports = function (app) {
         });
     });
 };
-
