@@ -205,7 +205,7 @@ module.exports.storageSorting = (sql_data, selected_storage, error) => {
     return sorted_storage;
 };
 
-module.exports.criticalPrinters = (response)=>{
+module.exports.criticalPrinters = (response)=> {
     let critical_printers = [];
     for (let i = 1; i < response.length; i++) {
         let toner = response[i].cartridge;
@@ -225,5 +225,7 @@ module.exports.criticalPrinters = (response)=>{
     }
     return critical_printers;
 };
+
+
 
 

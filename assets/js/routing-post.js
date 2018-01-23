@@ -1,11 +1,13 @@
 module.exports = function (app) {
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
+    const pad = require('pad-number');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const printer_data_promise = require('./printer-data-promise');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
     const cartridge_add = require('./cartridge-add.js');
+    const printer_oid_data = require('./oids.js');
     let pool = database.db_define_database();
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
@@ -20,7 +22,7 @@ module.exports = function (app) {
         });
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_put_printer_inc_supply, function (error, data) { if (error) throw error;
-            console.log(data);
+                console.log(data);
             });
             connection.release();
         });
@@ -47,7 +49,7 @@ module.exports = function (app) {
             let printer_name = req.body.input_name_submit;
             let printer_floor_with_k = req.body.input_floor_submit;
             let printer_floor_without_k = printer_floor_with_k.slice(0,-1);
-console.log(printer_floor_without_k);
+            console.log(printer_floor_without_k);
             let sql_snmp_adresses_insert = `INSERT INTO printers_inc_supply.snmpadresses SET ip='${req.body.input_ip_submit}', color=${req.body.input_color_submit}, name='${req.body.input_name_submit}', key_name='${req.body.input_name_submit}__' , max_capacity=${req.body.input_max_capacity_submit}, floor=${req.body.input_floor_submit},position_left=400, position_top=400;`;
             cartridge_add.cartridge_add(printer_ip, printer_name, printer_color_status, pool);
 
@@ -77,4 +79,71 @@ console.log(printer_floor_without_k);
             connection.release();
         });
     });
+
+
+
+
+
+
+    /*
+    setInterval(function(){
+        let date = new Date();
+/!*
+        if(date.getMinutes() === 23){
+
+            printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+                console.log(response);
+            });
+            let sql_statement_insert_daily_precentage = `INSERT INTO printers_inc_supply.precentage_statistics SET cartridge=${''}, printer=${''}, precentage=${' '};`;
+            console.log('dis shit is live');
+
+        }
+    }, 3600000);*!/    //1h
+*/
+
+    /*printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() +1;
+        let year = date.getFullYear();
+        for(let i = 0; i < response.length; i++) {
+            pool.getConnection((err, connection) => {
+
+                if (response[i].color === true) {
+                    for (let u = 0; u < 4; u++) {
+                        let color_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[u].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                       console.log(color_printer_statistics);
+                         connection.query(color_printer_statistics, function (error, result, fields) {
+                             console.log(result);
+                         });
+
+                    }
+                } else if (response[i].color === false) {
+                    let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                    console.log(black_printer_statistics);
+                     connection.query(black_printer_statistics, function (error, result, fields) {
+                         console.log(result);
+                     });
+
+                }
+                connection.release();
+            });
+        }
+    });
+*/
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
