@@ -117,7 +117,7 @@ module.exports = function (app) {
                 }
             });
         }
-    }, 3600000);    //1h
+    }, 86400000);    //1h
 };
 
 
