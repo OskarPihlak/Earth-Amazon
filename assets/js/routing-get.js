@@ -261,36 +261,7 @@ module.exports = function (app) {
     app.get('/precentage/cartridge', function (req, res) {
 
 
-        /*       connection.query(sql_statmenet_get_target_statistics, function (error, result, fields) {
-                   let ultimate_master_array = [];
-                   for(let a = 0; a< result.length; a++){
-                       let element_array = [];
-                       for(let b = 0; b < unique_printer_name_array.length; b++){
-                           //every printer has its own set of cartridges. no need to compare them to all cartridges.
 
-
-
-                           for(let c = 0; c < unique_cartridge_name_array.length; c++){
-                               if(result[a].printer_name === unique_printer_name_array[b] && result[a].cartridge === unique_cartridge_name_array[c] ){
-                                   //console.log(result[a],unique_printer_name_array[b],unique_cartridge_name_array[c])
-                                   //console.log(result[a]);
-                                   element_array.push(result[a]);
-                               }
-
-                           }
-                       }
-                       ultimate_master_array.push(element_array);
-                   }
-                   console.log(ultimate_master_array);
-               });*/
-
-        //add together last 7day data
-
-        let statistics = [];
-        res.render('cartridge-statistics', {
-            statistics: statistics
-        })
-    });
 
 
     pool.getConnection((err, connection) => {
@@ -372,7 +343,7 @@ module.exports = function (app) {
                             difference_in_inc.name = '';
                             difference_in_inc.cartridge = '';
                             difference_in_inc.value = [];
-                            difference_in_inc.usage  = [];
+                            difference_in_inc.usage  = '';
                             for(let x = 0; x <printer_statistics_data.info[x].toner.length; x++) {
 
                                 if (moment(date_filter).format('DD-MM-YYYY') < printer_statistics_data.info[i].toner[x].date) {  //last 7 days
@@ -383,7 +354,7 @@ module.exports = function (app) {
                             }
                             //console.log(difference_in_inc);
                             let toner_usage_per_day = -(difference_in_inc.value[0] - difference_in_inc.value[difference_in_inc.value.length - 1])/ difference_in_inc.value.length;
-                            difference_in_inc.usage.push(toner_usage_per_day);
+                            difference_in_inc.usage = toner_usage_per_day;
                             holder_of_statistics.push(difference_in_inc);
                         }
                     }
@@ -391,7 +362,20 @@ module.exports = function (app) {
                 }
                 let master_statistics = holder_of_statistics.unique();
                 console.log(master_statistics);
+                res.render('cartridge-statistics', {
+                    statistics: master_statistics
+                })
+            });
+
             });
         });
-    })
+    });
+
+
+
+
+
+
+
+
 };

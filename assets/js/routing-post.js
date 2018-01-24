@@ -85,52 +85,39 @@ module.exports = function (app) {
 
 
 
-    /*
     setInterval(function(){
         let date = new Date();
-/!*
-        if(date.getMinutes() === 23){
-
+        if(date.getHours() === 23){
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-                console.log(response);
-            });
-            let sql_statement_insert_daily_precentage = `INSERT INTO printers_inc_supply.precentage_statistics SET cartridge=${''}, printer=${''}, precentage=${' '};`;
-            console.log('dis shit is live');
+                let date = new Date();
+                let day = date.getDate();
+                let month = date.getMonth() +1;
+                let year = date.getFullYear();
+                for(let i = 0; i < response.length; i++) {
+                    pool.getConnection((err, connection) => {
 
-        }
-    }, 3600000);*!/    //1h
-*/
+                        if (response[i].color === true) {
+                            for (let u = 0; u < 4; u++) {
+                                let color_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[u].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                                console.log(color_printer_statistics);
+                                connection.query(color_printer_statistics, function (error, result, fields) {
+                                    console.log(result);
+                                });
 
-    /*printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        let date = new Date();
-        let day = date.getDate();
-        let month = date.getMonth() +1;
-        let year = date.getFullYear();
-        for(let i = 0; i < response.length; i++) {
-            pool.getConnection((err, connection) => {
-
-                if (response[i].color === true) {
-                    for (let u = 0; u < 4; u++) {
-                        let color_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[u].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
-                       console.log(color_printer_statistics);
-                         connection.query(color_printer_statistics, function (error, result, fields) {
-                             console.log(result);
-                         });
-
-                    }
-                } else if (response[i].color === false) {
-                    let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
-                    console.log(black_printer_statistics);
-                     connection.query(black_printer_statistics, function (error, result, fields) {
-                         console.log(result);
-                     });
-
+                            }
+                        } else if (response[i].color === false) {
+                            let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                            console.log(black_printer_statistics);
+                            connection.query(black_printer_statistics, function (error, result, fields) {
+                                console.log(result);
+                            });
+                        }
+                        connection.release();
+                    });
                 }
-                connection.release();
             });
         }
-    });
-*/
+    }, 3600000);    //1h
 };
 
 
