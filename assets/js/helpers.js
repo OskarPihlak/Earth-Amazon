@@ -226,6 +226,17 @@ module.exports.criticalPrinters = (response)=> {
     return critical_printers;
 };
 
+module.exports.uniqueArray = (data)=>{
+    Array.prototype.unique = function (data) {
+        let arr = [];
+        for (let i = 0; i < data.length; i++) {
+            if (!arr.includes(data[i])) {
+                arr.push(data[i]);
+            }
+        }
+        return arr;
+    }
+};
 
 
 

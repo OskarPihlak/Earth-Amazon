@@ -80,11 +80,6 @@ module.exports = function (app) {
         });
     });
 
-
-
-
-
-
     setInterval(function(){
         let date = new Date();
         if(date.getHours() === 23){
@@ -117,7 +112,7 @@ module.exports = function (app) {
                 }
             });
         }
-    }, 86400000);    //1h
+    }, 3600000);    //1h
 };
 
 
