@@ -318,17 +318,10 @@ module.exports = function (app) {
                     }
                 }
 
-
-
-
-
-
-
-
                 let date_filter = new Date();
                 let dayOfMonth = date_filter.getDate();
-                date_filter.setDate(dayOfMonth - 1);
-                let all_printers_statistics_data = [];
+                date_filter.setDate(dayOfMonth - 7);
+                let holder_of_statistics = [];
                 for(let x =0; x < unique_printers_and_toners.length; x++){
 
                    let printer_statistics_data = {};
@@ -372,44 +365,32 @@ module.exports = function (app) {
                     if(typeof magenta.toner !== 'undefined' && magenta.toner.length > 0) { printer_statistics_data.info.push(magenta); }
 
 
-
-
-
-
-
-
-
-
-
-
                     if(typeof printer_statistics_data.info !== 'undefined' && printer_statistics_data.info.length > 0) {
 
                         for(let i = 0; i <printer_statistics_data.info.length; i++){
+                            let difference_in_inc = {};
+                            difference_in_inc.name = '';
+                            difference_in_inc.cartridge = '';
+                            difference_in_inc.value = [];
+                            difference_in_inc.usage  = [];
                             for(let x = 0; x <printer_statistics_data.info[x].toner.length; x++) {
 
-
                                 if (moment(date_filter).format('DD-MM-YYYY') < printer_statistics_data.info[i].toner[x].date) {  //last 7 days
-                                    console.log(printer_statistics_data.info[i].toner[x].date);
-
+                                    difference_in_inc.cartridge = printer_statistics_data.info[i].toner_name;
+                                    difference_in_inc.name = printer_statistics_data.printer_name;
+                                    difference_in_inc.value.push( printer_statistics_data.info[i].toner[x].precentage);
                                 }
                             }
+                            //console.log(difference_in_inc);
+                            let toner_usage_per_day = -(difference_in_inc.value[0] - difference_in_inc.value[difference_in_inc.value.length - 1])/ difference_in_inc.value.length;
+                            difference_in_inc.usage.push(toner_usage_per_day);
+                            holder_of_statistics.push(difference_in_inc);
                         }
-
                     }
 
-
-
-
-
-
-
-
-
-                    //get the difference of up to last 7 days
-                    //here we have 1 printers data
-
-                    all_printers_statistics_data.push(printer_statistics_data);
                 }
+                let master_statistics = holder_of_statistics.unique();
+                console.log(master_statistics);
             });
         });
     })
