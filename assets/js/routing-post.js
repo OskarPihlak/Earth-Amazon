@@ -79,10 +79,9 @@ module.exports = function (app) {
             connection.release();
         });
     });
-
     setInterval(function(){
         let date = new Date();
-        if(date.getHours() === 23){
+        if(date.getHours() === 1){
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 let date = new Date();
                 let day = date.getDate();
@@ -112,7 +111,7 @@ module.exports = function (app) {
                 }
             });
         }
-    }, 3600000);    //1h
+    }, 2700000);    //1h
 };
 
 
