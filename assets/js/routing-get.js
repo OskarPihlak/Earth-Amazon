@@ -346,7 +346,7 @@ module.exports = function (app) {
                             console.log(printer_statistics_data.info[i].toner.length);
                             console.log( printer_statistics_data.info[i]);
                             console.log('');
-                            for(let x = 0; x < printer_statistics_data.info[x].toner.length; x++) {  //iterates only once !!!!?!?!?!?!?
+                            for(let x = 0; x < printer_statistics_data.info[i].toner.length; x++) {  //iterates only once !!!!?!?!?!?!?
                                 console.log(i,x);
 
                                 if (moment(date_filter).format('DD-MM-YYYY') < printer_statistics_data.info[i].toner[x].date) {  //last 7 days
