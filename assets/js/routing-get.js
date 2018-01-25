@@ -294,7 +294,7 @@ module.exports = function (app) {
                 date_filter.setDate(dayOfMonth - 7);
                 let holder_of_statistics = [];
                 for(let x =0; x < unique_printers_and_toners.length; x++){
-
+                    console.log(unique_printers_and_toners[x]);
                    let printer_statistics_data = {};
                     printer_statistics_data.printer_name = '';
                     printer_statistics_data.info = [];
@@ -303,7 +303,7 @@ module.exports = function (app) {
                     let yellow = [];  yellow.toner_name =''; yellow.toner =[];
                     let magenta = [];  magenta.toner_name =''; magenta.toner =[];
                     for(let i = 0; i < result.length; i++){ //this is only 1 cartridge
-
+                    console.log(result[i]);
                         for(let z = 0; z < (unique_printers_and_toners[x].toner).length; z++) {
 
                             if (result[i].cartridge === unique_printers_and_toners[x].toner[z] && result[i].printer_name === unique_printers_and_toners[x].name ) {
