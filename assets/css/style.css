@@ -1247,3 +1247,6 @@ tr td:first-child {
   display: table;
   position: relative;
   margin: 0 auto; }
+
+.statistics-printer-container {
+  display: inline-block; }

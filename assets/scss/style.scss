@@ -1058,3 +1058,11 @@ tr td:first-child {
   position: relative;
   margin: 0 auto;
 }
+
+.statistics{
+  &-printer{
+    &-container{
+      display: inline-block;
+    }
+  }
+}

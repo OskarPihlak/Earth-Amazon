@@ -11,6 +11,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-beta.3",
+    "chart.js": "^2.7.1",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "filter-object": "^3.0.0",

@@ -1,5 +1,62 @@
+<link href="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
 
-{{#each statistics}}
-    <p>{{this.cartridge}}</p>
-    <p>{{this.usage}}% usage in last 7 days</p>
+
+
+<h3>Last 7 day toner usages</h3>
+{{#each unique_printer_names}}
+<div class="statistics-printer-container">
+    <p style="color: red;">{{this}}</p>
+
+
+
+
+    {{#each ../statistics}}
+        {{#ifEquals ../this this.name}}
+            <p>{{this.cartridge}} - {{this.usage}}% </p>
+        {{/ifEquals}}
+    {{/each}}
+
+
+
+
+
+
+    <p>{{this}}</p>
+    <div class="chart-{{@index}}"></div>
+
+   <!--                                                       -->
+    <script>
+        let chart_{{@index}} = c3.generate({
+            bindto: '.chart-{{@index}}',
+            size: {
+                height: 190,
+                width: 380
+            },
+            data: {
+                json: [
+                    { precentage: 100, date: '25-01-2018' },
+                    { precentage: 23, date: '26-01-2018' }
+                ],
+                keys: {
+                    x: 'date', // it's possible to specify 'x' when category axis
+                    value: ['precentage'],
+                }
+            },
+            axis: {
+                x: {
+                    type: 'category'
+                },
+                y:{
+                    min:0,
+                    max:100
+                }
+            }
+        });
+    </script>
+</div>
 {{/each}}
+
+
+
