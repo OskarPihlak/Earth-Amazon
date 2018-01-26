@@ -6,6 +6,7 @@ module.exports = function (app) {
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const filter = require('filter-object');
     const moment = require('moment');
+    const jQuery = require('jquery');
     //files
     const printer_oid_data = require('./oids.js');
     const printer_data_promise = require('./printer-data-promise.js');
@@ -294,67 +295,114 @@ module.exports = function (app) {
                     let dayOfMonth = date_filter.getDate();
                     date_filter.setDate(dayOfMonth - 7);
                     let holder_of_statistics = [];
-                    for (let x = 0; x < unique_printers_and_toners.length; x++) {
+                    let last_dates = [];
+                    for(let i = 0 ; i < 7 ; i ++){
+                        last_dates.push(moment(date_filter.setDate(dayOfMonth - i)).format('DD-MM-YYYY'))
+                    }
+                    let master_printer_data = [];
+                    for (let x = 0; x < unique_printers_and_toners.length; x++) { //iterates every printer
 
-                        let printer_statistics_data = {};
-                        printer_statistics_data.printer_name = '';
-                        printer_statistics_data.info = [];
-                        let black = [];
-                        black.toner_name = '';
-                        black.toner = [];
-                        let cyan = [];
-                        cyan.toner_name = '';
-                        cyan.toner = [];
-                        let yellow = [];
-                        yellow.toner_name = '';
-                        yellow.toner = [];
-                        let magenta = [];
-                        magenta.toner_name = '';
-                        magenta.toner = [];
-                        for (let i = 0; i < result.length; i++) { //this is only 1 cartridge
+                            let unified = [];
+                            unified.printer = {};
+                            unified.value = [];
 
-                            for (let z = 0; z < (unique_printers_and_toners[x].toner).length; z++) {
+                            let printer_statistics_data = {};
+                            printer_statistics_data.printer_name = '';
+                            printer_statistics_data.info = [];
 
-                                if (result[i].cartridge === unique_printers_and_toners[x].toner[z] && result[i].printer_name === unique_printers_and_toners[x].name) {
-                                    // console.log(result[i], unique_printers_and_toners[x].toner[z] );
-                                    switch (result[i].color) {
-                                        case 'black':
-                                            black.toner_name = result[i].cartridge;
-                                            black.toner.push({
-                                                precentage: result[i].precentage,
-                                                date: moment(result[i].date).format('DD-MM-YYYY'),
-                                                color: result[i].color
-                                            });
-                                            break;
-                                        case 'cyan':
-                                            cyan.toner_name = result[i].cartridge;
-                                            cyan.toner.push({
-                                                precentage: result[i].precentage,
-                                                date: moment(result[i].date).format('DD-MM-YYYY'),
-                                                color: result[i].color
-                                            });
-                                            break;
-                                        case 'yellow':
-                                            yellow.toner_name = result[i].cartridge;
-                                            yellow.toner.push({
-                                                precentage: result[i].precentage,
-                                                date: moment(result[i].date).format('DD-MM-YYYY'),
-                                                color: result[i].color
-                                            });
-                                            break;
-                                        case 'magenta':
-                                            magenta.toner_name = result[i].cartridge;
-                                            magenta.toner.push({
-                                                precentage: result[i].precentage,
-                                                date: moment(result[i].date).format('DD-MM-YYYY'),
-                                                color: result[i].color
-                                            });
-                                            break;
+                            let black = [];black.toner_name = '';black.toner = [];
+                            let cyan = [];cyan.toner_name = '';cyan.toner = [];
+                            let yellow = [];yellow.toner_name = '';yellow.toner = [];
+                            let magenta = [];magenta.toner_name = '';magenta.toner = [];
+
+                            for (let i = 0; i < result.length; i++) { //iterates every result in statistics database
+
+                                for (let z = 0; z < (unique_printers_and_toners[x].toner).length; z++) { //iterates every toner of  iteratable printer
+
+                                    if (result[i].cartridge === unique_printers_and_toners[x].toner[z] && result[i].printer_name === unique_printers_and_toners[x].name) {
+
+                                        unified.printer = result[i].printer_name;
+                                        switch (result[i].color) {
+                                            case 'black':
+                                                black.toner_name = result[i].cartridge;
+                                                black.toner.push({
+                                                    precentage: result[i].precentage,
+                                                    date: moment(result[i].date).format('DD-MM-YYYY'),
+                                                    color: result[i].color
+                                                });
+                                                unified.value.push({ date: moment(result[i].date).format('DD-MM-YYYY'),black: result[i].precentage});
+                                                break;
+                                            case 'cyan':
+                                                cyan.toner_name = result[i].cartridge;
+                                                cyan.toner.push({
+                                                    precentage: result[i].precentage,
+                                                    date: moment(result[i].date).format('DD-MM-YYYY'),
+                                                    color: result[i].color
+                                                });
+                                                unified.value.push({date: moment(result[i].date).format('DD-MM-YYYY'),cyan: result[i].precentage});
+                                                break;
+                                            case 'yellow':
+                                                yellow.toner_name = result[i].cartridge;
+                                                yellow.toner.push({
+                                                    precentage: result[i].precentage,
+                                                    date: moment(result[i].date).format('DD-MM-YYYY'),
+                                                    color: result[i].color
+                                                });
+                                                unified.value.push({date: moment(result[i].date).format('DD-MM-YYYY'), yellow: result[i].precentage});
+                                                break;
+                                            case 'magenta':
+                                                magenta.toner_name = result[i].cartridge;
+                                                magenta.toner.push({
+                                                    precentage: result[i].precentage,
+                                                    date: moment(result[i].date).format('DD-MM-YYYY'),
+                                                    color: result[i].color
+                                                });
+                                                unified.value.push({date: moment(result[i].date).format('DD-MM-YYYY'), magenta: result[i].precentage});
+                                                break;
+                                        }
+                                        printer_statistics_data.printer_name = result[i].printer_name;
                                     }
-                                    printer_statistics_data.printer_name = result[i].printer_name;
                                 }
                             }
+                            //console.log(unified);
+                            //get dates of last 7 days
+                        let printer_data = [];
+                            printer_data.value = [];
+                            printer_data.printer ='';
+                        for(let x = 0; x < last_dates.length; x++){ //last 7 day dates
+                            let day_toners = [];
+
+                             for(let i = 0; i < unified.value.length; i++) { //cartridge objects in array
+                                    if (unified.value[i].date === last_dates[x]) {
+                                        day_toners.push(unified.value[i]); }
+                                }
+                             let temporary_toner_object = {};
+                             for(let i =0; i< day_toners.length; i++){
+                                 Object.assign(temporary_toner_object, day_toners[i]);
+                             }
+
+                             if(helpers.isEmpty(temporary_toner_object) === false) {
+                                 //console.log(temporary_toner_object);
+                                 printer_data.value.push(temporary_toner_object); }
                         }
+                        //console.log(printer_data,'oooooooooooooooooooooooooooooooooooo');
+                        printer_data.printer = unified.printer;
+                        master_printer_data.push(printer_data);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        //console.log(unified,'the data');
                         if (typeof black.toner !== 'undefined' && black.toner.length > 0) {
                             printer_statistics_data.info.push(black);
                         }
@@ -371,13 +419,13 @@ module.exports = function (app) {
                         if (typeof printer_statistics_data.info !== 'undefined' && printer_statistics_data.info.length > 0) {
 
                             for (let i = 0; i < printer_statistics_data.info.length; i++) {
+                               // console.log(printer_statistics_data.info[i],'ooooooooooooooooooo');
                                 let difference_in_inc = {};
                                 difference_in_inc.name = '';
                                 difference_in_inc.cartridge = '';
                                 difference_in_inc.value = [];
                                 difference_in_inc.usage = '';
-                                for (let x = 0; x < printer_statistics_data.info[i].toner.length; x++) {  //iterates only once !!!!?!?!?!?!?
-                                    console.log('');
+                                for (let x = 0; x < printer_statistics_data.info[i].toner.length; x++) { //iterates 1 toner a time
                                     if (moment(date_filter).format('DD-MM-YYYY') < printer_statistics_data.info[i].toner[x].date) {  //last 7 days
                                         difference_in_inc.name = printer_statistics_data.printer_name;
                                         difference_in_inc.cartridge = printer_statistics_data.info[i].toner_name;
@@ -387,14 +435,15 @@ module.exports = function (app) {
                                // console.log(printer_statistics_data.info[i]);
                                  let toner_usage_per_day = -(difference_in_inc.value[0].precentage - difference_in_inc.value[difference_in_inc.value.length - 1].precentage) / difference_in_inc.value.length;
                                 difference_in_inc.usage = toner_usage_per_day;
-                                console.log(difference_in_inc);
+                                //console.log(difference_in_inc);
                                 holder_of_statistics.push(difference_in_inc);
                             }
                         }
                     }
+
                     let master_of_statistics = holder_of_statistics.unique();
 
-                    let sql_statement_get = 'SELECT name,floor FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
+                    let sql_statement_get = 'SELECT name,color,floor FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
                     pool.getConnection((err, connection) => {
                         return connection.query(sql_statement_get, function (error, sql_data) {
                             if (error) {
@@ -421,12 +470,28 @@ module.exports = function (app) {
                                     }
                                 }
                                 formatted_chart_data_array.push(formatted_chart_object);
+                                for(let i = 0; i < formatted_chart_data_array; i++){
+
+                                }
                             }
-                            console.log(formatted_chart_data_array);
+
+                            /*
+                            [
+                            {name: pr_tln_5k_HP200, value:[{ date: '2017-1-27', black:33, cyan:22, magenta: 88, yellow:8}]}
+                            ]
+                            */
+
+                       for(let i = 0; i < master_printer_data.length; i++){
+                           for(let x = 0; x < sql_data.length; x++){
+                               if(master_printer_data[i].printer === sql_data[x].name){
+                                   master_printer_data[i].color = !!sql_data[x].color;
+                               }
+                           }
+                       }
+                       console.log(master_printer_data);
                             res.render('cartridge-statistics', {
                                 statistics: master_of_statistics,
-                                unique_printer_names: unique_printer_names,
-                                chart: formatted_chart_data_array
+                                chart: master_printer_data
                             })
                         });
                     });

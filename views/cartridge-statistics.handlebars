@@ -3,27 +3,17 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
 
 
-
 <h3>Last 7 day toner usages</h3>
-{{#each unique_printer_names}}
+{{#each chart}}
 <div class="statistics-printer-container">
-    <p style="color: red;">{{this}}</p>
-
-
-
+    <p style="color: red;">{{this.printer}}</p>
 
     {{#each ../statistics}}
-        {{#ifEquals ../this this.name}}
-            <p>{{this.cartridge}} - {{this.usage}}% </p>
+        {{#ifEquals this.name ../this.printer}}
+            <p>{{this.cartridge}}  {{this.usage}}% </p>
         {{/ifEquals}}
     {{/each}}
 
-
-
-
-
-
-    <p>{{this}}</p>
     <div class="chart-{{@index}}"></div>
 
    <!--                                                       -->
@@ -36,23 +26,40 @@
             },
             data: {
                 json: [
-                    { precentage: 100, date: '25-01-2018' },
-                    { precentage: 23, date: '26-01-2018' }
+
+
+                    {{#each this.value}}
+
+                        {{#if ../this.color}}
+                            {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:{{this.date}} },
+                        {{else}}
+                        { black: {{this.black}}, date:{{this.date}} },
+                        {{/if}}
+                    {{/each}}
+
+
                 ],
                 keys: {
                     x: 'date', // it's possible to specify 'x' when category axis
-                    value: ['precentage'],
+            {{#if this.color}}
+                value: ['black', 'cyan', 'yellow','magenta'],
+            {{else}}
+                value: ['black'],
+            {{/if}}
+
                 }
             },
             axis: {
                 x: {
-                    type: 'category'
+                    type: 'category',
                 },
                 y:{
                     min:0,
                     max:100
                 }
-            }
+            },
+            color: {
+                pattern: ['#000000', '#00e8e2', '#f8ff00', '#ff00fd']}
         });
     </script>
 </div>
