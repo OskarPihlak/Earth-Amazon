@@ -8,10 +8,8 @@
 <div class="statistics-printer-container">
     <p style="color: red;">{{this.printer}}</p>
 
-    {{#each ../statistics}}
-        {{#ifEquals this.name ../this.printer}}
-            <p>{{this.cartridge}}  {{this.usage}}% </p>
-        {{/ifEquals}}
+    {{#each this.usage}}
+            <p>{{this.toner}}  {{this.used_per_day}}% </p>
     {{/each}}
 
     <div class="chart-{{@index}}"></div>
@@ -26,18 +24,13 @@
             },
             data: {
                 json: [
-
-
                     {{#each this.value}}
-
                         {{#if ../this.color}}
                             {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:'{{this.date}}' },
                         {{else}}
                         { black: {{this.black}}, date:'{{this.date}}' },
                         {{/if}}
                     {{/each}}
-
-
                 ],
                 keys: {
                     x: 'date', // it's possible to specify 'x' when category axis
@@ -46,7 +39,6 @@
             {{else}}
                 value: ['black'],
             {{/if}}
-
                 }
             },
             axis: {
@@ -55,7 +47,14 @@
                 },
                 y:{
                     min:0,
-                    max:100
+                    max:100,
+                }
+            },
+            grid: {
+                y: {
+                    lines: [
+                        {value: 10, text: '10% piir'},
+                    ]
                 }
             },
             color: {

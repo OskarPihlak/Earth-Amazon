@@ -8,6 +8,7 @@ module.exports = function (app) {
     const helpers = require('./helpers.js');
     const cartridge_add = require('./cartridge-add.js');
     const printer_oid_data = require('./oids.js');
+    const moment = require('moment');
     let pool = database.db_define_database();
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
@@ -80,8 +81,9 @@ module.exports = function (app) {
         });
     });
     setInterval(function(){
+        let day_name = moment().format('dddd');
         let date = new Date();
-        if(date.getHours() === 1){
+        if(date.getHours() === 1 && (day_name !== 'Saturday' || day_name !== 'Sunday')){ //pushed to server on workdays at 1AM
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 let date = new Date();
                 let day = date.getDate();
@@ -97,7 +99,6 @@ module.exports = function (app) {
                                 connection.query(color_printer_statistics, function (error, result, fields) {
                                     console.log(result);
                                 });
-
                             }
                         } else if (response[i].color === false) {
                             let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
@@ -112,9 +113,6 @@ module.exports = function (app) {
             });
         }
     }, 2700000);    //1h
-
-
-
 };
 
 
