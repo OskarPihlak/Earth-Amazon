@@ -31,9 +31,9 @@
                     {{#each this.value}}
 
                         {{#if ../this.color}}
-                            {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:{{this.date}} },
+                            {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:'{{this.date}}' },
                         {{else}}
-                        { black: {{this.black}}, date:{{this.date}} },
+                        { black: {{this.black}}, date:'{{this.date}}' },
                         {{/if}}
                     {{/each}}
 

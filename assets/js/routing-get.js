@@ -470,9 +470,6 @@ module.exports = function (app) {
                                     }
                                 }
                                 formatted_chart_data_array.push(formatted_chart_object);
-                                for(let i = 0; i < formatted_chart_data_array; i++){
-
-                                }
                             }
 
                             /*
@@ -485,6 +482,7 @@ module.exports = function (app) {
                            for(let x = 0; x < sql_data.length; x++){
                                if(master_printer_data[i].printer === sql_data[x].name){
                                    master_printer_data[i].color = !!sql_data[x].color;
+                                   master_printer_data[i].value.reverse();
                                }
                            }
                        }
