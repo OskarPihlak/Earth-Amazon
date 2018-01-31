@@ -13,6 +13,11 @@ module.exports = ()=>{
             connection.query(sql_statmenet_get_target_statistics, function (error, result, fields) {
                 printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
 
+                    function precisionRound(number, precision) {
+                        let factor = Math.pow(10, precision);
+                        return Math.round(number * factor) / factor;
+                    }
+
                     function uniquePrintersAndToners() {
                        let unique_printers_and_toners = [];
                        for (let i = 0; i < response.length; i++) {
@@ -114,25 +119,25 @@ module.exports = ()=>{
                                 if (master_printer_data[i].color === true) {
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_black,
-                                        used_per_day: (master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length
+                                        used_per_day: precisionRound((master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length,1)
                                     });
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_cyan,
-                                        used_per_day: (master_printer_data[i].value[0].cyan - (master_printer_data[i].value).last().cyan) / master_printer_data[i].value.length
+                                        used_per_day: precisionRound((master_printer_data[i].value[0].cyan - (master_printer_data[i].value).last().cyan) / master_printer_data[i].value.length,1)
                                     });
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_yellow,
-                                        used_per_day: (master_printer_data[i].value[0].yellow - (master_printer_data[i].value).last().yellow) / master_printer_data[i].value.length
+                                        used_per_day: precisionRound((master_printer_data[i].value[0].yellow - (master_printer_data[i].value).last().yellow) / master_printer_data[i].value.length,1)
                                     });
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_magenta,
-                                        used_per_day: (master_printer_data[i].value[0].magenta - (master_printer_data[i].value).last().magenta) / master_printer_data[i].value.length
+                                        used_per_day: precisionRound((master_printer_data[i].value[0].magenta - (master_printer_data[i].value).last().magenta) / master_printer_data[i].value.length,1)
                                     });
                                 } else if (master_printer_data[i].color === false) {
                                     console.log(({toner:master_printer_data[i].value[0].toner_black, used_per_day: (master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length}));
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_black,
-                                        used_per_day: (master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length
+                                        used_per_day: precisionRound((master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length,1)
                                     });
                                 }
                             }

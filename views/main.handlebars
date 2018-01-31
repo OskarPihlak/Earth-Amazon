@@ -1,4 +1,4 @@
-<div class="container">
+<div class="main-container">
     <div style="background-color: white;width: 309px;
     margin: 0 auto;
     border-radius: 3px;">
@@ -10,16 +10,15 @@
             </div>
         {{/each}}
     </div>
-    <ul class="list-group" style="margin: 25px 0 0 0;">
+    <ul class="list-group" style="margin: 25px 0 0 0;width: 50%;transform: translateX(50%);">
         {{#each critical_printers}}
-
             <li style="color: darkred;display: inline-block;">
                 <div>
-                    <form action="/{{this.floor}}k/{{this.name}}" style="float: left;">
+                    <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
                         <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
                     </form>
                     <p class="list-group-item list-group-item-action list-group-item-danger"
-                       style="float: left; line-height: 1"><a href="//{{this.ip}}/" target="_blank">{{this.ip}}</a></p>
+                       style="float: left; line-height: 1"><a href="//{{this.ip}}/" target= _blank">{{this.ip}}</a></p>
                 </div>
             </li>
 
@@ -51,7 +50,7 @@
             </ul>
         {{/each}}
     </ul>
-    <div class="container" id="container">
+    <div class="main-container" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">

@@ -1,53 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="ee">
 <head>
     <title>Eesti Meedia Printerid</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#71C1EA">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600,800,900" rel="stylesheet" type="text/css">
-    <script src="//d3js.org/d3.v3.min.js" language="JavaScript"></script>
+    <link href="/framework/bootstrap%204.0/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/framework/bootstrap%204.0/css/bootstrap-grid.css"  rel="stylesheet" type="text/css">
+    <link href="/framework/bootstrap%204.0/css/bootstrap-reboot.css"  rel="stylesheet" type="text/css">
+    <link href="/manifest.json" rel="manifest" >
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<nav class="navBar">
-    <ul class="navMenu">
-        <li class="menuItem">
-            <a class="itemLink first" href="/">
-                <!--glyphicon glyphicon-print-->
-                <span class="glyphicon glyphicon-home itemIcon"></span>
-                Printerid
-            </a>
-        </li>
-        <li class="menuItem">
-            <a class="itemLink " href="/admin">
-                <span class="glyphicon glyphicon glyphicon-th-list itemIcon"></span>
-                Admin
-            </a>
-        </li>
-        <li class="menuItem last">
-            <a class="itemLink " href="/floors">
-                <span class="glyphicon glyphicon-book itemIcon"></span>
-                Korrused
-            </a>
-        </li>
-        <li class="menuItem last">
-            <a class="itemLink " href="/storage">
-                <span class="glyphicon glyphicon-th-large itemIcon"></span>
-                Lao seis
-            </a>
-        </li>
-        <li class="menuItem last">
-            <a class="itemLink " href="/precentage/cartridge">
-                <span class="glyphicon glyphicon-stats itemIcon"></span>
-                Statistika
-            </a>
-        </li>
-    </ul>
-</nav>
-{{{body}}}
-<script src="/framework/jquery-3.2.1.min%20.js"></script>
+
+
+    <div id="loader-wrapper">
+        <div id="loader">
+            <div id="favicon-loader"></div>
+        </div>
+
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+
+    </div>
+    <div id="content">
+        <nav class="navBar">
+            <ul class="navMenu">
+                <li class="menuItem">
+                    <a class="itemLink first" href="/">
+                        <!--glyphicon glyphicon-print-->
+                        <span class="glyphicon glyphicon-home itemIcon"></span>
+                        Printerid
+                    </a>
+                </li>
+                <li class="menuItem">
+                    <a class="itemLink " href="/admin">
+                        <span class="glyphicon glyphicon glyphicon-th-list itemIcon"></span>
+                        Admin
+                    </a>
+                </li>
+                <li class="menuItem last">
+                    <a class="itemLink " href="/floors">
+                        <span class="glyphicon glyphicon-book itemIcon"></span>
+                        Korrused
+                    </a>
+                </li>
+                <li class="menuItem last">
+                    <a class="itemLink " href="/storage">
+                        <span class="glyphicon glyphicon-th-large itemIcon"></span>
+                        Lao seis
+                    </a>
+                </li>
+                <li class="menuItem last">
+                    <a class="itemLink " href="/precentage/cartridge">
+                        <span class="glyphicon glyphicon-stats itemIcon"></span>
+                        Statistika
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {{{body}}}
+    </div>
+
+
+<script>
+    if ('serviceWorker' in navigator) {
+        // Register a service worker hosted at the root of the
+        // site using a more restrictive scope.
+        navigator.serviceWorker.register('/service-worker.js', {scope: './'}).then(function (registration) {
+            console.log('Service worker registration succeeded:', registration);
+        }).catch(function (error) {
+            console.log('Service worker registration failed:', error);
+        });
+    } else {
+        console.log('Service workers are not supported.');
+    }
+
+
+    if (!('fetch' in window)) {
+        console.log('Fetch API not found, try including the polyfill');
+    }
+    fetch('/manifest.json')
+            .then(function (response) {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                // Do stuff with the response
+            })
+            .catch(function (error) {
+                console.log('Looks like there was a problem: \n', error);
+            });
+</script>
+<script src="/framework/jquery-3.3.1.min.js"></script>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/framework/bootstrap%204.0/js/bootstrap.js"></script>
+<script src="/framework/bootstrap%204.0/js/bootstrap.bundle.js"></script>
 <script src="/js/front-end.js"></script>
 </body>
 </html>

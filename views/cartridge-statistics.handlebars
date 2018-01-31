@@ -44,6 +44,13 @@
             axis: {
                 x: {
                     type: 'category',
+                    tick: {
+                        culling: {
+                            max: 4 // the number of tick texts will be adjusted to less than this value
+                        }
+                        // for normal axis, default on
+                        // for category axis, default off
+                    }
                 },
                 y:{
                     min:0,
