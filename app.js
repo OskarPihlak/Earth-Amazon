@@ -1,12 +1,15 @@
+const port = 8888;
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-//const ActiveDirectory = require('activedirectory');
 const urlEncodedParser = bodyParser.urlencoded({extended: false});
 const methodOverride = require('method-override');
-//const FBMessenger = require('fb-messenger');
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
+const spdy = require('spdy');
 
 const printer_data_promise = require('./assets/js/printer-data-promise.js');
 const routing_get = require('./assets/js/routing-get.js');
@@ -39,6 +42,11 @@ app.use(function (err, req, res, next) {
     res.status(500).send('Something broke!')
 });
 
+/*app.get('*', (req, res) => {
+    res
+        .status(200)
+        .json({message: 'ok'})
+})*/
 helpers.handlebars();
 routing_get(app);
 routing_post(app);
@@ -51,8 +59,33 @@ process.on('unhandledRejection', (reason, p) => {
     // application specific logging, throwing an error, or other logic here
 });
 
-app.set('port', (process.env.PORT) || 443);
+/*const options = {
+    key: fs.readFileSync(__dirname + '/ssl/server.key'),
+    cert:  fs.readFileSync(__dirname + '/ssl/server.crt')
+};
+spdy.createServer(options, app).listen(port, (error) => {
+        if (error) {
+            console.error(error);
+            return process.exit(1)
+        } else {
+            console.log('Listening on port: ' + port + '.')
+        }
+    });*/
+app.set('port', (process.env.PORT) || 8888);
 app.listen(app.get('port'), function () {
     console.log('Server started on port ' + app.get('port'))
 });
+/*
+
+// set up a route to redirect http to https
+app.get('*', function(req, res) {
+    res.redirect('https://' + req.headers.host + req.url);
+*/
+
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+/*    // res.redirect('https://example.com' + req.url);
+});*/
+
+// have it listen on 8080
+
 
