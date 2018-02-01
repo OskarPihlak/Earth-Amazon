@@ -16,7 +16,7 @@
                         '/storage',
                         '/floors',
                         '/admin',
-                        'http://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'
+                        'https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js'
                     ]);
                 })
         );
