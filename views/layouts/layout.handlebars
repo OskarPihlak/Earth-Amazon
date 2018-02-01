@@ -7,25 +7,23 @@
     <meta name="theme-color" content="#71C1EA">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="/framework/bootstrap%204.0/css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="/framework/bootstrap%204.0/css/bootstrap-grid.css"  rel="stylesheet" type="text/css">
-    <link href="/framework/bootstrap%204.0/css/bootstrap-reboot.css"  rel="stylesheet" type="text/css">
-    <link href="/manifest.json" rel="manifest" >
+    <link href="/manifest.json" rel="manifest">
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
 
-    <div id="loader-wrapper">
-        <div id="loader">
-            <div id="favicon-loader"></div>
-        </div>
-
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-
+<div id="loader-wrapper">
+    <div id="loader">
+        <div id="favicon-loader"></div>
     </div>
-    <div id="content">
+
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>
+<div id="content">
+    <header>
         <nav class="navBar">
             <ul class="navMenu">
                 <li class="menuItem">
@@ -61,8 +59,11 @@
                 </li>
             </ul>
         </nav>
+    </header>
+    <main>
         {{{body}}}
-    </div>
+    </main>
+</div>
 
 
 <script>
@@ -96,8 +97,6 @@
 <script src="/framework/jquery-3.3.1.min.js"></script>
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="/framework/bootstrap%204.0/js/bootstrap.js"></script>
-<script src="/framework/bootstrap%204.0/js/bootstrap.bundle.js"></script>
 <script src="/js/front-end.js"></script>
 </body>
 </html>

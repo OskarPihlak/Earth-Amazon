@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app":"nodemon app.js"
+    "app": "nodemon app.js"
   },
   "author": "Oskar Pihlak",
   "license": "ISC",
@@ -17,7 +17,10 @@
     "express-handlebars": "^3.0.0",
     "filter-object": "^3.0.0",
     "forever": "^0.15.3",
+    "fs": "0.0.1-security",
     "handlebars": "^4.0.11",
+    "http": "0.0.0",
+    "https": "^1.0.0",
     "jquery": "^3.2.1",
     "method-override": "^2.3.10",
     "moment": "^2.20.1",
@@ -27,7 +30,8 @@
     "passport": "^0.4.0",
     "path": "^0.12.7",
     "popper.js": "^1.13.0",
-    "progressbar.js": "^1.0.1"
+    "progressbar.js": "^1.0.1",
+    "spdy": "^3.4.7"
   },
   "devDependencies": {
     "nodemon": "^1.14.8"

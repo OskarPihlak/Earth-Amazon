@@ -1292,3 +1292,14 @@ Enjoy responsibly!
   visibility: hidden;
 }
 
+.critical-printer{
+  &-style {
+    margin: 25px 0 0 0;
+    width: 50%;
+    transform: translateX(50%);
+  }
+  &-div{
+    color: darkred;
+    display: inline-block;
+  }
+}
