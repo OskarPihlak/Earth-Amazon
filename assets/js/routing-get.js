@@ -7,6 +7,7 @@ module.exports = function (app) {
     const filter = require('filter-object');
     const moment = require('moment');
     const jQuery = require('jquery');
+    const fs = require('fs');
     //files
     const printer_oid_data = require('./oids.js');
     const printer_data_promise = require('./printer-data-promise.js');
@@ -272,5 +273,10 @@ module.exports = function (app) {
                 chart: data
             });
         }).catch(error=>{throw error});
+    });
+    app.get('/sw.js',(req, res)=>{
+        res.set('Content-Type', 'application/javascript');
+        const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
+        input.pipe(res);
     });
 };

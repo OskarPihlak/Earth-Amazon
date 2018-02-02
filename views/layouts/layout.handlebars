@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ee">
 <head>
+    <meta name="Eesti meedia printerite monitooring" content="Author: O. Pihlak">
     <title>Eesti Meedia Printerid</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,11 +68,29 @@
 
 
 <script>
-    if ('serviceWorker' in navigator) {
-        // Register a service worker hosted at the root of the
-        // site using a more restrictive scope.
-        navigator.serviceWorker.register('/service-worker.js', {scope: './'}).then(function (registration) {
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/sw.js', {scope: './'}).then(function (registration) {
             console.log('Service worker registration succeeded:', registration);
+           /* if(!navigator.serviceWorker.controller){
+            }
+            if(req.waiting){
+                indexController._trackInstalling(req.installing);
+                return;
+            }
+
+            req.addEventListener('updatefound', ()=>{
+                indexController._trackInstalling(req.installing);
+                return;
+            });
+
+            IndexController.prototype._trackInstalling = worker =>{
+                let indexController = this;
+                worker.addEventListener('statechange',()=>{
+                    if(worker.state == 'installed'){
+                        indexController._updateReady();
+                    }
+                })
+            }*/
         }).catch(function (error) {
             console.log('Service worker registration failed:', error);
         });
@@ -79,7 +98,7 @@
         console.log('Service workers are not supported.');
     }
 
-
+/*
     if (!('fetch' in window)) {
         console.log('Fetch API not found, try including the polyfill');
     }
@@ -92,7 +111,7 @@
             })
             .catch(function (error) {
                 console.log('Looks like there was a problem: \n', error);
-            });
+            });*/
 </script>
 <script src="/framework/jquery-3.3.1.min.js"></script>
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->

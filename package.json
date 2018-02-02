@@ -5,36 +5,39 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "app": "nodemon app.js"
+    "app": "nodemon app.js",
+    "serve": "gulp serve"
   },
   "author": "Oskar Pihlak",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "bootstrap": "^4.0.0-beta.3",
+    "bootstrap": "^4.0.0",
     "chart.js": "^2.7.1",
+    "concat": "^1.0.3",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "filter-object": "^3.0.0",
     "forever": "^0.15.3",
     "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-scss": "^1.4.0",
+    "gulp-uglify": "^3.0.0",
     "handlebars": "^4.0.11",
     "http": "0.0.0",
     "https": "^1.0.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.3.1",
     "method-override": "^2.3.10",
     "moment": "^2.20.1",
     "mysql": "^2.15.0",
-    "net-snmp": "^1.2.0",
+    "net-snmp": "^1.2.1",
     "pad-number": "0.0.4",
     "passport": "^0.4.0",
     "path": "^0.12.7",
     "popper.js": "^1.13.0",
     "progressbar.js": "^1.0.1",
     "spdy": "^3.4.7"
-  },
-  "devDependencies": {
-    "nodemon": "^1.14.8"
   },
   "repository": {
     "type": "git",
