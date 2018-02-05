@@ -3,7 +3,7 @@ module.exports = ()=>{
     let database = require('./db.js');
     const printer_oid_data = require('./oids.js');
     const pool = database.db_define_database();
-    const moment = require('moment');
+    const moment = require('moment-business-days');
     const helpers = require('./helpers.js');
 
     return new Promise((resolve, reject)=> {
@@ -34,18 +34,19 @@ module.exports = ()=>{
                        }
                        return unique_printers_and_toners;
                    }
-
                     function daysVisibleOnChart() {
-                        let number_of_selected_days = 7;
-                        let day = new Date();
-                        let day_of_month = day.getDate();
-                        let last_dates = [];
-
-                        day.setDate(day_of_month - number_of_selected_days);
-                        for (let i = 0; i < number_of_selected_days; i++) {
-                            last_dates.push(moment(day.setDate(day_of_month - i)).format('DD-MM-YYYY'))
+                        let result = [];
+                        let i=0;
+                        while (result.length < 8){
+                            let date_today = new Date();
+                            date_today.setDate(date_today.getDate() - i);
+                            let formatted_date = moment(date_today).format('DD-MM-YYYY');
+                            if(moment(formatted_date, 'DD-MM-YYYY').isBusinessDay() === true){
+                                result.push( formatted_date );
+                            }
+                            i++
                         }
-                        return last_dates;
+                        return result;
                     }
 
                     let master_printer_data = [];
@@ -134,7 +135,6 @@ module.exports = ()=>{
                                         used_per_day: precisionRound((master_printer_data[i].value[0].magenta - (master_printer_data[i].value).last().magenta) / master_printer_data[i].value.length,1)
                                     });
                                 } else if (master_printer_data[i].color === false) {
-                                    console.log(({toner:master_printer_data[i].value[0].toner_black, used_per_day: (master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length}));
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_black,
                                         used_per_day: precisionRound((master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length,1)
