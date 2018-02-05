@@ -204,8 +204,11 @@ module.exports.storageSorting = (sql_data, selected_storage, error) => {
 
 module.exports.criticalPrinters = (response)=> {
     let critical_printers = [];
-    for (let i = 1; i < response.length; i++) {
+    console.log(response,'response');
+
+    for (let i = 0; i < response.length; i++) {
         let toner = response[i].cartridge;
+        console.log(toner);
         let critical_toner_level = 15;
         if (response[i].color) {
             if (toner.black.value < critical_toner_level ||
@@ -219,6 +222,7 @@ module.exports.criticalPrinters = (response)=> {
                 critical_printers.push(response[i]);
             }
         }
+
     }
     return critical_printers;
 };

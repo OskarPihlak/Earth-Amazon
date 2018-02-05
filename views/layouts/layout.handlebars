@@ -71,9 +71,9 @@
     if (navigator.serviceWorker) {
         navigator.serviceWorker.register('/sw.js', {scope: './'}).then(function (registration) {
             console.log('Service worker registration succeeded:', registration);
-           /* if(!navigator.serviceWorker.controller){
+            if(!navigator.serviceWorker.controller){
             }
-            if(req.waiting){
+           /* if(req.waiting){
                 indexController._trackInstalling(req.installing);
                 return;
             }
