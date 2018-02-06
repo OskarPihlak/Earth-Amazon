@@ -23,6 +23,15 @@ module.exports = function (app) {
             return this[this.length - 1];
         };
     }
+    Array.prototype.unique = function () {
+        let arr = [];
+        for (let i = 0; i < this.length; i++) {
+            if (!arr.includes(this[i])) {
+                arr.push(this[i]);
+            }
+        }
+        return arr;
+    };
 
     //main page
     app.get('/', function (req, res) {
@@ -276,9 +285,14 @@ module.exports = function (app) {
             });
         }).catch(error=>{throw error});
     });
+
     app.get('/service-worker.js',(req, res)=>{
         res.set('Content-Type', 'application/javascript');
         const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
         input.pipe(res);
+    });
+
+    app.get('/idb-test',(req, res)=>{
+        res.render('idb');
     });
 };
