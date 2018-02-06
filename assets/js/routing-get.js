@@ -276,7 +276,7 @@ module.exports = function (app) {
             });
         }).catch(error=>{throw error});
     });
-    app.get('/sw.js',(req, res)=>{
+    app.get('/service-worker.js',(req, res)=>{
         res.set('Content-Type', 'application/javascript');
         const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
         input.pipe(res);

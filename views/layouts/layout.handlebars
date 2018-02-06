@@ -69,7 +69,7 @@
 
 <script>
     if (navigator.serviceWorker) {
-        navigator.serviceWorker.register('/sw.js', {scope: './'}).then(function (registration) {
+        navigator.serviceWorker.register('/service-worker.js', {scope: './'}).then(function (registration) {
             console.log('Service worker registration succeeded:', registration);
             if(!navigator.serviceWorker.controller){
             }

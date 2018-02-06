@@ -73,7 +73,7 @@ body {
   margin: 0;
   text-align: center;
   color: $gray;
-  background: linear-gradient(to right, #8e9eab, #eef2f3);
+  background: linear-gradient(to right, #8e9eab, #eef2f3) no-repeat;
  /* #808080, #4CA1AF
   #1D4350, #A43931
   #4CA1AF, #C4E0E5
@@ -126,6 +126,7 @@ p {
 
 #container {
   flex-flow: wrap;
+  width:2000px;
 }
 
 .main-container {
@@ -1302,4 +1303,9 @@ Enjoy responsibly!
     color: darkred;
     display: inline-block;
   }
+}
+
+#container {
+  flex-flow: wrap;
+  width: 80%;
 }

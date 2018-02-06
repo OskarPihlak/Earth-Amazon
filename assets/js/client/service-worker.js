@@ -76,7 +76,7 @@ self.addEventListener('fetch', function(e) {
                     .then(function(response) {
 
                         if ( !response ) {
-                            console.log("[ServiceWorker] No response from fetch ")
+                            console.log("[ServiceWorker] No response from fetch ");
                             return response;
                         }
 
