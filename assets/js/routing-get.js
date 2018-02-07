@@ -6,10 +6,10 @@ module.exports = function (app) {
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const filter = require('filter-object');
     const moment = require('moment-business-days');
-
-
+    const ping = require('ping');
     const jQuery = require('jquery');
     const fs = require('fs');
+
     //files
     const printer_oid_data = require('./oids.js');
     const printer_data_promise = require('./printer-data-promise.js');
@@ -18,8 +18,8 @@ module.exports = function (app) {
     const helpers = require('./helpers.js');
     const pool = database.db_define_database();
 
-    if (!Array.prototype.last){
-        Array.prototype.last = function(){
+    if (!Array.prototype.last) {
+        Array.prototype.last = function () {
             return this[this.length - 1];
         };
     }
@@ -219,10 +219,49 @@ module.exports = function (app) {
                 let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
                 if (error) throw error;
 
-                res.render('admin', {
-                    printers_all: result,
-                    floors: number_of_floors
-                });
+                //array of printer ip-s
+                let hosts = [];
+                for (let i = 0; i < result.length; i++) {
+                    hosts.push(result[i].ip)
+                }
+
+                //creates promises
+                function ipStatus(ip) {
+                    return new Promise(resolve => {
+                        ping.sys.probe(ip, isAlive => {
+                            let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
+                            return resolve(msg);
+                        })
+                    });
+                }
+
+                //handles ip promises and renders page
+                async function processArray(array) {
+                    let ip_stuff = [];
+                    for (const item of array) {
+                        await ipStatus(item).then(data => {
+                            ip_stuff.push(data)
+                        });
+                    }
+                    //add promise result to matching query element
+                    let final_data = [];
+                    ip_stuff.forEach(status_object => {
+                        result.forEach(query_result => {
+                            if (status_object.ip === query_result.ip) {
+                                query_result.printer_ping = status_object;
+                                final_data.push(query_result);
+                            }
+                        });
+                    });
+                    console.log(result);
+                    await res.render('admin', {
+                        printers_all: final_data,
+                        floors: number_of_floors
+                    });
+                    return result;
+                }
+                processArray(hosts);
+
             });
             connection.release();
         });
@@ -279,20 +318,23 @@ module.exports = function (app) {
         });
     });
     app.get('/precentage/cartridge', function (req, res) {
-        chart().then((data)=> {
+        chart().then((data) => {
+            console.log(data);
             res.render('cartridge-statistics', {
                 chart: data
             });
-        }).catch(error=>{throw error});
+        }).catch(error => {
+            throw error
+        });
     });
 
-    app.get('/service-worker.js',(req, res)=>{
+    app.get('/service-worker.js', (req, res) => {
         res.set('Content-Type', 'application/javascript');
         const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
         input.pipe(res);
     });
 
-    app.get('/idb-test',(req, res)=>{
+    app.get('/idb-test', (req, res) => {
         res.render('idb');
     });
 };

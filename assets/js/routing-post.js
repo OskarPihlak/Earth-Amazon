@@ -83,7 +83,7 @@ module.exports = function (app) {
     setInterval(function(){
         let day_name = moment().format('dddd');
         let date = new Date();
-        if(date.getHours() === 1 && (day_name !== 'Saturday' || day_name !== 'Sunday')){ //pushed to server on workdays at 1AM
+        if(date.getHours() === 1 && (day_name !== 'Saturday' || day_name !== 'Sunday') && parseInt(Math.abs(moment().format('DD') % 2)) === 1){ //pushed to server on odd workdays at 1AM
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 let date = new Date();
                 let day = date.getDate();

@@ -65,7 +65,13 @@
     {{#each printers_all}}
 
         <tr id="row-{{@index}}">
-            <td>{{@index}}</td>
+
+            {{#if this.printer_ping.alive}}
+
+                <td style="color: #01ff0b">{{@index}}</td>
+            {{else}}
+                <td style="color: red;">{{@index}}</td>
+            {{/if}}
             <td>
                 <p id="printer-name-{{@index}}">{{this.name}}</p>
                 <input class="admin_input admin_input-cell input-display" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/>

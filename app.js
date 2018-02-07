@@ -17,12 +17,6 @@ const routing_post = require('./assets/js/routing-post.js');
 const routing_delete = require('./assets/js/routing-delete.js');
 const helpers = require('./assets/js/helpers');
 
-let config = { url: 'ldap://dc.domain.com',
-    baseDN: 'dc=domain,dc=com',
-    username: 'username@domain.com',
-    password: 'password' };
-//let ad = new ActiveDirectory(config);
-
 //app init
 let app = express();
 

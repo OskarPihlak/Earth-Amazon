@@ -10,6 +10,10 @@ module.exports.requestedPrinterJoinToResponse = (response, req) => {
 };
 
 module.exports.handlebars = () => {
+    Handlebars.registerHelper('json', function(context) {
+        return JSON.stringify(context);
+    });
+
     Handlebars.registerHelper("math", function (lvalue, operator, rvalue, options) {
         lvalue = parseFloat(lvalue);
         rvalue = parseFloat(rvalue);
