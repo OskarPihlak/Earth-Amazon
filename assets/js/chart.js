@@ -103,13 +103,14 @@ module.exports = ()=>{
                         printer_data.printer = unified.printer;
                         master_printer_data.push(printer_data);
                     }
-                    let sql_statement_get = 'SELECT name,color,floor FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
+                    let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
                     pool.getConnection((err, connection) => {
                         connection.query(sql_statement_get, function (error, sql_data) {
                             for (let i = 0; i < master_printer_data.length; i++) {
                                 for (let x = 0; x < sql_data.length; x++) {
                                     if (master_printer_data[i].printer === sql_data[x].name) {
                                         master_printer_data[i].color = !!sql_data[x].color;
+                                        master_printer_data[i].ip = sql_data[x].ip;
                                         master_printer_data[i].value.reverse();
                                     }
                                 }
@@ -141,6 +142,7 @@ module.exports = ()=>{
                                     });
                                 }
                             }
+                            console.log(master_printer_data);
                             return resolve(master_printer_data);
                         });
                     });

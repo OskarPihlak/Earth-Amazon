@@ -6,7 +6,7 @@
 <h3>Last 7 day toner usages</h3>
 {{#each chart}}
 <div class="statistics-printer-container">
-    <p style="color: red;">{{this.printer}}</p>
+    <p style="color: red;">{{this.printer}}<br>{{this.ip}}</p>
 
     {{#each this.usage}}
             <p>{{this.toner}}  {{this.used_per_day}}% </p>

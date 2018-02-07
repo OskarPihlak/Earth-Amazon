@@ -10,17 +10,17 @@
             </div>
         {{/each}}
     </div>
-    <ul class="list-group critical-printer-style">
-        {{#each critical_printers}}
-            <li class="critical-printer-div">
-                <div>
-                    <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
-                        <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
-                    </form>
-                    <p class="list-group-item list-group-item-action list-group-item-danger"
-                       style="float: left; line-height: 1"><a href="//{{this.ip}}/" target= _blank" rel="noopener">{{this.ip}}</a></p>  <!--style="text-align: center;left: 50%;position: absolute;transform: translateX(-50%);-->"
-                </div>
-            </li>
+
+    {{#each critical_printers}}
+        <div>
+            <div>
+                <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
+                    <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
+                </form>
+                <p class="list-group-item list-group-item-action list-group-item-danger" style="float: left; line-height: 1">
+                    <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}</a>
+                </p>
+            </div>
 
             <ul class="list-group">
                 {{#lessOrEquals 25 this.cartridge.black.value}}
@@ -46,16 +46,17 @@
                         : {{this.cartridge.yellow.value}}%
                     </li>
                 {{/lessOrEquals}}
-
             </ul>
-        {{/each}}
-    </ul>
+        </div>
+    {{/each}}
+
     <div class="main-container container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
                     <div class="pr-12k title">
-                        <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a></div>
+                        <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                            <br>{{this.ip}}</a></div>
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
@@ -66,7 +67,8 @@
                             <button class="button-special-style">
                                 Laoseis
                             </button>
-                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
+                            <input type="submit" hidden name="selected-storage-black"
+                                   value="{{this.cartridge.black.name}}">
                         </form>
                     </div>
                     <section class="black-precentage-section">
@@ -76,7 +78,8 @@
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count" aria-label="inc-storage-number" type="number" min="1"
+                                        <input class="cartridge-storage" name="inc_storage_count"
+                                               aria-label="inc-storage-number" type="number" min="1"
                                                step="1" value="{{this.cartridge.black.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
@@ -240,7 +243,8 @@
             {{else}}
 
                 <div class="printer printer-{{this.floor}}">
-                    <div class="title"><a href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a></div>
+                    <div class="title"><a href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                        <br>{{this.ip}}</a></div>
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
@@ -251,7 +255,8 @@
                             <button class="button-special-style">
                                 Laoseis
                             </button>
-                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
+                            <input type="submit" hidden name="selected-storage-black"
+                                   value="{{this.cartridge.black.name}}">
                         </form>
                     </div>
                     <section class="black-precentage-section">
