@@ -12,12 +12,12 @@
     </div>
     <div>
         {{#each critical_printers}}
-            <div>
+            <div style="display: inline-block;">
                 <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
                     <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
                 </form>
-                <p class="list-group-item list-group-item-action list-group-item-danger"
-                   style="float: left; line-height: 1">
+                <p class="list-group-item list-group-item-action list-group-item-danger list-critical"
+                   style="line-height: 1">
                     <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}</a>
                 </p>
                 {{#lessOrEquals 25 this.cartridge.black.value}}
