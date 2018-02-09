@@ -38,7 +38,7 @@ module.exports = function (app) {
         console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
-
+            console.log(response);
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result, fields) {
                     let floors = helpers.numberOfFloors(response).number_of_floors;
@@ -48,7 +48,7 @@ module.exports = function (app) {
                     }
                     console.log(response);
                     if (error) throw error;
-                    console.log(response);
+
                     res.render('main', {
                         printers: response,
                         floors: floors,
