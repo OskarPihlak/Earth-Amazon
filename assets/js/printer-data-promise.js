@@ -131,39 +131,45 @@ module.exports = (sql_conditional, pool) => {
     }
 
     async function processArray(array) {
-
         await ipStatus(array).then(data => {
             console.log(data, 'lol');
         });
     }
+    let wait_ping = ip => new Promise((resolve, reject) => {
+        ping.sys.probe(ip, isAlive => {
+            let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
+            console.log(msg);
+            return resolve(msg);
+        });
+    });
 
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
-        return Promise.all(adresses.map((adress) => {
-                ipStatus(adress.ip).then(data => {
-                    if (data === true) {
-                        if (adress.color === true && adress.max_capacity === false) {
-                            return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
-                                return err;
-                            });
-                        }
-                        else if (adress.color === false && adress.max_capacity === true) {
-                            return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
-                                return err;
-                            });
-                        }
-                        else if (adress.color === false && adress.max_capacity === false) {
-                            return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
-                                return err;
-                            });
-                        }
-                        else if (adress.color === true && adress.max_capacity === true) {
-                            return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
-                                return err;
-                            });
-                        }
+        return Promise.all(adresses.map(async (adress) => {
+
+                let ping_check = await wait_ping(adress.ip);
+                if (ping_check.alive === true) {
+                    if (adress.color === true && adress.max_capacity === false) {
+                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
+                            return err;
+                        });
                     }
-                })
+                    else if (adress.color === false && adress.max_capacity === true) {
+                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
+                            return err;
+                        });
+                    }
+                    else if (adress.color === false && adress.max_capacity === false) {
+                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
+                            return err;
+                        });
+                    }
+                    else if (adress.color === true && adress.max_capacity === true) {
+                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
+                            return err;
+                        });
+                    }
+                }
             })
         );
     });
