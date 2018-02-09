@@ -6,6 +6,30 @@ module.exports = (sql_conditional, pool) => {
     let helpers = require('./helpers.js');
     const printer_oid_data = require('./oids.js');
 
+    function ipStatus(ip) {
+        return new Promise(resolve => {
+            ping.sys.probe(ip, isAlive => {
+                let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
+                return resolve(msg);
+            })
+        });
+    }
+
+    async function processArray(array) {
+        await ipStatus(array).then(data => {
+            console.log(data, 'lol');
+        });
+    }
+
+    let wait_ping = ip => new Promise((resolve, reject) => {
+        ping.sys.probe(ip, isAlive => {
+            let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
+            console.log(msg);
+            return resolve(msg);
+        });
+    });
+
+
     //factory
     function getSnmpAdresses() {
         return new Promise((resolve, rejected) => {
@@ -14,18 +38,26 @@ module.exports = (sql_conditional, pool) => {
                 connection.query(sql_statement_get, function (error, result) {
 
                     if (error) throw(error);
-                    let snmpAdresses = result.map(row => {
-                        return {
-                            ip: row.ip,
-                            color: !!row.color,
-                            name: row.name,
-                            key: row.key_name,
-                            max_capacity: !!row.max_capacity,
-                            floor: row.floor,
-                            position_left: row.position_left,
-                            position_top: row.position_top
-                        };
-                    });
+                    let snmpAdresses = result.map(async row => {
+
+                            let ping_check = await wait_ping(row.ip);
+                            if (ping_check.alive === true) {
+                                console.log('yes');
+                                return {
+                                    ip: row.ip,
+                                    color: !!row.color,
+                                    name: row.name,
+                                    key: row.key_name,
+                                    max_capacity: !!row.max_capacity,
+                                    floor: row.floor,
+                                    position_left: row.position_left,
+                                    position_top: row.position_top
+                                };
+                            } else {
+                                console.log('lol nope');
+                            }
+                        }
+                    );
                     return resolve(snmpAdresses);
                 });
                 connection.release();
@@ -121,54 +153,32 @@ module.exports = (sql_conditional, pool) => {
         });
     };
 
-    function ipStatus(ip) {
-        return new Promise(resolve => {
-            ping.sys.probe(ip, isAlive => {
-                let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
-                return resolve(msg);
-            })
-        });
-    }
-
-    async function processArray(array) {
-        await ipStatus(array).then(data => {
-            console.log(data, 'lol');
-        });
-    }
-    let wait_ping = ip => new Promise((resolve, reject) => {
-        ping.sys.probe(ip, isAlive => {
-            let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
-            console.log(msg);
-            return resolve(msg);
-        });
-    });
 
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
         return Promise.all(adresses.map(async (adress) => {
+                console.log(adress, 'adress');
 
-                let ping_check = await wait_ping(adress.ip);
-                if (ping_check.alive === true) {
-                    if (adress.color === true && adress.max_capacity === false) {
-                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
-                            return err;
-                        });
-                    }
-                    else if (adress.color === false && adress.max_capacity === true) {
-                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
-                            return err;
-                        });
-                    }
-                    else if (adress.color === false && adress.max_capacity === false) {
-                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
-                            return err;
-                        });
-                    }
-                    else if (adress.color === true && adress.max_capacity === true) {
-                        return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
-                            return err;
-                        });
-                    }
+
+                if (adress.color === true && adress.max_capacity === false) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
+                        return err;
+                    });
+                }
+                else if (adress.color === false && adress.max_capacity === true) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
+                        return err;
+                    });
+                }
+                else if (adress.color === false && adress.max_capacity === false) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
+                        return err;
+                    });
+                }
+                else if (adress.color === true && adress.max_capacity === true) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
+                        return err;
+                    });
                 }
             })
         );

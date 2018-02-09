@@ -38,26 +38,19 @@ module.exports = function (app) {
         console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
-            console.log(response);
-            pool.getConnection((err, connection) => {
-                connection.query(sql_statement_get, function (error, result, fields) {
-                    let floors = helpers.numberOfFloors(response).number_of_floors;
-                    let critical_printers = helpers.criticalPrinters(response);
-                    for (let i = 0; i < response.length; i++) {
-                        response[i].requested = req.params.id;
-                    }
-                    console.log(response);
-                    if (error) throw error;
+            console.log(response,'routing-get response');
 
-                    res.render('main', {
-                        printers: response,
-                        floors: floors,
-                        critical_printers: critical_printers
-                    });
-                    connection.release();
-                });
-            })
-        })
+            let floors = helpers.numberOfFloors(response).number_of_floors;
+            let critical_printers = helpers.criticalPrinters(response);
+            for (let i = 0; i < response.length; i++) {
+                response[i].requested = req.params.id;
+            }
+            res.render('main', {
+                printers: response,
+                floors: floors,
+                critical_printers: critical_printers
+            });
+        });
     });
 
     app.get('/12k/:id', function (req, res) {
@@ -261,6 +254,7 @@ module.exports = function (app) {
                     });
                     return result;
                 }
+
                 processArray(hosts);
 
             });

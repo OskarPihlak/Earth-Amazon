@@ -85,10 +85,10 @@ module.exports.handlebars = () => {
 };
 
 module.exports.numberOfFloors = (sql_data) => {
-
+console.log(sql_data.length);
     let floorArray = [];
     for (let i = 0; i < sql_data.length; i++) {
-        console.log(sql_data[i]);
+        console.log(sql_data[i],'sql_data_floors');
         floorArray.push(sql_data[i].floor);
     }
 
