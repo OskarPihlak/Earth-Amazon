@@ -46,6 +46,7 @@ module.exports = function (app) {
                     for (let i = 0; i < response.length; i++) {
                         response[i].requested = req.params.id;
                     }
+                    console.log(response);
                     if (error) throw error;
                     console.log(response);
                     res.render('main', {
