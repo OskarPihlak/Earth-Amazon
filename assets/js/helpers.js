@@ -88,6 +88,7 @@ module.exports.numberOfFloors = (sql_data) => {
 
     let floorArray = [];
     for (let i = 0; i < sql_data.length; i++) {
+        console.log(sql_data[i]);
         floorArray.push(sql_data[i].floor);
     }
 
