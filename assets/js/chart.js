@@ -49,6 +49,8 @@ module.exports = ()=>{
                         return result;
                     }
 
+                    //work code
+
                     let master_printer_data = [];
                     for (let x = 0; x < uniquePrintersAndToners().length; x++) { //iterates every printer
                         let unified = [];
