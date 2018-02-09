@@ -46,7 +46,14 @@
             </div>
         {{/each}}
     </div>
+    <p>Unable to ping</p>
+    {{#each printers}}
+        {{#if this.offline}}
+            <p>{{this.ip}}</p>
+        {{/if}}
+    {{/each}}
     <div class="main-container container-home" id="container">
+
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">

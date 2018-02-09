@@ -1,6 +1,7 @@
 const Handlebars = require('handlebars');
 let database = require('./db.js');
 const pool = database.db_define_database();
+const colors = require('colors');
 
 module.exports.requestedPrinterJoinToResponse = (response, req) => {
     for (let i = 0; i < response.length; i++) {
@@ -10,7 +11,7 @@ module.exports.requestedPrinterJoinToResponse = (response, req) => {
 };
 
 module.exports.handlebars = () => {
-    Handlebars.registerHelper('json', function(context) {
+    Handlebars.registerHelper('json', function (context) {
         return JSON.stringify(context);
     });
 
@@ -57,15 +58,33 @@ module.exports.handlebars = () => {
         }
 
         operators = {
-            '==': function (l, r) { return l == r; },
-            '===': function (l, r) { return l === r; },
-            '!=': function (l, r) { return l != r; },
-            '!==': function (l, r) { return l !== r; },
-            '<': function (l, r) { return l < r; },
-            '>': function (l, r) { return l > r; },
-            '<=': function (l, r) { return l <= r; },
-            '>=': function (l, r) { return l >= r; },
-            'typeof': function (l, r) { return typeof l == r; }
+            '==': function (l, r) {
+                return l == r;
+            },
+            '===': function (l, r) {
+                return l === r;
+            },
+            '!=': function (l, r) {
+                return l != r;
+            },
+            '!==': function (l, r) {
+                return l !== r;
+            },
+            '<': function (l, r) {
+                return l < r;
+            },
+            '>': function (l, r) {
+                return l > r;
+            },
+            '<=': function (l, r) {
+                return l <= r;
+            },
+            '>=': function (l, r) {
+                return l >= r;
+            },
+            'typeof': function (l, r) {
+                return typeof l == r;
+            }
         };
 
         if (!operators[operator]) {
@@ -85,11 +104,15 @@ module.exports.handlebars = () => {
 };
 
 module.exports.numberOfFloors = (sql_data) => {
-console.log(sql_data.length);
+    console.log(sql_data.length);
+
     let floorArray = [];
     for (let i = 0; i < sql_data.length; i++) {
-        console.log(sql_data[i],'sql_data_floors');
-        floorArray.push(sql_data[i].floor);
+        console.log(colors.cyan(sql_data));
+        if (sql_data[i].offline === false) {
+            console.log(colors.green(sql_data[i]), 'sql_data_floors');
+            floorArray.push(sql_data[i].floor);
+        }
     }
 
     Array.prototype.contains = function (v) {
@@ -207,32 +230,33 @@ module.exports.storageSorting = (sql_data, selected_storage, error) => {
     return sorted_storage;
 };
 
-module.exports.criticalPrinters = (response)=> {
+module.exports.criticalPrinters = (response) => {
     let critical_printers = [];
-    console.log(response,'response');
+    console.log(response, 'response');
 
     for (let i = 0; i < response.length; i++) {
-        let toner = response[i].cartridge;
-        console.log(toner);
-        let critical_toner_level = 15;
-        if (response[i].color) {
-            if (toner.black.value < critical_toner_level ||
-                toner.cyan.value < critical_toner_level ||
-                toner.magenta.value < critical_toner_level ||
-                toner.yellow.value < critical_toner_level) {
-                critical_printers.push(response[i]);
-            }
-        } else {
-            if (toner.black.value < critical_toner_level) {
-                critical_printers.push(response[i]);
+        if (response[i].offline === false) {
+            let toner = response[i].cartridge;
+            console.log(toner);
+            let critical_toner_level = 15;
+            if (response[i].color) {
+                if (toner.black.value < critical_toner_level ||
+                    toner.cyan.value < critical_toner_level ||
+                    toner.magenta.value < critical_toner_level ||
+                    toner.yellow.value < critical_toner_level) {
+                    critical_printers.push(response[i]);
+                }
+            } else {
+                if (toner.black.value < critical_toner_level) {
+                    critical_printers.push(response[i]);
+                }
             }
         }
-
     }
     return critical_printers;
 };
 
-module.exports.uniqueArray = (data)=>{
+module.exports.uniqueArray = (data) => {
     Array.prototype.unique = function (data) {
         let arr = [];
         for (let i = 0; i < data.length; i++) {
@@ -245,7 +269,7 @@ module.exports.uniqueArray = (data)=>{
 };
 
 
-module.exports.uniquePrinterNames = ()=> {
+module.exports.uniquePrinterNames = () => {
     Array.prototype.unique = function () {
         let arr = [];
         for (let i = 0; i < this.length; i++) {
@@ -256,31 +280,31 @@ module.exports.uniquePrinterNames = ()=> {
         return arr;
     };
 };
-module.exports.isEmpty = (obj)=> {
-        // Speed up calls to hasOwnProperty
-        let hasOwnProperty = Object.prototype.hasOwnProperty;
-        // null and undefined are "empty"
-        if (obj == null) return true;
+module.exports.isEmpty = (obj) => {
+    // Speed up calls to hasOwnProperty
+    let hasOwnProperty = Object.prototype.hasOwnProperty;
+    // null and undefined are "empty"
+    if (obj == null) return true;
 
-        // Assume if it has a length property with a non-zero value
-        // that that property is correct.
-        if (obj.length > 0)    return false;
-        if (obj.length === 0)  return true;
+    // Assume if it has a length property with a non-zero value
+    // that that property is correct.
+    if (obj.length > 0) return false;
+    if (obj.length === 0) return true;
 
-        // If it isn't an object at this point
-        // it is empty, but it can't be anything *but* empty
-        // Is it empty?  Depends on your application.
-        if (typeof obj !== "object") return true;
+    // If it isn't an object at this point
+    // it is empty, but it can't be anything *but* empty
+    // Is it empty?  Depends on your application.
+    if (typeof obj !== "object") return true;
 
-        // Otherwise, does it have any properties of its own?
-        // Note that this doesn't handle
-        // toString and valueOf enumeration bugs in IE < 9
-        for (let key in obj) {
-            if (hasOwnProperty.call(obj, key)) return false;
-        }
+    // Otherwise, does it have any properties of its own?
+    // Note that this doesn't handle
+    // toString and valueOf enumeration bugs in IE < 9
+    for (let key in obj) {
+        if (hasOwnProperty.call(obj, key)) return false;
+    }
 
-        return true;
-    };
+    return true;
+};
 
 
 

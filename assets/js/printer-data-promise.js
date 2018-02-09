@@ -3,6 +3,7 @@ module.exports = (sql_conditional, pool) => {
     const snmp = require("net-snmp");
     const mysql = require('mysql');
     const ping = require('ping');
+    const colors = require('colors');
     let helpers = require('./helpers.js');
     const printer_oid_data = require('./oids.js');
 
@@ -36,11 +37,12 @@ module.exports = (sql_conditional, pool) => {
             let sql_statement_get = `SELECT * FROM snmpadresses ${sql_conditional};`;
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result) {
-
                     if (error) throw(error);
-                    let snmpAdresses = result.map(async row => {
 
+
+                    return resolve (Promise.all(result.map(async row => {
                             let ping_check = await wait_ping(row.ip);
+
                             if (ping_check.alive === true) {
                                 console.log('yes');
                                 return {
@@ -55,10 +57,18 @@ module.exports = (sql_conditional, pool) => {
                                 };
                             } else {
                                 console.log('lol nope');
+                                return {
+                                    ip: row.ip,
+                                    name: row.name,
+                                    color:'',
+                                    max_capacity:''
+                                }
                             }
                         }
-                    );
-                    return resolve(snmpAdresses);
+                    )));
+
+
+
                 });
                 connection.release();
             });
@@ -144,6 +154,7 @@ module.exports = (sql_conditional, pool) => {
                     return reject(err);
                 }
                 printer_data_parse(printer, data).then(data => {
+                    data.offline = false;
                     return resolve(data);
                 }).catch(error => {
                     console.log('printer_data_parse_error', error);
@@ -156,9 +167,8 @@ module.exports = (sql_conditional, pool) => {
 
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
-        return Promise.all(adresses.map(async (adress) => {
+        return Promise.all(adresses.map((adress) => {
                 console.log(adress, 'adress');
-
 
                 if (adress.color === true && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
@@ -179,6 +189,11 @@ module.exports = (sql_conditional, pool) => {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
                         return err;
                     });
+                } else{
+                    console.log(colors.yellow(`Printer not pinging`));
+                    console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
+                    console.log(colors.yellow(`Printer name:  ${adress.name}`));
+                    return {offline:true, ip:adress.ip};
                 }
             })
         );

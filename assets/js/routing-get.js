@@ -9,6 +9,7 @@ module.exports = function (app) {
     const ping = require('ping');
     const jQuery = require('jquery');
     const fs = require('fs');
+    const colors = require('colors');
 
     //files
     const printer_oid_data = require('./oids.js');
@@ -38,7 +39,8 @@ module.exports = function (app) {
         console.log('requested main-page');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let sql_statement_get = 'SELECT * FROM inc_supply_status';
-            console.log(response,'routing-get response');
+            console.log(colors.red(response.length));
+            console.log(colors.red(response),'routing-get response');
 
             let floors = helpers.numberOfFloors(response).number_of_floors;
             let critical_printers = helpers.criticalPrinters(response);
