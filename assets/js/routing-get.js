@@ -52,11 +52,16 @@ module.exports = function (app) {
                     let toner = response[i].cartridge;
                     let critical_toner_level = 12;
                     if (response[i].color) {
-                        if (toner.black.value || toner.cyan.value || toner.magenta.value || toner.yellow.value < critical_toner_level) {
+                        if (toner.black.value < critical_toner_level ||
+                            toner.cyan.value < critical_toner_level ||
+                            toner.magenta.value < critical_toner_level ||
+                            toner.yellow.value < critical_toner_level) {
                             critical_printers.push(response[i]);
                         }
-                    } else if (toner.black.value < critical_toner_level) {
-                        critical_printers.push(response[i]);
+                    } else {
+                        if (toner.black.value < critical_toner_level) {
+                            critical_printers.push(response[i]);
+                        }
                     }
                 }
                 return critical_printers;
