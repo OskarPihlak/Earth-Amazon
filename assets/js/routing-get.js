@@ -72,7 +72,6 @@ module.exports = function (app) {
     app.get('/10k/:id', function (req, res) {
         printer_data_promise("WHERE floor = '10'", pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
-            console.log(response);
             res.render('tenth-floor', {
                 printers_10k: response
             });
@@ -243,7 +242,6 @@ module.exports = function (app) {
                         });
                     });
                     let number_of_floors = helpers.numberOfFloors(final_data).number_of_floors;
-                    console.log(number_of_floors);
                     await res.render('admin', {
                         printers_all: final_data,
                         floors: number_of_floors
@@ -309,7 +307,6 @@ module.exports = function (app) {
     });
     app.get('/precentage/cartridge', function (req, res) {
         chart().then((data) => {
-            console.log(data);
             res.render('cartridge-statistics', {
                 chart: data
             });

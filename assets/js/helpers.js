@@ -106,7 +106,6 @@ module.exports.handlebars = () => {
 module.exports.numberOfFloors = (sql_data) => {
     let floorArray = [];
     for (let i = 0; i < sql_data.length; i++) {
-        console.log(colors.yellow(JSON.stringify(sql_data[i])));
         if (sql_data[i].printer_ping.alive === true) {
             floorArray.push(sql_data[i].floor);
         }
@@ -143,7 +142,6 @@ module.exports.criticalPrinters =
                     toner.cyan.value < critical_toner_level ||
                     toner.magenta.value < critical_toner_level ||
                     toner.yellow.value < critical_toner_level) {
-                    console.log(response[i].cartridge);
                     critical_printers.push(response[i]);
                 }
             } else {
@@ -228,8 +226,6 @@ module.exports.storageSorting = (sql_data, selected_storage, error) => {
 
 module.exports.criticalPrinters = (response) => {
     let critical_printers = [];
-    console.log(response, 'response');
-
     for (let i = 0; i < response.length; i++) {
         if (response[i].alive === true) {
             let toner = response[i].cartridge;

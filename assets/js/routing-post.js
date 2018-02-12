@@ -104,7 +104,6 @@ module.exports = function (app) {
                             let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
                             console.log(black_printer_statistics);
                             connection.query(black_printer_statistics, function (error, result, fields) {
-                                console.log(result);
                             });
                         }
                         connection.release();
