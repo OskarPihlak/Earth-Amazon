@@ -51,7 +51,7 @@ module.exports = ()=>{
                         return result;
                     }
 
-                    function last_days_data(){
+                    function last_days_data(unified){
                         let printer_data = [];
                         printer_data.value = [];
                         for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
@@ -108,7 +108,7 @@ module.exports = ()=>{
                                 }
                             }
                         }
-                        last_days_data();
+                        last_days_data(unified);
                     }
 
                     let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
