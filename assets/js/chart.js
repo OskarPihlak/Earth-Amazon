@@ -39,7 +39,7 @@ module.exports = ()=>{
                     function daysVisibleOnChart() {
                         let result = [];
                         let i=0;
-                        while (result.length < 20){
+                        while (result.length < 14){
                             let date_today = new Date();
                             date_today.setDate(date_today.getDate() - i);
                             let formatted_date = moment(date_today).format('DD-MM-YYYY');
