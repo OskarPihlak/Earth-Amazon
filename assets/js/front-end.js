@@ -198,6 +198,10 @@ function togglePrinterAdd() {
     $('#printer-creation').toggle();
 }
 
+function toggleCheckboxes(){
+    $('.btn-deselect-all-checkboxes').click();
+}
+
 $(document).ready(function() {
         $('body').addClass('loaded');
 });

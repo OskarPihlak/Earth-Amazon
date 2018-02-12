@@ -5,10 +5,11 @@
         {{#each floors}}
             <div class="btn-checkbox-filter">
                 <label for="{{this}}">{{this}}k</label>
-                <input checked id="{{this}}" class="floor-{{this}}" value="{{this}}" type="checkbox"
+                <input checked id="{{this}}" class="floor-{{this}} btn-deselect-all-checkboxes" value="{{this}}" type="checkbox"
                        onchange="valueChanged('{{this}}')">
             </div>
         {{/each}}
+        <button class="btn btn-primary" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
     <div>
         {{#each critical_printers}}
