@@ -48,7 +48,7 @@
     </div>
     <p>Unable to ping</p>
     {{#each printers}}
-        {{#ifEquals this.alive false}}
+        {{#ifEquals this.printer_ping.alive false}}
             <p>{{this.ip}}</p>
         {{/ifEquals}}
     {{/each}}
@@ -57,9 +57,19 @@
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
-                    <div class="pr-12k title">
-                        <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                            <br>{{this.ip}}</a></div>
+
+                    {{#ifEquals this.printer_ping.alive false}}
+                        <div style="color: red;text-decoration: line-through;"  class="pr-12k title">
+                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                                <br>{{this.ip}}</a>
+                        </div>
+                    {{else}}
+                        <div  class="pr-12k title">
+                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                                <br>{{this.ip}}</a>
+                        </div>
+                    {{/ifEquals}}
+
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
@@ -246,8 +256,23 @@
             {{else}}
 
                 <div class="printer printer-{{this.floor}}">
-                    <div class="title"><a href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                        <br>{{this.ip}}</a></div>
+
+
+
+
+                    {{#ifEquals this.printer_ping.alive false}}
+                        <div style="color: red;text-decoration: line-through;" class="pr-12k title">
+                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                                <br>{{this.ip}}</a>
+                        </div>
+                    {{else}}
+                        <div  class="pr-12k title">
+                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
+                                <br>{{this.ip}}</a>
+                        </div>
+                    {{/ifEquals}}
+
+
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">

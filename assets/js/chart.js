@@ -83,7 +83,7 @@ module.exports = ()=>{
                                 }
                             }
                         }
-                        console.log(unified);
+
                         console.log(colors.green(unified));
                         //get dates of last 7 days
                         let printer_data = [];
@@ -93,6 +93,7 @@ module.exports = ()=>{
 
                             for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
                                 if (unified.value[i].date === daysVisibleOnChart()[x]) {
+                                    console.log(colors.cyan(unified));
                                     day_toners.push(unified.value[i]);
                                 }
                             }

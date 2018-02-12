@@ -40,12 +40,12 @@ module.exports = (sql_conditional, pool) => {
                                     printer_ping:{ip:row.ip, alive: true}
                                 };
                             } else {
-                                console.log(colors.red(`nope ${row.ip}`));
+                                console.log(colors.red(`FAILED ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     name: row.name,
-                                    color:null,
-                                    max_capacity:null,
+                                    color:'',
+                                    max_capacity:'',
                                     printer_ping:{ip:row.ip, alive: false}
                                 }
                             }
@@ -170,9 +170,10 @@ module.exports = (sql_conditional, pool) => {
                         return err;
                     });
                 } else{
-                    console.log(colors.yellow(`Printer not pinging`));
+                    console.log(colors.yellow(`Printer is not responding! It may be turned off.`));
                     console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
                     console.log(colors.yellow(`Printer name:  ${adress.name}`));
+                    return {printer_ping:{alive:false}, ip:adress.ip, name:adress.name}
                 }
             })
         );
