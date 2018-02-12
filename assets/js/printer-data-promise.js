@@ -7,29 +7,12 @@ module.exports = (sql_conditional, pool) => {
     let helpers = require('./helpers.js');
     const printer_oid_data = require('./oids.js');
 
-    function ipStatus(ip) {
-        return new Promise(resolve => {
-            ping.sys.probe(ip, isAlive => {
-                let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
-                return resolve(msg);
-            })
-        });
-    }
-
-    async function processArray(array) {
-        await ipStatus(array).then(data => {
-            console.log(data, 'lol');
-        });
-    }
-
     let wait_ping = ip => new Promise((resolve, reject) => {
         ping.sys.probe(ip, isAlive => {
             let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
-            console.log(msg);
             return resolve(msg);
         });
     });
-
 
     //factory
     function getSnmpAdresses() {
@@ -44,7 +27,7 @@ module.exports = (sql_conditional, pool) => {
                             let ping_check = await wait_ping(row.ip);
 
                             if (ping_check.alive === true) {
-                                console.log('yes');
+                                console.log(colors.green(`OK ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     color: !!row.color,
@@ -53,22 +36,21 @@ module.exports = (sql_conditional, pool) => {
                                     max_capacity: !!row.max_capacity,
                                     floor: row.floor,
                                     position_left: row.position_left,
-                                    position_top: row.position_top
+                                    position_top: row.position_top,
+                                    printer_ping:{ip:row.ip, alive: true}
                                 };
                             } else {
-                                console.log('lol nope');
+                                console.log(colors.red(`nope ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     name: row.name,
-                                    color:'',
-                                    max_capacity:''
+                                    color:null,
+                                    max_capacity:null,
+                                    printer_ping:{ip:row.ip, alive: false}
                                 }
                             }
                         }
                     )));
-
-
-
                 });
                 connection.release();
             });
@@ -154,7 +136,6 @@ module.exports = (sql_conditional, pool) => {
                     return reject(err);
                 }
                 printer_data_parse(printer, data).then(data => {
-                    data.offline = false;
                     return resolve(data);
                 }).catch(error => {
                     console.log('printer_data_parse_error', error);
@@ -168,7 +149,6 @@ module.exports = (sql_conditional, pool) => {
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
         return Promise.all(adresses.map((adress) => {
-                console.log(adress, 'adress');
 
                 if (adress.color === true && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
@@ -193,7 +173,6 @@ module.exports = (sql_conditional, pool) => {
                     console.log(colors.yellow(`Printer not pinging`));
                     console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
                     console.log(colors.yellow(`Printer name:  ${adress.name}`));
-                    return {offline:true, ip:adress.ip};
                 }
             })
         );

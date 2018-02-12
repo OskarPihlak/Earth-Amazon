@@ -212,7 +212,6 @@ module.exports = function (app) {
                 });
             });
             connection.query(sql_statement_get_snmp_adresses, function (error, result) {
-                let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
                 if (error) throw error;
 
                 //array of printer ip-s
@@ -230,18 +229,16 @@ module.exports = function (app) {
                         })
                     });
                 }
-
                 //handles ip promises and renders page
-                async function processArray(array) {
-                    let ip_stuff = [];
-                    for (const item of array) {
-                        await ipStatus(item).then(data => {
-                            ip_stuff.push(data)
-                        });
-                    }
+                async function adminRender(array) {
+                        let array_of_ips = [];
+                        for (const item of array) {
+                            await ipStatus(item).then(data => array_of_ips.push(data));
+                        }
+
                     //add promise result to matching query element
                     let final_data = [];
-                    ip_stuff.forEach(status_object => {
+                    array_of_ips.forEach(status_object => {
                         result.forEach(query_result => {
                             if (status_object.ip === query_result.ip) {
                                 query_result.printer_ping = status_object;
@@ -249,16 +246,15 @@ module.exports = function (app) {
                             }
                         });
                     });
-                    console.log(result);
+                    let number_of_floors = helpers.numberOfFloors(final_data).number_of_floors;
+                    console.log(number_of_floors);
                     await res.render('admin', {
                         printers_all: final_data,
                         floors: number_of_floors
                     });
                     return result;
                 }
-
-                processArray(hosts);
-
+                adminRender(hosts);
             });
             connection.release();
         });
@@ -268,9 +264,10 @@ module.exports = function (app) {
         let sql_statement_get = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, result) {
-                let number_of_floors = helpers.numberOfFloors(result).number_of_floors;
+                let floors_master = [];
+                result.forEach(data=> {data.printer_ping = {alive:true}; floors_master.push(data)} );
+                let number_of_floors = helpers.numberOfFloors(floors_master).number_of_floors;
                 if (error) throw error;
-
                 res.render('floors', {
                     floors: number_of_floors
                 });
@@ -325,6 +322,7 @@ module.exports = function (app) {
         });
     });
 
+//tests
     app.get('/service-worker.js', (req, res) => {
         res.set('Content-Type', 'application/javascript');
         const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);

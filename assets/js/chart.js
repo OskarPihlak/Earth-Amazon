@@ -1,4 +1,5 @@
 module.exports = ()=>{
+    const colors = require('colors');
     const printer_data_promise = require('./printer-data-promise');
     let database = require('./db.js');
     const printer_oid_data = require('./oids.js');
@@ -78,10 +79,12 @@ module.exports = ()=>{
                                             unified.value.push({ date: moment(result[i].date).format('DD-MM-YYYY'), magenta: result[i].precentage, toner_magenta: result[i].cartridge });
                                             break;
                                     }
+                                    //break
                                 }
                             }
                         }
-
+                        console.log(unified);
+                        console.log(colors.green(unified));
                         //get dates of last 7 days
                         let printer_data = [];
                         printer_data.value = [];
@@ -104,7 +107,9 @@ module.exports = ()=>{
                         }
                         printer_data.printer = unified.printer;
                         master_printer_data.push(printer_data);
+
                     }
+
                     let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
                     pool.getConnection((err, connection) => {
                         connection.query(sql_statement_get, function (error, sql_data) {
@@ -120,7 +125,11 @@ module.exports = ()=>{
                             for (let i = 0; i < master_printer_data.length; i++) {
 
                                 master_printer_data[i].usage = [];
+
+
+                                console.log(colors.red(master_printer_data));
                                 if (master_printer_data[i].color === true) {
+
                                     master_printer_data[i].usage.push({
                                         toner: master_printer_data[i].value[0].toner_black,
                                         used_per_day: precisionRound((master_printer_data[i].value[0].black - (master_printer_data[i].value).last().black) / master_printer_data[i].value.length,1)
@@ -153,3 +162,30 @@ module.exports = ()=>{
         });
     });
 };
+
+
+
+/*
+function last_7_days(){
+    let printer_data = [];
+    printer_data.value = [];
+    for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
+        let day_toners = [];
+
+        for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
+            if (unified.value[i].date === daysVisibleOnChart()[x]) {
+                day_toners.push(unified.value[i]);
+            }
+        }
+        let temporary_toner_object = {};
+        for (let i = 0; i < day_toners.length; i++) {
+            Object.assign(temporary_toner_object, day_toners[i]);
+        }
+
+        if (helpers.isEmpty(temporary_toner_object) === false) {
+            printer_data.value.push(temporary_toner_object);
+        }
+    }
+    printer_data.printer = unified.printer;
+    master_printer_data.push(printer_data);
+}*/

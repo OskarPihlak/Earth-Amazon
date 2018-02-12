@@ -104,13 +104,10 @@ module.exports.handlebars = () => {
 };
 
 module.exports.numberOfFloors = (sql_data) => {
-    console.log(sql_data.length);
-
     let floorArray = [];
     for (let i = 0; i < sql_data.length; i++) {
-        console.log(colors.cyan(sql_data));
-        if (sql_data[i].offline === false) {
-            console.log(colors.green(sql_data[i]), 'sql_data_floors');
+        console.log(colors.yellow(JSON.stringify(sql_data[i])));
+        if (sql_data[i].printer_ping.alive === true) {
             floorArray.push(sql_data[i].floor);
         }
     }
@@ -131,7 +128,6 @@ module.exports.numberOfFloors = (sql_data) => {
         }
         return arr;
     };
-
     let number_of_floors = floorArray.unique();
     return {number_of_floors: number_of_floors};
 };
@@ -235,7 +231,7 @@ module.exports.criticalPrinters = (response) => {
     console.log(response, 'response');
 
     for (let i = 0; i < response.length; i++) {
-        if (response[i].offline === false) {
+        if (response[i].alive === true) {
             let toner = response[i].cartridge;
             console.log(toner);
             let critical_toner_level = 15;

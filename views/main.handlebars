@@ -48,9 +48,9 @@
     </div>
     <p>Unable to ping</p>
     {{#each printers}}
-        {{#if this.offline}}
+        {{#ifEquals this.alive false}}
             <p>{{this.ip}}</p>
-        {{/if}}
+        {{/ifEquals}}
     {{/each}}
     <div class="main-container container-home" id="container">
 

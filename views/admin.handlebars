@@ -105,6 +105,7 @@
                 <select id="input-status-floor-{{@index}}" class="printer-add input-display"
                         onload="floorIdentification({{@index}})">
                     {{#each ../floors}}
+                        {{this}}
                         {{#ifEquals this ../this.floor}}
                             <option selected>{{this}}</option>
                         {{else}}
