@@ -34,19 +34,38 @@ module.exports = function (app) {
         return arr;
     };
 
+
+
     //main page
     app.get('/', function (req, res) {
         console.log('Route -> /');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
             let floors = helpers.numberOfFloors(response).number_of_floors;
-            let critical_printers = helpers.criticalPrinters(response);
+
             for (let i = 0; i < response.length; i++) {
                 response[i].requested = req.params.id;
             }
+
+            let critical_printers = response => {
+                let critical_printers = [];
+                for (let i = 1; i < response.length; i++) {
+                    let toner = response[i].cartridge;
+                    let critical_toner_level = 25;
+                    if (response[i].color) {
+                        if (toner.black.value || toner.cyan.value || toner.magenta.value || toner.yellow.value < critical_toner_level) {
+                            critical_printers.push(response[i]);
+                        }
+                    } else if (toner.black.value < critical_toner_level) {
+                        critical_printers.push(response[i]);
+                    }
+                }
+                return critical_printers;
+            };
+            let critically_printers = critical_printers(response);
             res.render('main', {
                 printers: response,
                 floors: floors,
-                critical_printers: critical_printers
+                critical_printers: critically_printers
             });
         });
     });
@@ -224,12 +243,13 @@ module.exports = function (app) {
                         })
                     });
                 }
+
                 //handles ip promises and renders page
                 async function adminRender(array) {
-                        let array_of_ips = [];
-                        for (const item of array) {
-                            await ipStatus(item).then(data => array_of_ips.push(data));
-                        }
+                    let array_of_ips = [];
+                    for (const item of array) {
+                        await ipStatus(item).then(data => array_of_ips.push(data));
+                    }
 
                     //add promise result to matching query element
                     let final_data = [];
@@ -248,6 +268,7 @@ module.exports = function (app) {
                     });
                     return result;
                 }
+
                 adminRender(hosts);
             });
             connection.release();
@@ -259,7 +280,10 @@ module.exports = function (app) {
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, result) {
                 let floors_master = [];
-                result.forEach(data=> {data.printer_ping = {alive:true}; floors_master.push(data)} );
+                result.forEach(data => {
+                    data.printer_ping = {alive: true};
+                    floors_master.push(data)
+                });
                 let number_of_floors = helpers.numberOfFloors(floors_master).number_of_floors;
                 if (error) throw error;
                 res.render('floors', {

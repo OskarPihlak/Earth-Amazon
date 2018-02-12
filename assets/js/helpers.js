@@ -131,11 +131,13 @@ module.exports.numberOfFloors = (sql_data) => {
     return {number_of_floors: number_of_floors};
 };
 
-module.exports.criticalPrinters =
-    function criticalPrinters(response) {
+module.exports.criticalPrinters = response => {
+    console.log('passby');
+    console.log(response);
         let critical_printers = [];
         for (let i = 1; i < response.length; i++) {
             let toner = response[i].cartridge;
+            console.log(colors.magenta(toner));
             let critical_toner_level = 25;
             if (response[i].color) {
                 if (toner.black.value < critical_toner_level ||
@@ -150,6 +152,7 @@ module.exports.criticalPrinters =
                 }
             }
         }
+
         return {critical_printers: critical_printers};
     };
 
