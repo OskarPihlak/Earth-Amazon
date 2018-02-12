@@ -84,30 +84,30 @@ module.exports = ()=>{
                             }
                         }
 
-                        console.log(colors.green(unified));
-                        //get dates of last 7 days
-                        let printer_data = [];
-                        printer_data.value = [];
-                        for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
-                            let day_toners = [];
+                        function last_7_days(){
+                            let printer_data = [];
+                            printer_data.value = [];
+                            for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
+                                let day_toners = [];
 
-                            for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
-                                if (unified.value[i].date === daysVisibleOnChart()[x]) {
-                                    console.log(colors.cyan(unified));
-                                    day_toners.push(unified.value[i]);
+                                for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
+                                    if (unified.value[i].date === daysVisibleOnChart()[x]) {
+                                        day_toners.push(unified.value[i]);
+                                    }
+                                }
+                                let temporary_toner_object = {};
+                                for (let i = 0; i < day_toners.length; i++) {
+                                    Object.assign(temporary_toner_object, day_toners[i]);
+                                }
+
+                                if (helpers.isEmpty(temporary_toner_object) === false) {
+                                    printer_data.value.push(temporary_toner_object);
                                 }
                             }
-                            let temporary_toner_object = {};
-                            for (let i = 0; i < day_toners.length; i++) {
-                                Object.assign(temporary_toner_object, day_toners[i]);
-                            }
-
-                            if (helpers.isEmpty(temporary_toner_object) === false) {
-                                printer_data.value.push(temporary_toner_object);
-                            }
+                            printer_data.printer = unified.printer;
+                            master_printer_data.push(printer_data);
                         }
-                        printer_data.printer = unified.printer;
-                        master_printer_data.push(printer_data);
+last_7_days();
 
                     }
 
@@ -166,27 +166,3 @@ module.exports = ()=>{
 
 
 
-/*
-function last_7_days(){
-    let printer_data = [];
-    printer_data.value = [];
-    for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
-        let day_toners = [];
-
-        for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
-            if (unified.value[i].date === daysVisibleOnChart()[x]) {
-                day_toners.push(unified.value[i]);
-            }
-        }
-        let temporary_toner_object = {};
-        for (let i = 0; i < day_toners.length; i++) {
-            Object.assign(temporary_toner_object, day_toners[i]);
-        }
-
-        if (helpers.isEmpty(temporary_toner_object) === false) {
-            printer_data.value.push(temporary_toner_object);
-        }
-    }
-    printer_data.printer = unified.printer;
-    master_printer_data.push(printer_data);
-}*/
