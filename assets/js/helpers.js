@@ -138,7 +138,7 @@ module.exports.criticalPrinters = response => {
         for (let i = 1; i < response.length; i++) {
             let toner = response[i].cartridge;
             console.log(colors.magenta(toner));
-            let critical_toner_level = 25;
+            let critical_toner_level = 12;
             if (response[i].color) {
                 if (toner.black.value < critical_toner_level ||
                     toner.cyan.value < critical_toner_level ||
