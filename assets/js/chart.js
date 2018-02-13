@@ -5,8 +5,9 @@ module.exports = ()=>{
     const printer_oid_data = require('./oids.js');
     const pool = database.db_define_database();
     const moment = require('moment-business-days');
+    const moment_range = require('moment-range');
     const helpers = require('./helpers.js');
-
+    const moment_ranges = moment_range.extendMoment(moment);
     return new Promise((resolve, reject)=> {
         pool.getConnection((err, connection) => {
 
@@ -42,39 +43,17 @@ module.exports = ()=>{
                         while (result.length < 14){
                             let date_today = new Date();
                             date_today.setDate(date_today.getDate() - i);
-                            let formatted_date = moment(date_today).format('DD-MM-YYYY');
-                            if(moment(formatted_date, 'DD-MM-YYYY').isBusinessDay() === true){
-                                result.push( formatted_date );
+                            let formatted_date_today = moment(date_today).format('DD-MM-YYYY');
+                            if(moment(formatted_date_today, 'DD-MM-YYYY').isBusinessDay() === true){
+                                result.push( formatted_date_today);
                             }
                             i++
                         }
-                        return result;
+                        return {date_array:result, to_date:result[0], from_date:result[result.length -1]};
                     }
-
-                    function last_days_data(unified){
-                        let printer_data = [];
-                        printer_data.value = [];
-                        for (let x = 0; x < daysVisibleOnChart().length; x++) { //iterate last 7 day dates
-                            let day_toners = [];
-
-                            for (let i = 0; i < unified.value.length; i++) { //cartridge objects in array
-                                if (unified.value[i].date === daysVisibleOnChart()[x]) {
-                                    day_toners.push(unified.value[i]);
-                                }
-                            }
-                            let temporary_toner_object = {};
-                            for (let i = 0; i < day_toners.length; i++) {
-                                Object.assign(temporary_toner_object, day_toners[i]);
-                            }
-
-                            if (helpers.isEmpty(temporary_toner_object) === false) {
-                                printer_data.value.push(temporary_toner_object);
-                            }
-                        }
-                        printer_data.printer = unified.printer;
-                        master_printer_data.push(printer_data);
-                        return master_printer_data;
-                    }
+                    const start = moment(daysVisibleOnChart().from_date, 'DD-MM-YYYY');
+                    const end   = moment(daysVisibleOnChart().to_date, 'DD-MM-YYYY');
+                    const range = moment_ranges.range(start, end);
 
                     //work code
                     let master_printer_data = [];
@@ -86,9 +65,7 @@ module.exports = ()=>{
                         for (let i = 0; i < result.length; i++) { //iterates every result in statistics database
 
                             for (let z = 0; z < (uniquePrintersAndToners()[x].toner).length; z++) { //iterates every toner of iteratable printer
-
-                                if (result[i].cartridge === uniquePrintersAndToners()[x].toner[z] && result[i].printer_name === uniquePrintersAndToners()[x].name) {
-
+                                if (result[i].cartridge === uniquePrintersAndToners()[x].toner[z] && result[i].printer_name === uniquePrintersAndToners()[x].name && range.contains(result[i].date) === true) {
                                     unified.printer = result[i].printer_name;
                                     switch (result[i].color) {
                                         case 'black':
@@ -108,7 +85,7 @@ module.exports = ()=>{
                                 }
                             }
                         }
-                        last_days_data(unified);
+                        master_printer_data.push(unified);
                     }
 
                     let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
@@ -126,9 +103,6 @@ module.exports = ()=>{
                             for (let i = 0; i < master_printer_data.length; i++) {
 
                                 master_printer_data[i].usage = [];
-
-
-                                console.log(colors.red(master_printer_data));
                                 if (master_printer_data[i].color === true) {
 
                                     master_printer_data[i].usage.push({
@@ -154,7 +128,6 @@ module.exports = ()=>{
                                     });
                                 }
                             }
-                            console.log(master_printer_data);
                             return resolve(master_printer_data);
                         });
                     });
