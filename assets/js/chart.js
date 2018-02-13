@@ -55,6 +55,9 @@ module.exports = ()=>{
                     const end   = moment(daysVisibleOnChart().to_date, 'DD-MM-YYYY');
                     const range = moment_ranges.range(start, end);
 
+
+
+
                     //work code
                     let master_printer_data = [];
                     for (let x = 0; x < uniquePrintersAndToners().length; x++) { //iterates every printer
@@ -86,7 +89,11 @@ module.exports = ()=>{
                             }
                         }
                         master_printer_data.push(unified);
+                        console.log(colors.red(unified));
                     }
+
+                    //console.log(master_printer_data);
+
 
                     let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
                     pool.getConnection((err, connection) => {
@@ -96,7 +103,6 @@ module.exports = ()=>{
                                     if (master_printer_data[i].printer === sql_data[x].name) {
                                         master_printer_data[i].color = !!sql_data[x].color;
                                         master_printer_data[i].ip = sql_data[x].ip;
-                                        master_printer_data[i].value.reverse();
                                     }
                                 }
                             }
