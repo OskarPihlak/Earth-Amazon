@@ -10,6 +10,8 @@ module.exports = function (app) {
     const jQuery = require('jquery');
     const fs = require('fs');
     const colors = require('colors');
+    const moment_range = require('moment-range');
+    const moment_ranges = moment_range.extendMoment(moment);
 
     //files
     const printer_oid_data = require('./oids.js');
@@ -33,7 +35,6 @@ module.exports = function (app) {
         }
         return arr;
     };
-
 
 
     //main page
@@ -334,13 +335,22 @@ module.exports = function (app) {
             connection.release();
         });
     });
+    let chart_master;
+    const range = moment_ranges.range(8, 18);
+    chart().then( data => chart_master = data );
+
+    setInterval(()=>{
+        let date = new Date();
+        let day_name = moment().format('dddd');
+        if(range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')){
+        chart().then(data => chart_master = data );
+        }
+    },2700000);
+
     app.get('/precentage/cartridge', function (req, res) {
-        chart().then((data) => {
-            res.render('cartridge-statistics', {
-                chart: data
-            });
-        }).catch(error => {
-            throw error
+
+        res.render('cartridge-statistics', {
+            chart: chart_master
         });
     });
 
