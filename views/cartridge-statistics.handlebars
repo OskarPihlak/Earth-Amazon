@@ -8,10 +8,6 @@
 <div class="statistics-printer-container">
     <p class="chart-title">{{this.printer_name}}<br>{{this.ip}}</p>
 
-    {{#each this.usage}}
-            <p>{{this.toner}}  {{this.used_per_day}}% </p>
-    {{/each}}
-
     <div class="chart-{{@index}}"></div>
 
    <!--                                                       -->
