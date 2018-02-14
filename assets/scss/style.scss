@@ -150,6 +150,13 @@ START // CHART'S RULES
   perspective: 1000px;
   perspective-origin: 50% 50%;
   backface-visibility: visible;
+  &-title{
+    background-color: steelblue;
+    color: white;
+    width: 200px;
+    margin: 0 auto 5px auto;
+    border-radius: 5px;
+  }
 }
 
 $faceColor: rgba($white, .3);
