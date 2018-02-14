@@ -53,6 +53,17 @@
                     ]
                 }
             },
+           /* tooltip: {
+                format: {
+                    title: function (d) { return 'Data ' + d; },
+                    value: function (value, ratio, id) {
+                        var format = id === 'black' ? d3.format('$$') : d3.format('$$$');
+                        return format(value);
+                    }
+
+//            value: d3.format(',') // apply this format to both y and y2
+                }
+            },*/
             color: {
                 pattern: ['#000000', '#00e8e2', '#f8ff00', '#ff00fd']}
         });
