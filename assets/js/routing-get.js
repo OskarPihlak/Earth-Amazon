@@ -347,6 +347,8 @@ module.exports = function (app) {
         }
     },2700000);
 
+
+
     app.get('/precentage/cartridge', function (req, res) {
 
         res.render('cartridge-statistics', {
