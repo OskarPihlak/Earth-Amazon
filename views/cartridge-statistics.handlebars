@@ -17,6 +17,7 @@
                 width: 380
             },
             data: {
+                type: 'spline',
                 json: [
                     {{#each this}}
                         {{#if ../this.color}}
@@ -35,7 +36,6 @@
             {{/if}}
                 }
             },
-            type: 'spline',
             axis: {
                 x: {
                     type: 'category',
