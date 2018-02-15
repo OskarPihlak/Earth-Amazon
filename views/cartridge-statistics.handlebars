@@ -20,7 +20,7 @@
                 type: 'spline',
                 json: [
                     {{#each this}}
-                        {{#compare this.date '!==' ''}}
+                        {{#compare this.date '!==' undefined}}
                         {{#if ../this.color}}
                             {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:'{{this.date}}' },
                         {{else}}
