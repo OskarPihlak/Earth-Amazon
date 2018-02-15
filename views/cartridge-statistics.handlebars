@@ -49,6 +49,13 @@
                     lines: [
                         {value: 10, text: '10% piir'},
                     ]
+                },
+                x:{
+                    lines:[
+                        {{#each ../chart.xgrid}}
+                            {value:{{this.value}}, text:{{this.text}} },
+                        {{/each}}
+                    ]
                 }
             },
            /* tooltip: {

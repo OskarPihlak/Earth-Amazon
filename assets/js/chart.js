@@ -41,7 +41,7 @@ module.exports = () => {
                         function daysVisibleOnChart() {
                             let result = [];
                             let i = 0;
-                            while (result.length < 14) {
+                            while (result.length < 20) {
                                 let date_today = new Date();
                                 date_today.setDate(date_today.getDate() - i);
                                 let formatted_date_today = moment(date_today).format('DD-MM-YYYY');
@@ -58,6 +58,7 @@ module.exports = () => {
 
                         //work code
                         let master_printer_data = [];
+                            master_printer_data.xgrid = [];
                         for (let x = 0; x < uniquePrintersAndToners().length; x++) { //iterates every printer
                             let printer_iteration = [];
                             printer_iteration.printer = {};
@@ -69,7 +70,7 @@ module.exports = () => {
 
                                     if (result[i].cartridge === uniquePrintersAndToners()[x].toner[z] && result[i].printer_name === uniquePrintersAndToners()[x].name && range.contains(result[i].date) === true) { //checks date range, printer name and cartridge name
                                         printer_iteration.printer = result[i].printer_name;
-
+                                        //if (moment(result[i].date).format('DD-MM-YYYY') === 'Monday') printer_iteration.lines.push(moment(result[i].date).format('DD'));
                                         if (printer_iteration.dates.includes(moment(result[i].date).format('DD-MM-YYYY')) === false) printer_iteration.dates.push(moment(result[i].date).format('DD-MM-YYYY'));
                                         switch (result[i].color) {
                                             case 'black':
@@ -108,6 +109,10 @@ module.exports = () => {
                             let printer_object_container = [];
                             printer_object_container.printer_name = printer_iteration.printer;
                             printer_iteration.dates.forEach((date) => {
+
+                                if(moment(date,'DD-MM-YYYY').format('dddd') === 'Monday') master_printer_data.xgrid.push({
+                                    value:moment(date,'DD-MM-YYYY').format('DD'),
+                                    text:`${moment(date,'DD-MM-YYYY').format('W')} week`});
 
                                 let objects_wirh_one_date = [];
                                 printer_iteration.value.forEach((cartridge_object) => {
@@ -161,6 +166,7 @@ module.exports = () => {
                                         });
                                     }
                                 }
+                                console.log(master_printer_data);
                                 return resolve(master_printer_data);
                             });
                         });
