@@ -336,7 +336,7 @@ module.exports = function (app) {
         });
     });
     let chart_master;
-    const range = moment_ranges.range(8, 18);
+    const range = moment_ranges.range(8, 10);
     chart().then( data => chart_master = data );
 
     setInterval(()=>{
