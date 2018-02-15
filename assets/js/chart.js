@@ -59,19 +59,19 @@ module.exports = () => {
                         //work code
                         let master_printer_data = [];
                             master_printer_data.xgrid = [];
+                            master_printer_data.dates = [];
                         for (let x = 0; x < uniquePrintersAndToners().length; x++) { //iterates every printer
                             let printer_iteration = [];
                             printer_iteration.printer = {};
                             printer_iteration.value = [];
-                            printer_iteration.dates = [];
                             for (let i = 0; i < result.length; i++) { //iterates every result in statistics database
 
                                 for (let z = 0; z < (uniquePrintersAndToners()[x].toner).length; z++) { //iterates every toner of iteratable printer
 
                                     if (result[i].cartridge === uniquePrintersAndToners()[x].toner[z] && result[i].printer_name === uniquePrintersAndToners()[x].name && range.contains(result[i].date) === true) { //checks date range, printer name and cartridge name
-                                        printer_iteration.printer = result[i].printer_name;
+                                        printer_iteration.printer = result[i].printer_name; //TODO put dis to global alongside master_printer_data
                                         //if (moment(result[i].date).format('DD-MM-YYYY') === 'Monday') printer_iteration.lines.push(moment(result[i].date).format('DD'));
-                                        if (printer_iteration.dates.includes(moment(result[i].date).format('DD-MM-YYYY')) === false) printer_iteration.dates.push(moment(result[i].date).format('DD-MM-YYYY'));
+                                        if (master_printer_data.dates.includes(moment(result[i].date).format('DD-MM-YYYY')) === false) master_printer_data.dates.push(moment(result[i].date).format('DD-MM-YYYY'));
                                         switch (result[i].color) {
                                             case 'black':
                                                 printer_iteration.value.push({
@@ -108,11 +108,7 @@ module.exports = () => {
                             }
                             let printer_object_container = [];
                             printer_object_container.printer_name = printer_iteration.printer;
-                            printer_iteration.dates.forEach((date) => {
-
-                                if(moment(date,'DD-MM-YYYY').format('dddd') === 'Monday') master_printer_data.xgrid.push({
-                                    value:moment(date,'DD-MM-YYYY').format('DD'),
-                                    text:`'${moment(date,'DD-MM-YYYY').format('W')} week'`});
+                            master_printer_data.dates.forEach((date) => {
 
                                 let objects_wirh_one_date = [];
                                 printer_iteration.value.forEach((cartridge_object) => {
@@ -130,6 +126,10 @@ module.exports = () => {
                             console.log(colors.green(JSON.stringify(printer_object_container)));
                             master_printer_data.push(printer_object_container);
                         }
+                        master_printer_data.dates.forEach((date)=>{
+                             if(moment(date,'DD-MM-YYYY').format('dddd') === 'Monday') master_printer_data.xgrid.push({value:moment(date,'DD-MM-YYYY').format('DD'), text: `${(moment(date,'DD-MM-YYYY').format('W'))} Nädal`});
+                        });
+
                         let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
                         pool.getConnection((err, connection) => {
                             connection.query(sql_statement_get, function (error, sql_data) {
