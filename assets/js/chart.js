@@ -112,7 +112,7 @@ module.exports = () => {
 
                                 if(moment(date,'DD-MM-YYYY').format('dddd') === 'Monday') master_printer_data.xgrid.push({
                                     value:moment(date,'DD-MM-YYYY').format('DD'),
-                                    text:`${moment(date,'DD-MM-YYYY').format('W')} week`});
+                                    text:`'${moment(date,'DD-MM-YYYY').format('W')} week'`});
 
                                 let objects_wirh_one_date = [];
                                 printer_iteration.value.forEach((cartridge_object) => {
