@@ -1321,3 +1321,18 @@ Enjoy responsibly!
 .container-home{
   margin: 0 auto;
 }
+
+//c3 grid line style
+.c3-xgrid-line.blue line {
+  stroke: #4682b4;
+}
+.c3-xgrid-line.blue text {
+  fill: #4682b4;
+}
+
+.c3-ygrid-line.gridRed line {
+  stroke: red;
+}
+.c3-ygrid-line.gridRed text {
+  fill: red;
+}

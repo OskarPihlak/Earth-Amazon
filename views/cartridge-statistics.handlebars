@@ -1,7 +1,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
-
+<link href="/css/style.css" rel="stylesheet" type="text/css">
 {{#each chart}}
 <div class="statistics-printer-container">
     <p class="chart-title">{{this.printer_name}}<br>{{this.ip}}</p>
@@ -47,13 +47,13 @@
             grid: {
                 y: {
                     lines: [
-                        {value: 10, text: '10% piir'},
+                        {value: 10, class:'gridRed', text: '10% piir'},
                     ]
                 },
                 x:{
                     lines:[
                         {{#each ../chart.xgrid}}
-                            {value:'{{this.value}}', text:'{{this.text}}' },
+                            {value:'{{this.value}}',class:'blue', text:'{{this.text}}' },
                         {{/each}}
                     ]
                 }
