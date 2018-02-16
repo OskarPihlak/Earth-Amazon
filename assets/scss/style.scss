@@ -622,6 +622,11 @@ tr td:first-child {
 }
 
 .btn{
+  &-toggle{
+    &-floor {
+      height: 37px;
+    }
+  }
   &-settings{
     margin: 10px;
     width: 173px;
@@ -635,6 +640,21 @@ tr td:first-child {
       display: inline-block;
       margin: 0 10px 0 0;
     }
+  }
+  &-critical{
+    &-printer{
+      &-location{
+        height: 37px;
+      }
+    }
+  }
+}
+.container{
+  &-floor{
+    background-color: white;
+    width: 518px;
+    margin: 0 auto;
+    border-radius: 3px;
   }
 }
 
@@ -877,15 +897,24 @@ tr td:first-child {
   visibility: hidden;
 }
 
-.critical-printer{
-  &-style {
-    margin: 25px 0 0 0;
-    width: 50%;
-    transform: translateX(50%);
-  }
-  &-div{
-    color: darkred;
-    display: inline-block;
+.critical{
+  &-printer {
+    &-container{
+      display: inline-block;
+      width: 21%;
+      left: 50%;
+      position: relative;
+      transform: translateX(-50%);
+    }
+    &-style {
+      margin: 25px 0 0 0;
+      width: 50%;
+      transform: translateX(50%);
+    }
+    &-div {
+      color: darkred;
+      display: inline-block;
+    }
   }
 }
 

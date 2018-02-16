@@ -2,7 +2,7 @@
 <link href="/css/style.css" rel="stylesheet" type="text/css">
 
 <div class="main-container">
-    <div style="background-color: white;width: 518px;margin: 0 auto;border-radius: 3px;">
+    <div class="container-floor">
         <!-- generates floor checkboxes -->
         {{#each floors}}
             <div class="btn-checkbox-filter">
@@ -11,14 +11,14 @@
             </div>
         {{/each}}
         <!-- toggle all floor checkboxes -->
-        <button style="margin: 5px;" class="btn btn-primary" onclick="toggleCheckboxes()">Toggle checboxes</button>
+        <button class="btn btn-primary btn-toggle-floor" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
 
         {{#each critical_printers}}
-            <div style="display: inline-block;width: 21%;left: 50%;position: relative;transform: translateX(-50%);">
+            <div class="critical-printer-container">
                 <!-- displays location of printer on map -->
                 <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
-                    <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
+                    <button class="btn btn-danger btn-critical-printer-location">Asukoht</button>
                 </form>
                 <!-- critical printer toner check -->
                 <p class="list-group-item list-group-item-action list-group-item-danger list-critical" style="line-height: 1">
