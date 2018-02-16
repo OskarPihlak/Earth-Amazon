@@ -12,33 +12,33 @@
         <!-- toggle all floor checkboxes -->
         <button class="btn btn-primary btn-toggle-floor" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
-
-    <div class="main-container container-home" id="container">
+<div class="main-container">
         {{#each critical_printers}}
-            <div class="critical-printer-container">
-                <!-- displays location of printer on map -->
-                <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
-                    <button class="btn btn-danger btn-critical-printer-location">Asukoht</button>
-                </form>
-                <!-- critical printer toner check -->
-                <p class="list-group-item list-group-item-action list-group-item-danger list-critical" style="line-height: 1">
-                    <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}<br>{{this.name}}</a>
-                </p>
-                {{#lessOrEquals 25 this.cartridge.black.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}%</p>
-                {{/lessOrEquals}}
-                {{#lessOrEquals 25 this.cartridge.cyan.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}%</p>
-                {{/lessOrEquals}}
-                {{#lessOrEquals 25 this.cartridge.magenta.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}%</p>
-                {{/lessOrEquals}}
-                {{#lessOrEquals 25 this.cartridge.yellow.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}%</p>
-                {{/lessOrEquals}}
-            </div>
-        {{/each}}
-
+    <div class="critical-printer-container">
+        <!-- displays location of printer on map -->
+        <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
+            <button class="btn btn-danger btn-critical-printer-location">Asukoht</button>
+        </form>
+        <!-- critical printer toner check -->
+        <p class="list-group-item list-group-item-action list-group-item-danger list-critical" style="line-height: 1">
+            <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}<br>{{this.name}}</a>
+        </p>
+        {{#lessOrEquals 25 this.cartridge.black.value}}
+            <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}%</p>
+        {{/lessOrEquals}}
+        {{#lessOrEquals 25 this.cartridge.cyan.value}}
+            <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}%</p>
+        {{/lessOrEquals}}
+        {{#lessOrEquals 25 this.cartridge.magenta.value}}
+            <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}%</p>
+        {{/lessOrEquals}}
+        {{#lessOrEquals 25 this.cartridge.yellow.value}}
+            <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}%</p>
+        {{/lessOrEquals}}
+    </div>
+{{/each}}
+</div>
+    <div class="main-container container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
