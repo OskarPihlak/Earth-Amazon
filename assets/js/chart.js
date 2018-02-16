@@ -64,6 +64,7 @@ module.exports = () => {
                             let printer_iteration = [];
                             printer_iteration.printer = {};
                             printer_iteration.value = [];
+                            printer_iteration.critical = false;
                             for (let i = 0; i < result.length; i++) { //iterates every result in statistics database
 
                                 for (let z = 0; z < (uniquePrintersAndToners()[x].toner).length; z++) { //iterates every toner of iteratable printer
@@ -72,6 +73,7 @@ module.exports = () => {
                                         printer_iteration.printer = result[i].printer_name; //TODO put dis to global alongside master_printer_data
                                         //if (moment(result[i].date).format('DD-MM-YYYY') === 'Monday') printer_iteration.lines.push(moment(result[i].date).format('DD'));
                                         if (master_printer_data.dates.includes(moment(result[i].date).format('DD-MM-YYYY')) === false) master_printer_data.dates.push(moment(result[i].date).format('DD-MM-YYYY'));
+                                        if(result[i].precentage < 60) printer_iteration.critical = true;
                                         switch (result[i].color) {
                                             case 'black':
                                                 printer_iteration.value.push({
@@ -119,11 +121,12 @@ module.exports = () => {
                                     }
                                 });
                                 let unified_object_with_one_date = {};
+
                                 objects_wirh_one_date.forEach(object => Object.assign(unified_object_with_one_date, object));
                                 console.log(colors.blue(JSON.stringify(unified_object_with_one_date)));
                                 printer_object_container.push(unified_object_with_one_date);
                             });
-                            console.log(colors.green(JSON.stringify(printer_object_container)));
+
                             master_printer_data.push(printer_object_container);
                         }
                         master_printer_data.dates.forEach((date)=>{
@@ -141,8 +144,20 @@ module.exports = () => {
                                             master_printer_data[i].ip = sql_data[x].ip;
                                         }
                                     }
+                                    console.log('');
+                                    console.log(colors.green(JSON.stringify(master_printer_data[i])));
                                     master_printer_data[i].usage = [];
+                                    master_printer_data[i].critical = false;
+                                    let last_toner = (master_printer_data[i]).last();
+                                    let critical_limit = 12;
+
                                     if (master_printer_data[i].color === true) {
+
+                                        if(last_toner.black < critical_limit ||
+                                           last_toner.cyan < critical_limit ||
+                                           last_toner.yellow < critical_limit ||
+                                           last_toner.magenta < critical_limit) master_printer_data[i].critical = true;
+
                                         master_printer_data[i].usage.push({
                                             toner: master_printer_data[i][0].toner_black,
                                             used_per_day: precisionRound((master_printer_data[i][0].black - (master_printer_data[i]).last().black) / master_printer_data[i].length, 1)
@@ -160,6 +175,9 @@ module.exports = () => {
                                             used_per_day: precisionRound((master_printer_data[i][0].magenta - (master_printer_data[i]).last().magenta) / master_printer_data[i].length, 1)
                                         });
                                     } else if (master_printer_data[i].color === false) {
+
+                                        if(last_toner.black < critical_limit) master_printer_data[i].critical = true;
+
                                         master_printer_data[i].usage.push({
                                             toner: master_printer_data[i][0].toner_black,
                                             used_per_day: precisionRound((master_printer_data[i][0].black - (master_printer_data[i]).last().black) / master_printer_data[i].length, 1)

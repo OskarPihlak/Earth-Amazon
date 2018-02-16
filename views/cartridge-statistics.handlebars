@@ -3,7 +3,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
 <link href="/css/style.css" rel="stylesheet" type="text/css">
 {{#each chart}}
-<div class="statistics-printer-container">
+    {{#if this.critical}}
+        <div class="statistics-printer-container container-critical-unit">
+        {{else}}
+        <div class="statistics-printer-container">
+    {{/if}}
+
     <p class="chart-title">{{this.printer_name}}<br>{{this.ip}}</p>
 
     <div class="chart-{{@index}}"></div>
