@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+
 <div class="main-container">
     <div style="background-color: white;width: 518px;
     margin: 0 auto;
@@ -11,7 +14,8 @@
         {{/each}}
         <button style="margin: 5px;" class="btn btn-primary" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
-    <div>
+
+
         {{#each critical_printers}}
             <div style="display: inline-block;">
                 <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
@@ -77,6 +81,11 @@
                                 Asukoht
                             </button>
                         </form>
+                        <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
+                                Detailid
+                            </button>
+                        </form>
                         <form class="input-inline" action="/storage/{{this.name}}">
                             <button class="button-special-style">
                                 Laoseis
@@ -85,6 +94,7 @@
                                    value="{{this.cartridge.black.name}}">
                         </form>
                     </div>
+
                     <section class="black-precentage-section">
                         <article>
                             <div class="chart">
@@ -107,22 +117,10 @@
                                     <input type="hidden" class="cartridge-name" name="update_route"
                                            value="/">
                                 </form>
-                                <div class="bar bar-cartridge bar-{{this.cartridge.black.value}} gray">
-                                    <div class="face top">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-0">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face floor">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-a"></div>
-                                    <div class="face side-b"></div>
-                                    <div class="face side-1">
-                                        <div class="growing-bar growing-bar-adjustment"><p
-                                                class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
-                                    </div>
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
+                                </div>
+                                <div>
                                 </div>
                             </div>
                         </article>
@@ -149,23 +147,8 @@
                                     <input type="hidden" class="cartridge-name" name="update_route"
                                            value="/">
                                 </form>
-
-                                <div class="bar bar-cartridge bar-{{this.cartridge.cyan.value}} cyan">
-                                    <div class="face top">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-0">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face floor">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-a"></div>
-                                    <div class="face side-b"></div>
-                                    <div class="face side-1">
-                                        <div class="growing-bar growing-bar-adjustment"><p
-                                                class="p-adjust">{{this.cartridge.cyan.value}}%</p></div>
-                                    </div>
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar cyan-bar-map" style="width:{{this.cartridge.cyan.value}}%; height: 50px;">{{this.cartridge.cyan.value}}%</div>
                                 </div>
                             </div>
                         </article>
@@ -192,22 +175,8 @@
                                            value="/">
                                 </form>
 
-                                <div class="bar bar-cartridge bar-{{this.cartridge.magenta.value}} magenta">
-                                    <div class="face top">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-0">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face floor">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-a"></div>
-                                    <div class="face side-b"></div>
-                                    <div class="face side-1">
-                                        <div class="growing-bar growing-bar-adjustment"><p
-                                                class="p-adjust">{{this.cartridge.magenta.value}}%</p></div>
-                                    </div>
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar magenta-bar-map" style="width:{{this.cartridge.magenta.value}}%; height: 50px;">{{this.cartridge.magenta.value}}%</div>
                                 </div>
                             </div>
                         </article>
@@ -232,23 +201,12 @@
                                     <input type="hidden" class="cartridge-name" name="update_route"
                                            value="/">
                                 </form>
-                                <div class="bar bar-cartridge bar-{{this.cartridge.yellow.value}} yellow">
-                                    <div class="face top">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-0">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face floor">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-a"></div>
-                                    <div class="face side-b"></div>
-                                    <div class="face side-1">
-                                        <div class="growing-bar growing-bar-adjustment"><p
-                                                class="p-adjust">{{this.cartridge.yellow.value}}%</p></div>
-                                    </div>
+
+
+                                <div class="progress" style="height: 50px;">
+                                    <div class="progress-bar yellow-bar-map" style="width:{{this.cartridge.yellow.value}}%; height: 50px;">{{this.cartridge.yellow.value}}%</div>
                                 </div>
+
                             </div>
                         </article>
                     </section>
@@ -280,6 +238,11 @@
                                 Asukoht
                             </button>
                         </form>
+                        <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
+                                Detailid
+                            </button>
+                        </form>
                         <form class="input-inline" action="/storage/{{this.name}}">
                             <button class="button-special-style">
                                 Laoseis
@@ -310,23 +273,11 @@
                                            value="/">
                                 </form>
 
-                                <div class="bar bar-{{this.cartridge.black.value}} gray">
-                                    <div class="face top">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-0">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face floor">
-                                        <div class="growing-bar"></div>
-                                    </div>
-                                    <div class="face side-a"></div>
-                                    <div class="face side-b"></div>
-                                    <div class="face side-1">
-                                        <div class="growing-bar growing-bar-adjustment"><p
-                                                class="p-adjust-black">{{this.cartridge.black.value}}%</p></div>
-                                    </div>
+
+                                <div class="progress" style="height:50px;">
+                                    <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
                                 </div>
+
                             </div>
                         </article>
                     </section>

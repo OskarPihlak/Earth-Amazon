@@ -221,7 +221,6 @@ module.exports = function (app) {
         })
     });
 
-
     app.get('/admin', function (req, res) {
         let sql_statement_get_snmp_adresses = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
         let sql_statement_get_printers_inc_supply = `SELECT * FROM printers_inc_supply.inc_supply_status;`;
@@ -337,16 +336,15 @@ module.exports = function (app) {
     });
     let chart_master;
     const range = moment_ranges.range(8, 10);
-    chart().then( data => chart_master = data );
+    chart().then(data => chart_master = data);
 
-    setInterval(()=>{
+    setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
-        if(range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')){
-        chart().then(data => chart_master = data );
+        if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+            chart().then(data => chart_master = data);
         }
-    },2700000);
-
+    }, 2700000);
 
 
     app.get('/precentage/cartridge', function (req, res) {
@@ -356,14 +354,28 @@ module.exports = function (app) {
         });
     });
 
-//tests
-    app.get('/service-worker.js', (req, res) => {
-        res.set('Content-Type', 'application/javascript');
-        const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
-        input.pipe(res);
+    app.get('/details/:name/:ip', (req, res) => {
+        let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
+        console.log(query);
+        printer_data_promise(query, pool).then(response => {
+
+            res.render('detailed-printer-report', {
+                chart: chart_master,
+                data: response
+
+            })
+        });
     });
 
-    app.get('/idb-test', (req, res) => {
-        res.render('idb');
-    });
+    /*
+    //tests
+        app.get('/service-worker.js', (req, res) => {
+            res.set('Content-Type', 'application/javascript');
+            const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
+            input.pipe(res);
+        });
+
+        app.get('/idb-test', (req, res) => {
+            res.render('idb');
+        });*/
 };
