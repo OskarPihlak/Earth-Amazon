@@ -13,6 +13,7 @@
         <button class="btn btn-primary btn-toggle-floor" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
 
+    <div class="main-container container-home" id="container">
         {{#each critical_printers}}
             <div class="critical-printer-container">
                 <!-- displays location of printer on map -->
@@ -38,7 +39,6 @@
             </div>
         {{/each}}
 
-    <div class="main-container container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
