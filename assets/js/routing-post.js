@@ -53,7 +53,7 @@ module.exports = function (app) {
             console.log(printer_floor_without_k);
             let sql_snmp_adresses_insert = `INSERT INTO printers_inc_supply.snmpadresses SET ip='${req.body.input_ip_submit}', color=${req.body.input_color_submit}, name='${req.body.input_name_submit}', key_name='${req.body.input_name_submit}__' , max_capacity=${req.body.input_max_capacity_submit}, floor=${req.body.input_floor_submit},position_left=400, position_top=400;`;
             cartridge_add.cartridge_add(printer_ip, printer_name, printer_color_status, pool);
-
+            console.log(printer_ip, printer_name, printer_color_status);
             pool.getConnection((err,connection)=>{
                 connection.query(sql_snmp_adresses_insert, (error, data)=>{
                     if (error) throw error;

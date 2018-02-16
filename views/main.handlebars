@@ -41,7 +41,11 @@
     <div class="container-main container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
-                <div class="printer printer-{{this.floor}}">
+                {{#if this.cartridge.critical}}
+                    <div class="printer printer-{{this.floor}} container-critical-unit">
+                {{else}}
+                    <div class="printer printer-{{this.floor}}">
+                {{/if}}
 
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;"  class="pr-12k title">
@@ -165,8 +169,11 @@
                 </div>
 
             {{else}}
+                {{#if this.cartridge.critical}}
+                <div class="printer printer-{{this.floor}} container-critical-unit">
+                    {{else}}
                 <div class="printer printer-{{this.floor}}">
-
+                {{/if}}
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;" class="pr-12k title">
                             <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
@@ -193,7 +200,6 @@
                     <section>
                         <article>
                             <div class="chart">
-
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
