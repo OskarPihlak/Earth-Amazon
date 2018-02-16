@@ -63,22 +63,6 @@ p {
   }
 }
 
-#container {
-  flex-flow: wrap;
-  width:2000px;
-}
-
-.main-container {
-  flex-flow: wrap;
-  width: 100%;
-  z-index: 1;
-  display: flex;
-  overflow: hidden;
-  flex-direction: column;
-  justify-content: center;
-  margin-bottom: 4em;
-}
-
 .chart.grid {
   display: flex;
   flex-direction: row;
@@ -649,7 +633,32 @@ tr td:first-child {
     }
   }
 }
+
+#container {
+  flex-flow: wrap;
+  width: 80%;
+}
+
 .container{
+  &-critical{
+    &-printer{
+      display: inline-block;
+      width: 21%;
+      position: relative;
+    }
+  }
+  &-home{
+      margin: 0 auto;
+  }
+  &-main{
+      flex-flow: wrap;
+      width: 100%;
+      z-index: 1;
+      display: flex;
+      overflow: hidden;
+      justify-content: center;
+      margin-bottom: 4em;
+  }
   &-floor{
     background-color: white;
     width: 518px;
@@ -896,16 +905,8 @@ tr td:first-child {
 .invisible {
   visibility: hidden;
 }
-
 .critical{
   &-printer {
-    &-container{
-      display: inline-block;
-      width: 21%;
-      left: 50%;
-      position: relative;
-      transform: translateX(-50%);
-    }
     &-style {
       margin: 25px 0 0 0;
       width: 50%;
@@ -916,15 +917,6 @@ tr td:first-child {
       display: inline-block;
     }
   }
-}
-
-#container {
-  flex-flow: wrap;
-  width: 80%;
-}
-
-.container-home{
-  margin: 0 auto;
 }
 
 //c3 grid line style

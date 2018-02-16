@@ -12,9 +12,9 @@
         <!-- toggle all floor checkboxes -->
         <button class="btn btn-primary btn-toggle-floor" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
-<div class="main-container">
+<div class="container-main">
         {{#each critical_printers}}
-    <div class="critical-printer-container">
+    <div class="container-critical-printer">
         <!-- displays location of printer on map -->
         <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
             <button class="btn btn-danger btn-critical-printer-location">Asukoht</button>
@@ -38,7 +38,7 @@
     </div>
 {{/each}}
 </div>
-    <div class="main-container container-home" id="container">
+    <div class="container-main container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
