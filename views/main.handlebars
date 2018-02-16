@@ -2,120 +2,88 @@
 <link href="/css/style.css" rel="stylesheet" type="text/css">
 
 <div class="main-container">
-    <div style="background-color: white;width: 518px;
-    margin: 0 auto;
-    border-radius: 3px;">
+    <div style="background-color: white;width: 518px;margin: 0 auto;border-radius: 3px;">
+        <!-- generates floor checkboxes -->
         {{#each floors}}
             <div class="btn-checkbox-filter">
                 <label for="{{this}}">{{this}}k</label>
-                <input checked id="{{this}}" class="floor-{{this}} btn-deselect-all-checkboxes" value="{{this}}" type="checkbox"
-                       onchange="valueChanged('{{this}}')">
+                <input checked id="{{this}}" class="floor-{{this}} btn-deselect-all-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
             </div>
         {{/each}}
+        <!-- toggle all floor checkboxes -->
         <button style="margin: 5px;" class="btn btn-primary" onclick="toggleCheckboxes()">Toggle checboxes</button>
     </div>
 
-
         {{#each critical_printers}}
-            <div style="display: inline-block;">
+            <div style="display: inline-block;width: 21%;left: 50%;position: relative;transform: translateX(-50%);">
+                <!-- displays location of printer on map -->
                 <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
                     <button class="btn btn-danger" style="height: 37px;">Asukoht</button>
                 </form>
-                <p class="list-group-item list-group-item-action list-group-item-danger list-critical"
-                   style="line-height: 1">
+                <!-- critical printer toner check -->
+                <p class="list-group-item list-group-item-action list-group-item-danger list-critical" style="line-height: 1">
                     <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}<br>{{this.name}}</a>
                 </p>
                 {{#lessOrEquals 25 this.cartridge.black.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}
-                        : {{this.cartridge.black.value}}%
-                    </p>
+                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}%</p>
                 {{/lessOrEquals}}
-
                 {{#lessOrEquals 25 this.cartridge.cyan.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}
-                        : {{this.cartridge.cyan.value}}%
-                    </p>
+                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}%</p>
                 {{/lessOrEquals}}
-
                 {{#lessOrEquals 25 this.cartridge.magenta.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}
-                        : {{this.cartridge.magenta.value}}%
-                    </p>
+                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}%</p>
                 {{/lessOrEquals}}
-
                 {{#lessOrEquals 25 this.cartridge.yellow.value}}
-                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}
-                        : {{this.cartridge.yellow.value}}%
-                    </p>
+                    <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}%</p>
                 {{/lessOrEquals}}
             </div>
         {{/each}}
     </div>
-    <p>Unable to ping</p>
-    {{#each printers}}
-        {{#ifEquals this.printer_ping.alive false}}
-            <p>{{this.ip}}</p>
-        {{/ifEquals}}
-    {{/each}}
-    <div class="main-container container-home" id="container">
 
+    <div class="main-container container-home" id="container">
         {{#each printers}}
             {{#if this.color}}
                 <div class="printer printer-{{this.floor}}">
 
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;"  class="pr-12k title">
-                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                                <br>{{this.ip}}</a>
+                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                         </div>
                     {{else}}
                         <div  class="pr-12k title">
-                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                                <br>{{this.ip}}</a>
+                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                         </div>
                     {{/ifEquals}}
 
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                                Asukoht
-                            </button>
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
                         <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                                Detailid
-                            </button>
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Detailid</button>
                         </form>
                         <form class="input-inline" action="/storage/{{this.name}}">
-                            <button class="button-special-style">
-                                Laoseis
-                            </button>
-                            <input type="submit" hidden name="selected-storage-black"
-                                   value="{{this.cartridge.black.name}}">
+                            <button class="button-special-style">Laoseis</button>
+                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
                         </form>
                     </div>
 
-                    <section class="black-precentage-section">
+                    <section>
                         <article>
                             <div class="chart">
 
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count"
-                                               aria-label="inc-storage-number" type="number" min="1"
-                                               step="1" value="{{this.cartridge.black.supply.storage}}">
+                                        <input class="cartridge-storage" name="inc_storage_count" aria-label="inc-storage-number" type="number" min="1" step="1" value="{{this.cartridge.black.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
                                             <div class="quantity-button quantity-down">-</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="printer-title" name="inc_storage_title"
-                                           value="{{this.name}}">
-                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
-                                           value="{{this.cartridge.black.name}}">
-                                    <input type="hidden" class="cartridge-name" name="update_route"
-                                           value="/">
+                                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route" value="/">
                                 </form>
                                 <div class="progress" style="height: 50px;">
                                     <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
@@ -133,19 +101,15 @@
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.cyan.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
-                                               step="1" value="{{this.cartridge.cyan.supply.storage}}">
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.cyan.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
                                             <div class="quantity-button quantity-down">-</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="printer-title" name="inc_storage_title"
-                                           value="{{this.name}}">
-                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
-                                           value="{{this.cartridge.cyan.name}}">
-                                    <input type="hidden" class="cartridge-name" name="update_route"
-                                           value="/">
+                                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.cyan.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route" value="/">
                                 </form>
                                 <div class="progress" style="height: 50px;">
                                     <div class="progress-bar cyan-bar-map" style="width:{{this.cartridge.cyan.value}}%; height: 50px;">{{this.cartridge.cyan.value}}%</div>
@@ -160,19 +124,15 @@
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.magenta.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
-                                               step="1" value="{{this.cartridge.magenta.supply.storage}}">
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.magenta.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
                                             <div class="quantity-button quantity-down">-</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="printer-title" name="inc_storage_title"
-                                           value="{{this.name}}">
-                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
-                                           value="{{this.cartridge.magenta.name}}">
-                                    <input type="hidden" class="cartridge-name" name="update_route"
-                                           value="/">
+                                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.magenta.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route" value="/">
                                 </form>
 
                                 <div class="progress" style="height: 50px;">
@@ -187,97 +147,72 @@
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.yellow.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1"
-                                               step="1" value="{{this.cartridge.yellow.supply.storage}}">
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="1" step="1" value="{{this.cartridge.yellow.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
                                             <div class="quantity-button quantity-down">-</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="printer-title" name="inc_storage_title"
-                                           value="{{this.name}}">
-                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
-                                           value="{{this.cartridge.yellow.name}}">
-                                    <input type="hidden" class="cartridge-name" name="update_route"
-                                           value="/">
+                                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.yellow.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route" value="/">
                                 </form>
-
 
                                 <div class="progress" style="height: 50px;">
                                     <div class="progress-bar yellow-bar-map" style="width:{{this.cartridge.yellow.value}}%; height: 50px;">{{this.cartridge.yellow.value}}%</div>
                                 </div>
-
                             </div>
                         </article>
                     </section>
                 </div>
 
             {{else}}
-
                 <div class="printer printer-{{this.floor}}">
-
-
-
 
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;" class="pr-12k title">
-                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                                <br>{{this.ip}}</a>
+                            <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                         </div>
                     {{else}}
                         <div  class="pr-12k title">
-                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}
-                                <br>{{this.ip}}</a>
+                            <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                         </div>
                     {{/ifEquals}}
 
-
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                                Asukoht
-                            </button>
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
                         <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">
-                                Detailid
-                            </button>
+                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Detailid</button>
                         </form>
                         <form class="input-inline" action="/storage/{{this.name}}">
-                            <button class="button-special-style">
-                                Laoseis
-                            </button>
-                            <input type="submit" hidden name="selected-storage-black"
-                                   value="{{this.cartridge.black.name}}">
+                            <button class="button-special-style">Laoseis</button>
+                            <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
                         </form>
                     </div>
-                    <section class="black-precentage-section">
+
+                    <section>
                         <article>
                             <div class="chart">
 
                                 <form method="post" action="/cartridge/storage">
                                     <div class="quantity">
                                         <p class="quantity-cartridge-info">{{this.cartridge.black.name}} Storage: </p>
-                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0"
-                                               step="1" value="{{this.cartridge.black.supply.storage}}">
+                                        <input class="cartridge-storage" name="inc_storage_count" type="number" min="0" step="1" value="{{this.cartridge.black.supply.storage}}">
                                         <div class="quantity-nav">
                                             <div class="quantity-button quantity-up">+</div>
                                             <div class="quantity-button quantity-down">-</div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="printer-title" name="inc_storage_title"
-                                           value="{{this.name}}">
-                                    <input type="hidden" class="cartridge-name" name="inc_storage_name"
-                                           value="{{this.cartridge.black.name}}">
-                                    <input type="hidden" class="cartridge-name" name="update_route"
-                                           value="/">
+                                    <input type="hidden" class="printer-title" name="inc_storage_title" value="{{this.name}}">
+                                    <input type="hidden" class="cartridge-name" name="inc_storage_name" value="{{this.cartridge.black.name}}">
+                                    <input type="hidden" class="cartridge-name" name="update_route" value="/">
                                 </form>
-
 
                                 <div class="progress" style="height:50px;">
                                     <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
                                 </div>
-
                             </div>
                         </article>
                     </section>

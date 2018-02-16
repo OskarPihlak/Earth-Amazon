@@ -1,69 +1,16 @@
-
-
-$yellow: #f1c40f;
-$lime: #76c900;
-$navy: #0a4069;
-$cyan: #57caf4;
-$red: #ec008c;
-$white: #fefefe;
-$gray: #444;
-$black: #000;
-$lightGray: lighten($gray, 30);
-
-.yellow-bar {
-  background-color: #f1c40f;
-}
-
-.lime-bar {
-  background-color: #76c900;
-}
-
-.navy-bar {
-  background-color: #0a4069;
-}
-
-.cyan-bar {
-  background-color: #57caf4;
-}
-
-.red-bar {
-  background-color: #ec008c;
-}
-
-.white-bar {
-  background-color: #fefefe;
-}
-
-.gray-bar {
-  background-color: #444;
-}
-
-.black-bar {
-  background-color: #000;
-}
-
-.lightGray-bar {
-  background-color: lighten($gray, 30);
-}
-
-.gray-bar-map {
-  background-color: rgba(68, 68, 68, 0.6);
-}
-
-.cyan-bar-map {
-  background-color: rgba(87, 202, 244, 0.6);
-}
-
-.magenta-bar-map {
-  background-color: rgba(236, 0, 140, 0.6);
-}
-
-.yellow-bar-map {
-  background-color: rgba(241, 196, 15, 0.6);
-}
-
-$transitionDuration: .3s;
-$transition: all $transitionDuration ease-in-out;
+.yellow-bar {  background-color: #f1c40f;  }
+.lime-bar {  background-color: #76c900;  }
+.navy-bar {  background-color: #0a4069;  }
+.cyan-bar {  background-color: #57caf4;  }
+.red-bar {  background-color: #ec008c;  }
+.white-bar {  background-color: #fefefe;  }
+.gray-bar {  background-color: #444;  }
+.black-bar {  background-color: #000;  }
+.lightGray-bar {  background-color: lighten(#444, 30);  }
+.gray-bar-map {  background-color: rgba(68, 68, 68, 0.6);  }
+.cyan-bar-map {  background-color: rgba(87, 202, 244, 0.6);  }
+.magenta-bar-map {  background-color: rgba(236, 0, 140, 0.6);  }
+.yellow-bar-map {  background-color: rgba(241, 196, 15, 0.6);  }
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -72,37 +19,29 @@ body {
   line-height: 1em;
   margin: 0;
   text-align: center;
-  color: $gray;
   background: linear-gradient(to right, #8e9eab, #eef2f3) no-repeat;
- /* #808080, #4CA1AF
-  #1D4350, #A43931
-  #4CA1AF, #C4E0E5
-  #8e9eab, #eef2f3*/
 }
 
 h1 {
   font-size: 2.5em;
   margin: 2em 0 .5em;
 }
-
 h2 {
   margin-bottom: 3em;
 }
-
 em, strong {
   font-weight: 700;
 }
-
 header p {
   margin-bottom: 0;
 }
-
 section {
   display: flex;
   justify-content: center;
   flex-direction: column;
   margin-bottom: -3em;
   padding: 0;
+  margin-top: -35px;
   &:last-of-type {
     margin-bottom: 0;
   }
@@ -140,161 +79,6 @@ p {
   margin-bottom: 4em;
 }
 
-/*
-START // CHART'S RULES
- -> "if you're picking code, don't forget the variables :)"
-*/
-
-.chart {
-  font-size: 1em;
-  perspective: 1000px;
-  perspective-origin: 50% 50%;
-  backface-visibility: visible;
-  &-title{
-    background-color: steelblue;
-    color: white;
-    width: 200px;
-    margin: 10px auto 5px auto;
-    border-radius: 5px;
-  }
-}
-
-$faceColor: rgba($white, .3);
-$growColor: rgba($red, .6);
-
-.bar {
-  font-size: 1em;
-  position: relative;
-  height: 10em;
-  transition: $transition;
-  transform: rotateX(60deg) rotateY(0deg);
-  transform-style: preserve-3d;
-
-  .face {
-    font-size: 2em;
-    position: relative;
-    width: 100%;
-    height: 2em;
-    background-color: $faceColor;
-
-    &.side-a,
-    &.side-b {
-      width: 2em;
-    }
-  }
-  .side-a {
-    transform: rotateX(90deg) rotateY(-90deg) translateX(2em) translateY(1em) translateZ(1em);
-  }
-  .side-b {
-    transform: rotateX(90deg) rotateY(-90deg) translateX(4em) translateY(1em) translateZ(-1em);
-    position: absolute;
-    right: 0;
-  }
-  .side-0 {
-    transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(-1em);
-  }
-  .side-1 {
-    transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(3em);
-  }
-  .top {
-    transform: rotateX(0deg) rotateY(0) translateX(0em) translateY(4em) translateZ(2em);
-  }
-  .floor {
-    box-shadow: 0 .1em 0.6em rgba(0, 0, 0, .3), .6em -0.5em 3em rgba(0, 0, 0, .3), 1em -1em 8em $white;
-  }
-}
-
-.growing-bar {
-  transition: $transition;
-  background-color: $growColor;
-  width: 100%;
-  height: 2em;
-  &-adjustment {
-    -moz-transform: scale(1, -1);
-    -webkit-transform: scale(1, -1);
-    -o-transform: scale(1, -1);
-    -ms-transform: scale(1, -1);
-    transform: scale(1, -1);
-  }
-}
-
-.p-adjust {
-  margin: 0;
-  &-black {
-    margin: 0;
-    color: #fff;
-  }
-}
-
-@mixin drawSkin($color, $name) {
-  .bar.#{$name} {
-    .side-a,
-      // &.bar-100 .side-b,
-    .growing-bar {
-      background-color: rgba($color, .6);
-    }
-    .side-0 .growing-bar {
-      box-shadow: -0.5em -1.5em 4em $color;
-    }
-    .floor .growing-bar {
-      box-shadow: 0 0 2em $color;
-    }
-  }
-}
-
-@mixin drawFaces($color, $name) {
-  .chart .bar.#{$name} .face {
-    background-color: rgba($color, .2);
-  }
-}
-
-@include drawSkin(rgba($yellow, .8), 'yellow');
-/*@include drawSkin(rgba($red, .8), 'red');*/
-@include drawSkin($cyan, 'cyan');
-@include drawSkin(rgba($navy, .8), 'navy');
-@include drawSkin($lime, 'lime');
-@include drawSkin($white, 'white');
-@include drawSkin($gray, 'gray');
-@include drawSkin($gray, 'gray');
-
-@include drawFaces(rgba($yellow, .6), 'yellow-face');
-@include drawFaces($lime, 'lime-face');
-/*@include drawFaces(rgba($red, .6), 'red-face');*/
-@include drawFaces(rgba($navy, .6), 'navy-face');
-@include drawFaces($cyan, 'cyan-face');
-@include drawFaces($gray, 'gray-face');
-@include drawFaces($lightGray, 'lightGray-face');
-//@include drawFaces(, 'lightGray-face');
-.blink-red {
-  background-color: #ff0505;
-  animation: blinkRed 4s infinite;
-}
-
-@keyframes blinkRed {
-  from {
-    background-color: #ff0505;
-  }
-  50% {
-    background-color: #aa020d;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #aa0008 0 -1px 9px, #ff0505 0 2px 0;
-  }
-  to {
-    background-color: #ff0505;
-  }
-}
-
-@for $i from 0 to 101 {
-  .bar-#{$i} {
-    .growing-bar {
-      width: percentage($i/100);
-    }
-  }
-}
-
-/*
-END // CHART'S RULES
-*/
-
 .chart.grid {
   display: flex;
   flex-direction: row;
@@ -320,130 +104,51 @@ END // CHART'S RULES
   }
 }
 
-/*input[id='red']:checked ~ .chart
-{
-  @extend .bar.red;
-}*/
-input[id='cyan']:checked ~ .chart {
-  @extend .bar.cyan;
-}
-
-input[id='lime']:checked ~ .chart {
-  @extend .bar.lime;
-}
-
-input[id='pos-0']:checked ~ .chart {
-  @extend .bar-25;
-}
-
-input[id='pos-1']:checked ~ .chart {
-  @extend .bar-50;
-}
-
-input[id='pos-2']:checked ~ .chart {
-  @extend .bar-75;
-}
-
-input[id='pos-3']:checked ~ .chart {
-  @extend .bar-100;
-}
-
-input[id='exercise-2']:checked ~ .chart.grid {
-  .exercise .bar {
-    &:nth-child(1) {
-      flex: 1 0 0;
-      @extend .bar-20;
-    }
-    &:nth-child(2) {
-      flex: 1;
-      @extend .bar-50;
-    }
-    &:nth-child(3) {
-      flex: 1 0 30%;
-      @extend .bar-80;
-    }
+.led {
+  &-greed {
+    display: inline-block;
+    margin: 0 auto;
+    width: 24px;
+    height: 24px;
+    background-color: #ABFF00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+    -webkit-animation: blinkGreen 4s infinite;
+    -moz-animation: blinkGreen 4s infinite;
+    -o-animation: blinkGreen 4s infinite;
+    animation: blinkGreen 4s infinite;
   }
-}
-
-input[id='exercise-3']:checked ~ .chart.grid {
-  .exercise .bar {
-    &:nth-child(1),
-    &:nth-child(2),
-    &:nth-child(3) {
-      flex: 1;
-      @extend .bar-70;
-    }
+  &-red{
+    display: inline-block;
+    margin: 0 auto;
+    width: 24px;
+    height: 24px;
+    background-color: #F00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+    -webkit-animation: blinkRed 0.5s infinite;
+    -moz-animation: blinkRed 0.5s infinite;
+    -o-animation: blinkRed 0.5s infinite;
+    animation: blinkRed 0.5s infinite;
   }
-}
-
-input[id='exercise-4']:checked ~ .chart.grid {
-  .exercise .bar {
-    &:nth-child(1),
-    &:nth-child(2) {
-      flex: 1 0 30%;
-      @extend .bar-50;
-    }
-    &:nth-child(3) {
-      flex: 1;
-      @extend .bar-100;
-    }
+  &-blue{
+    margin: 0 auto;
+    width: 24px;
+    height: 24px;
+    background-color: #24E0FF;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
   }
-}
-
-.led-green {
-  display: inline-block;
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #ABFF00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
-  -webkit-animation: blinkGreen 4s infinite;
-  -moz-animation: blinkGreen 4s infinite;
-  -o-animation: blinkGreen 4s infinite;
-  animation: blinkGreen 4s infinite;
+  &-box{
+    float: right;
+    display: inline-block;
+  }
+  &-positioning{
+    position: absolute;
+  }
 }
 
 @-webkit-keyframes blinkGreen {
-  from {
-    background-color: #01ff0b;
-  }
-  50% {
-    background-color: #06aa00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
-  }
-  to {
-    background-color: #01ff0b;
-  }
-}
-
-@-moz-keyframes blinkGreen {
-  from {
-    background-color: #01ff0b;
-  }
-  50% {
-    background-color: #06aa00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
-  }
-  to {
-    background-color: #01ff0b;
-  }
-}
-
-@-ms-keyframes blinkGreen {
-  from {
-    background-color: #01ff0b;
-  }
-  50% {
-    background-color: #06aa00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #06aa00 0 -1px 9px, #36ff00 0 2px 0;
-  }
-  to {
-    background-color: #01ff0b;
-  }
-}
-
-@-o-keyframes blinkGreen {
   from {
     background-color: #01ff0b;
   }
@@ -468,71 +173,7 @@ input[id='exercise-4']:checked ~ .chart.grid {
     background-color: #01ff0b;
   }
 }
-
-.internet-access-notification {
-  color: #00ff00;
-  display: inline-block;
-}
-
-.led-box {
-  float: right;
-  display: inline-block;
-}
-
-.led-red {
-  display: inline-block;
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #F00;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
-  -webkit-animation: blinkRed 0.5s infinite;
-  -moz-animation: blinkRed 0.5s infinite;
-  -o-animation: blinkRed 0.5s infinite;
-  animation: blinkRed 0.5s infinite;
-}
-
 @-webkit-keyframes blinkRed {
-  from {
-    background-color: #F00;
-  }
-  50% {
-    background-color: #A00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
-  }
-  to {
-    background-color: #F00;
-  }
-}
-
-@-moz-keyframes blinkRed {
-  from {
-    background-color: #F00;
-  }
-  50% {
-    background-color: #A00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
-  }
-  to {
-    background-color: #F00;
-  }
-}
-
-@-ms-keyframes blinkRed {
-  from {
-    background-color: #F00;
-  }
-  50% {
-    background-color: #A00;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;
-  }
-  to {
-    background-color: #F00;
-  }
-}
-
-@-o-keyframes blinkRed {
   from {
     background-color: #F00;
   }
@@ -560,21 +201,23 @@ input[id='exercise-4']:checked ~ .chart.grid {
 
 .plus-minus-input {
   align-items: center;
-
-  .input-group-field {
-    text-align: center;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    padding: 1rem;
-  }
-
-  .input-group-button {
-    .circle {
-      border-radius: 50%;
-      padding: 0.25em 0.8em;
+}
+  .input{
+    &-group{
+      &-field{
+        text-align: center;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        padding: 1rem;
+      }
+      &-button{
+        .circle {
+          border-radius: 50%;
+          padding: 0.25em 0.8em;
+        }
+      }
     }
   }
-}
 
 .cartridge {
   margin: 40px 0 0 0;
@@ -600,16 +243,6 @@ input[id='exercise-4']:checked ~ .chart.grid {
   }
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .quantity input {
   position: absolute;
   right: 0;
@@ -624,10 +257,6 @@ input[type=number] {
   border: 1px solid #eee;
   border-radius: 3px;
   z-index: 22;
-}
-
-.quantity input:focus {
-  outline: 0;
 }
 
 .quantity-nav {
@@ -671,7 +300,6 @@ input[type=number] {
 
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
 
-
 /* animated button */
 .button-special-style {
   font-family: 'Varela Round', sans-serif;
@@ -700,24 +328,6 @@ input[type=number] {
   }
 }
 
-/* printer wrapping styles */
-.black-precentage-section {
-  margin-top: -35px;
-}
-
-/* led lights */
-.led-positioning {
-  position: absolute;
-}
-
-.led-blue {
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  background-color: #24E0FF;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
-}
 
 .navBar {
   text-align: center;
@@ -1079,24 +689,6 @@ tr td:first-child {
 .c3-tooltip-container {
   width: 140px;
 }
-/*
- _____   _           _         _                        _
-|_   _| | |         | |       | |                      | |
-  | |   | |__   __ _| |_ ___  | |_ ___  _ __ ___   __ _| |_ ___   ___  ___
-  | |   | '_ \ / _` | __/ _ \ | __/ _ \| '_ ` _ \ / _` | __/ _ \ / _ \/ __|
- _| |_  | | | | (_| | ||  __/ | || (_) | | | | | | (_| | || (_) |  __/\__ \
- \___/  |_| |_|\__,_|\__\___|  \__\___/|_| |_| |_|\__,_|\__\___/ \___||___/
-
-Oh nice, welcome to the stylesheet of dreams.
-It has it all. Classes, ID's, comments...the whole lot:)
-Enjoy responsibly!
-@ihatetomatoes
-
-*/
-
-/* ==========================================================================
-   Chrome Frame prompt
-   ========================================================================== */
 
 .chromeframe {
   margin: 0.2em 0;
@@ -1105,9 +697,6 @@ Enjoy responsibly!
   padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
 #loader-wrapper .loader-section {
   position: fixed;
   top: 0;
@@ -1225,20 +814,7 @@ Enjoy responsibly!
   }
 }
 
-
-
-
-
-
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/*
- * Image replacement
- */
-
+//image replacement
 .ir {
   background-color: transparent;
   border: 0;
