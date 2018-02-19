@@ -1,0 +1,30 @@
+
+<h1>Thanks {{firstname}}</h1>
+
+{{#each printers}}
+    {{json this}}
+        {{#if this.color}}
+            <div class="progress" style="height: 50px;">
+                <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
+            </div>
+            <div class="progress" style="height: 50px;">
+                <div class="progress-bar bg-dark" style="width:{{this.cartridge.cyan.value}}%; height: 50px;">{{this.cartridge.cyan.value}}%</div>
+            </div>
+            <div class="progress" style="height: 50px;">
+                <div class="progress-bar bg-dark" style="width:{{this.cartridge.yellow.value}}%; height: 50px;">{{this.cartridge.yellow.value}}%</div>
+            </div>
+            <div class="progress" style="height: 50px;">
+                <div class="progress-bar bg-dark" style="width:{{this.cartridge.magenta.value}}%; height: 50px;">{{this.cartridge.magenta.value}}%</div>
+            </div>
+            {{else}}
+            <div class="progress" style="height: 50px;">
+                <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
+            </div>
+        {{/if}}
+{{/each}}
+
+
+
+<form action="/emailstuff" method="post">
+    <button class="btn btn-primary">submit</button>
+</form>

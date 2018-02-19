@@ -1,6 +1,9 @@
 module.exports = function (app) {
 
     //npm
+    const Hogan = require('hogan.js');
+    const sendgrid = require('sendgrid');
+
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
@@ -56,16 +59,10 @@ module.exports = function (app) {
                       let critical_toner_level = 12;
                       console.log((response[i].color));
                         if (response[i].color) {
-                          console.log(toner.black.value < critical_toner_level ||
-                              toner.cyan.value < critical_toner_level ||
-                              toner.magenta.value < critical_toner_level ||
-                              toner.yellow.value < critical_toner_level);
-
                           if (toner.black.value < critical_toner_level ||
                               toner.cyan.value < critical_toner_level ||
                               toner.magenta.value < critical_toner_level ||
                               toner.yellow.value < critical_toner_level) {
-                              console.log(colors.red('bghnfujriodlxp,.w;s'));
                               response[i].cartridge.critical = true;
                               critical_printers.push(response[i]);
                           }
@@ -80,7 +77,6 @@ module.exports = function (app) {
                   return critical_printers;
               };
               let critically_printers = critical_printers(response);
-              console.log(JSON.stringify(response));
             res.render('main', {
                 printers: response,
                 floors: floors,
@@ -347,10 +343,11 @@ module.exports = function (app) {
             connection.release();
         });
     });
+
+
     let chart_master;
     const range = moment_ranges.range(8, 10);
     chart().then(data => chart_master = data);
-
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
@@ -358,8 +355,6 @@ module.exports = function (app) {
             chart().then(data => chart_master = data);
         }
     }, 2700000);
-
-
     app.get('/precentage/cartridge', function (req, res) {
 
         res.render('cartridge-statistics', {
@@ -367,6 +362,8 @@ module.exports = function (app) {
         });
     });
 
+
+    //TODO
     app.get('/details/:name/:ip', (req, res) => {
         let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
         console.log(query);
@@ -379,6 +376,49 @@ module.exports = function (app) {
             })
         });
     });
+
+    //get file
+    app.get('/preview', (req, res) => {
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+
+        let critical_printers = response => {
+            let low_toner_printers = [];
+            for (let i = 1; i < response.length; i++) {
+
+                if (response[i].hasOwnProperty('cartridge')) {
+                    let toner = response[i].cartridge;
+                    let critical_toner_level = 12;
+
+                    if (response[i].color) {
+                        if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                            response[i].cartridge.critical = true;
+                            critical_printers.push(response[i]);
+                        }
+                    } else if (response[i].color === false && toner.black.value < critical_toner_level) {
+                        response[i].cartridge.critical = true;
+                        critical_printers.push(response[i]);
+                    } else {
+                        response[i].cartridge.critical = false;
+                    }
+                }
+            }
+            return critical_printers;
+        };
+        let data = [];
+        response.forEach(response=>{
+            if(response.cartridge.critical) data.push(response);
+        });
+        console.log(data);
+
+            res.render('email', {printers: data});
+        });
+    });
+
+
+
+
+
+
 
     /*
     //tests

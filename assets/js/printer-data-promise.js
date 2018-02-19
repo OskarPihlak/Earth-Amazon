@@ -101,7 +101,7 @@ module.exports = (sql_conditional, pool) => {
             }
 
             let sql_statement_get = 'SELECT * FROM inc_supply_status WHERE printer_name ="' + printer.name + '"';
-            console.log(sql_statement_get);
+
             pool.getConnection((err, connection) => {
 
                 connection.query(sql_statement_get, function (error, sql_data) {
@@ -109,7 +109,6 @@ module.exports = (sql_conditional, pool) => {
                     if (printer.color === true) {
 
                         for (let x = 0; x < printer_oid_data.colors_loop_info().length; x++) {
-                            console.log(JSON.stringify(sql_data[x]));
                             let printer_name = printer_oid_data.colors_loop_info()[x].inc_name;
                             printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
                         }

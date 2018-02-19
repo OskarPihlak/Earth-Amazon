@@ -49,7 +49,6 @@ app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Error 500! Something broke!')
 });
-
 helpers.handlebars();
 routing_get(app);
 routing_post(app);
@@ -61,6 +60,8 @@ process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
     // application specific logging, throwing an error, or other logic here
 });
+
+
 
 app.set('port', (process.env.PORT) || 8888);
 app.listen(app.get('port'), function () {

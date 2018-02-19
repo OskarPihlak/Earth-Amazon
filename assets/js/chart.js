@@ -123,7 +123,7 @@ module.exports = () => {
                                 let unified_object_with_one_date = {};
 
                                 objects_wirh_one_date.forEach(object => Object.assign(unified_object_with_one_date, object));
-                                console.log(colors.blue(JSON.stringify(unified_object_with_one_date)));
+
                                 printer_object_container.push(unified_object_with_one_date);
                             });
 
@@ -144,8 +144,6 @@ module.exports = () => {
                                             master_printer_data[i].ip = sql_data[x].ip;
                                         }
                                     }
-                                    console.log('');
-                                    console.log(colors.green(JSON.stringify(master_printer_data[i])));
                                     master_printer_data[i].usage = [];
                                     master_printer_data[i].critical = false;
                                     let last_toner = (master_printer_data[i]).last();
@@ -184,7 +182,6 @@ module.exports = () => {
                                         });
                                     }
                                 }
-                                console.log(master_printer_data);
                                 return resolve(master_printer_data);
                             });
                         });

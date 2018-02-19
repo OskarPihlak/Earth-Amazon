@@ -1,5 +1,6 @@
 module.exports = function (app) {
     const bodyParser = require('body-parser');
+    const nodemailer = require('nodemailer');
     const mysql = require('mysql');
     const pad = require('pad-number');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
@@ -10,6 +11,62 @@ module.exports = function (app) {
     const printer_oid_data = require('./oids.js');
     const moment = require('moment');
     let pool = database.db_define_database();
+    const colors = require('colors');
+    const fs = require('fs');
+    const Hogan = require('hogan.js');
+
+    let template =  fs.readFileSync('./views/email.handlebars','utf-8');
+    //let compiledTemplate = Hogan.compile(template);
+
+    app.post('/emailstuff', urlEncodedParser, function (req, res) {
+
+        nodemailer.createTestAccount((err, account) => {
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                host: "smtp.office365.com", // hostname
+                port: 587,
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: 'oskar.pihlak@tptlive.ee',
+                    pass: 'Teadmatus8'
+                },
+                tls: {
+                    ciphers:'SSLv3'
+                }
+            });
+
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: '"Eesti Meedia Printerid " <oskar.pihlak@tptlive.ee>', // sender address
+                to: 'oskar.pihlak@eestimeedia.ee', // list of receivers
+                subject: 'Madala tasemega toonerid', // Subject line
+                text: '', // plain text body
+                html: template // html body
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            });
+        });
+        res.redirect('/preview');
+    });
+
+
+
+
+    setInterval(()=>{}, 2700000);
+
+    let low_toner_printers;
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+        console.log(colors.red(response));
+    });
+
+
+
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req);
