@@ -69,8 +69,16 @@
         color: #000;
         text-align: center;
     }
+    .email-status-green{
+        color: #06ff00;
+    }
+    .email-status-red{
+        color: #ff0000;
+    }
 
-
+    .email-status-container{
+        text-align: center;
+    }
 
     .black-bar {
         background-color: #000;
@@ -96,11 +104,13 @@
     <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;text-align: center;">Toonerite seis {{date}}</div>
     <div>
         <div class="email-container" style="background: white;margin: 0 auto;overflow: hidden;border-radius: 5px;">
-            {{#if all_is_good}}
-                <p>Printerid on korras</p>
-            {{else}}
-                <p>Mõned toonerid on madalad</p>
-            {{/if}}
+            <div class="email-status-container" style="text-align: center;">
+                {{#if all_is_good}}
+                    <p class="email-status-green" style="color: #06ff00;">Printerid on korras</p>
+                {{else}}
+                    <p class="email-status-red" style="color: #ff0000;">Mõned toonerid on madalad</p>
+                {{/if}}
+            </div>
             {{#each printers}}
                 {{#if this.cartridge.critical}}
                     {{#if this.color}}
