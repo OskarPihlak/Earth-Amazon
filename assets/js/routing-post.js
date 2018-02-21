@@ -19,29 +19,34 @@ module.exports = function (app) {
     const moment_ranges = moment_range.extendMoment(moment);
     const chart = require('./chart.js');
 
-    let chart_master =[];
+    let chart_master = [];
     const range = moment_ranges.range(5, 9);
-    chart().then(data =>  chart().then(data => {if(data.critical)chart_master.push(data); }));
+    chart().then(data => chart().then(data => {
+        if (data.critical) chart_master.push(data);
+    }));
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
         if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-            chart().then(data => {if(data.critical)chart_master.push(data); });
+            chart().then(data => {
+                if (data.critical) chart_master.push(data);
+            });
         }
     }, 2700000);
 
-    let template =  fs.readFileSync('./views/email.handlebars','utf-8');
+    let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
 
         let critical_printers = response => {
             let critical_printers = [];
-            for (let i = 1; i < response.length; i++){
+            for (let i = 1; i < response.length; i++) {
                 if (response[i].hasOwnProperty('cartridge')) {
 
                     let toner = response[i].cartridge;
                     let critical_toner_level = 12;
-                    console.log((response[i].color));
+
+                    console.log(response[i].ip !== '192.168.67.42' || '192.168.67.3');
                     if (response[i].ip !== '192.168.67.42' || '192.168.67.3') {
                         if (response[i].color) {
                             if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
@@ -57,61 +62,64 @@ module.exports = function (app) {
                     }
                 }
             }
+            console.log(critical_printers);
             return critical_printers;
         };
         critical_printers(response);
         let critical_toner = [];
         response.forEach(response => {
-            if(response.name !== 'RequestTimedOutError'){ critical_toner.push(response);}
+            if (response.name !== 'RequestTimedOutError') {
+                critical_toner.push(response);
+            }
         });
-
-
 
 
         var finalPageHTML = compileTemplate({printers: critical_toner, date: moment().format('DD-MM-YYYY')});
 
         console.log(finalPageHTML);
-    app.post('/emailstuff', urlEncodedParser, function (req, res) {
-        console.log(chart_master);
-        nodemailer.createTestAccount((err, account) => {
-            // create reusable transporter object using the default SMTP transport
-            let transporter = nodemailer.createTransport({
-                host: "smtp.office365.com", // hostname
-                port: 587,
-                secure: false, // true for 465, false for other ports
-                auth: {
-                    user: 'oskar.pihlak@tptlive.ee',
-                    pass: 'Teadmatus8'
-                },
-                tls: {
-                    ciphers:'SSLv3'
-                }
-            });
+        console.log(JSON.stringify(response));
+        app.post('/emailstuff', urlEncodedParser, function (req, res) {
+            console.log(chart_master);
+            nodemailer.createTestAccount((err, account) => {
+                // create reusable transporter object using the default SMTP transport
+                let transporter = nodemailer.createTransport({
+                    host: "smtp.office365.com", // hostname
+                    port: 587,
+                    secure: false, // true for 465, false for other ports
+                    auth: {
+                        user: 'oskar.pihlak@tptlive.ee',
+                        pass: 'Teadmatus8'
+                    },
+                    tls: {
+                        ciphers: 'SSLv3'
+                    }
+                });
 
-            // setup email data with unicode symbols
-            let mailOptions = {
-                from: '"Eesti Meedia Printerid " <oskar.pihlak@tptlive.ee>', // sender address
-                to: 'oskar.pihlak@eestimeedia.ee', // list of receivers
-                subject: 'Madala tasemega toonerid', // Subject line
-                text: '', // plain text body
-                html: finalPageHTML // html body
-            };
+                // setup email data with unicode symbols
+                let mailOptions = {
+                    from: '"Eesti Meedia Printerid " <oskar.pihlak@tptlive.ee>', // sender address
+                    to: 'oskar.pihlak@eestimeedia.ee', // list of receivers
+                    subject: 'Madala tasemega toonerid', // Subject line
+                    text: '', // plain text body
+                    html: finalPageHTML // html body
+                };
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return console.log(error);
-                }
-                console.log('Message sent: %s', info.messageId);
-                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    console.log('Message sent: %s', info.messageId);
+                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                });
             });
+            res.redirect('/preview');
         });
-        res.redirect('/preview');
-    });
 
     });
 
 
-    setInterval(()=>{}, 2700000);
+    setInterval(() => {
+    }, 2700000);
 
     let low_toner_printers;
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
@@ -119,20 +127,21 @@ module.exports = function (app) {
     });
 
 
-
-
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req);
         let printer_id = (req.body.printer_measure).slice(4);
-        let sql_statement_put_snmpadresses = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', key_name='"+ req.body.printer_name +"__', color=" + req.body.printer_color + ", max_capacity="+ req.body.printer_max_capacity +", floor="+ req.body.printer_floor +" WHERE id="+ printer_id +";";
+        let sql_statement_put_snmpadresses = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', key_name='" + req.body.printer_name + "__', color=" + req.body.printer_color + ", max_capacity=" + req.body.printer_max_capacity + ", floor=" + req.body.printer_floor + " WHERE id=" + printer_id + ";";
         let sql_statement_put_printer_inc_supply = `UPDATE printers_inc_supply.inc_supply_status SET printer_name ='${req.body.printer_name}' WHERE printer_name='${req.body.printer_old_name}';`;
 
         pool.getConnection((err, connection) => {
-            connection.query(sql_statement_put_snmpadresses, function (error, data) { if (error) throw error; });
+            connection.query(sql_statement_put_snmpadresses, function (error, data) {
+                if (error) throw error;
+            });
             connection.release();
         });
         pool.getConnection((err, connection) => {
-            connection.query(sql_statement_put_printer_inc_supply, function (error, data) { if (error) throw error;
+            connection.query(sql_statement_put_printer_inc_supply, function (error, data) {
+                if (error) throw error;
                 console.log(data);
             });
             connection.release();
@@ -153,19 +162,19 @@ module.exports = function (app) {
 
 
     app.post('/admin/printer/add', urlEncodedParser, function (req, res) {
-        if(req.body.input_ip_submit !== '' && req.body.input_name_submit !== ''){
+        if (req.body.input_ip_submit !== '' && req.body.input_name_submit !== '') {
 
             let printer_color_status = req.body.input_color_submit;
             let printer_ip = req.body.input_ip_submit;
             let printer_name = req.body.input_name_submit;
             let printer_floor_with_k = req.body.input_floor_submit;
-            let printer_floor_without_k = printer_floor_with_k.slice(0,-1);
+            let printer_floor_without_k = printer_floor_with_k.slice(0, -1);
             console.log(printer_floor_without_k);
             let sql_snmp_adresses_insert = `INSERT INTO printers_inc_supply.snmpadresses SET ip='${req.body.input_ip_submit}', color=${req.body.input_color_submit}, name='${req.body.input_name_submit}', key_name='${req.body.input_name_submit}__' , max_capacity=${req.body.input_max_capacity_submit}, floor=${req.body.input_floor_submit},position_left=400, position_top=400;`;
             cartridge_add.cartridge_add(printer_ip, printer_name, printer_color_status, pool);
             console.log(printer_ip, printer_name, printer_color_status);
-            pool.getConnection((err,connection)=>{
-                connection.query(sql_snmp_adresses_insert, (error, data)=>{
+            pool.getConnection((err, connection) => {
+                connection.query(sql_snmp_adresses_insert, (error, data) => {
                     if (error) throw error;
                 });
                 connection.release();
@@ -173,7 +182,7 @@ module.exports = function (app) {
 
             res.redirect('/admin');
 
-        }else{
+        } else {
             res.redirect('/admin');
         }
     });
@@ -190,28 +199,28 @@ module.exports = function (app) {
             connection.release();
         });
     });
-    setInterval(function(){
+    setInterval(function () {
         let day_name = moment().format('dddd');
         let date = new Date();
-        if(date.getHours() === 1 && (day_name !== 'Saturday' || day_name !== 'Sunday') && parseInt(Math.abs(moment().format('DD') % 2)) === 1){ //pushed to server on odd workdays at 1AM
+        if (date.getHours() === 1 && (day_name !== 'Saturday' || day_name !== 'Sunday') && parseInt(Math.abs(moment().format('DD') % 2)) === 1) { //pushed to server on odd workdays at 1AM
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 let date = new Date();
                 let day = date.getDate();
-                let month = date.getMonth() +1;
+                let month = date.getMonth() + 1;
                 let year = date.getFullYear();
-                for(let i = 0; i < response.length; i++) {
+                for (let i = 0; i < response.length; i++) {
                     pool.getConnection((err, connection) => {
 
                         if (response[i].color === true) {
                             for (let u = 0; u < 4; u++) {
-                                let color_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[u].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                                let color_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[u].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[u].inc_name].value}, date='${`${year}-${month}-${pad(day, 2)}`}';`;
                                 console.log(color_printer_statistics);
                                 connection.query(color_printer_statistics, function (error, result, fields) {
                                     console.log(result);
                                 });
                             }
                         } else if (response[i].color === false) {
-                            let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day,2)}`}';`;
+                            let black_printer_statistics = `INSERT INTO printers_inc_supply.printer_cartridge_statistics SET printer_name='${response[i].name}',color='${printer_oid_data.colors_loop_info()[0].inc_name}', cartridge='${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name}', precentage=${response[i].cartridge[printer_oid_data.colors_loop_info()[0].inc_name].value}, date='${`${year}-${month}-${pad(day, 2)}`}';`;
                             console.log(black_printer_statistics);
                             connection.query(black_printer_statistics, function (error, result, fields) {
                             });
