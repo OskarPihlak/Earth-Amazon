@@ -379,38 +379,45 @@ module.exports = function (app) {
 
     //get file
     app.get('/preview', (req, res) => {
-    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+        console.log('Route -> /');
+        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
 
-        let critical_printers = response => {
-            let low_toner_printers = [];
-            for (let i = 1; i < response.length; i++) {
+            let critical_printers = response => {
+                let critical_printers = [];
+                for (let i = 1; i < response.length; i++){
+                    if (response[i].hasOwnProperty('cartridge')){
 
-                if (response[i].hasOwnProperty('cartridge')) {
-                    let toner = response[i].cartridge;
-                    let critical_toner_level = 12;
-
-                    if (response[i].color) {
-                        if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                        let toner = response[i].cartridge;
+                        let critical_toner_level = 99;
+                        console.log((response[i].color));
+                        if (response[i].color) {
+                            if (toner.black.value < critical_toner_level ||
+                                toner.cyan.value < critical_toner_level ||
+                                toner.magenta.value < critical_toner_level ||
+                                toner.yellow.value < critical_toner_level) {
+                                response[i].cartridge.critical = true;
+                                critical_printers.push(response[i]);
+                            }
+                        } else if (response[i].color === false && toner.black.value < critical_toner_level) {
                             response[i].cartridge.critical = true;
                             critical_printers.push(response[i]);
+                        } else {
+                            response[i].cartridge.critical = false;
                         }
-                    } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                        response[i].cartridge.critical = true;
-                        critical_printers.push(response[i]);
-                    } else {
-                        response[i].cartridge.critical = false;
                     }
                 }
-            }
-            return critical_printers;
-        };
-        let data = [];
-        response.forEach(response=>{
-            if(response.cartridge.critical) data.push(response);
-        });
-        console.log(data);
+                return critical_printers;
+            };
+            critical_printers(response);
+            let critical_toner = [];
+            response.forEach(response => {
+                if(response.name !== 'RequestTimedOutError'){ critical_toner.push(response);}
+            });
 
-            res.render('email', {printers: data});
+            res.render('email-dev', {
+                printers: critical_toner,
+                date: moment().format('DD-MM-YYYY')
+            });
         });
     });
 

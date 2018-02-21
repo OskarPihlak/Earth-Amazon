@@ -14,12 +14,66 @@ module.exports = function (app) {
     const colors = require('colors');
     const fs = require('fs');
     const Hogan = require('hogan.js');
+    const Handlebars = require('handlebars');
+    const moment_range = require('moment-range');
+    const moment_ranges = moment_range.extendMoment(moment);
+    const chart = require('./chart.js');
+
+    let chart_master =[];
+    const range = moment_ranges.range(5, 9);
+    chart().then(data =>  chart().then(data => {if(data.critical)chart_master.push(data); }));
+    setInterval(() => {
+        let date = new Date();
+        let day_name = moment().format('dddd');
+        if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+            chart().then(data => {if(data.critical)chart_master.push(data); });
+        }
+    }, 2700000);
 
     let template =  fs.readFileSync('./views/email.handlebars','utf-8');
-    //let compiledTemplate = Hogan.compile(template);
+    let compileTemplate = Handlebars.compile(template);
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
 
+        let critical_printers = response => {
+            let critical_printers = [];
+            for (let i = 1; i < response.length; i++){
+                if (response[i].hasOwnProperty('cartridge')){
+
+                    let toner = response[i].cartridge;
+                    let critical_toner_level = 99;
+                    console.log((response[i].color));
+                    if (response[i].color) {
+                        if (toner.black.value < critical_toner_level ||
+                            toner.cyan.value < critical_toner_level ||
+                            toner.magenta.value < critical_toner_level ||
+                            toner.yellow.value < critical_toner_level) {
+                            response[i].cartridge.critical = true;
+                            critical_printers.push(response[i]);
+                        }
+                    } else if (response[i].color === false && toner.black.value < critical_toner_level) {
+                        response[i].cartridge.critical = true;
+                        critical_printers.push(response[i]);
+                    } else {
+                        response[i].cartridge.critical = false;
+                    }
+                }
+            }
+            return critical_printers;
+        };
+        critical_printers(response);
+        let critical_toner = [];
+        response.forEach(response => {
+            if(response.name !== 'RequestTimedOutError'){ critical_toner.push(response);}
+        });
+
+
+
+
+        var finalPageHTML = compileTemplate({printers: critical_toner, date: moment().format('DD-MM-YYYY')});
+
+        console.log(finalPageHTML);
     app.post('/emailstuff', urlEncodedParser, function (req, res) {
-
+        console.log(chart_master);
         nodemailer.createTestAccount((err, account) => {
             // create reusable transporter object using the default SMTP transport
             let transporter = nodemailer.createTransport({
@@ -41,7 +95,7 @@ module.exports = function (app) {
                 to: 'oskar.pihlak@eestimeedia.ee', // list of receivers
                 subject: 'Madala tasemega toonerid', // Subject line
                 text: '', // plain text body
-                html: template // html body
+                html: finalPageHTML // html body
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -55,7 +109,7 @@ module.exports = function (app) {
         res.redirect('/preview');
     });
 
-
+    });
 
 
     setInterval(()=>{}, 2700000);
