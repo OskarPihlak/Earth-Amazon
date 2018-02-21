@@ -34,6 +34,14 @@ module.exports = function (app) {
         }
     }, 2700000);
 
+
+
+
+
+
+
+setInterval(()=>{
+    if((moment.format('dddd') === 'Monday' || moment.format('dddd') === 'Friday') && moment_ranges.range(5, 9).contains(moment.format('H'))){
     let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
@@ -46,80 +54,151 @@ module.exports = function (app) {
                     let toner = response[i].cartridge;
                     let critical_toner_level = 12;
 
-                    console.log(response[i].ip !== '192.168.67.42' || '192.168.67.3');
-                        if (response[i].color) {
-                            if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
-                                response[i].cartridge.critical = true;
-                                critical_printers.push(response[i]);
-                            }
-                        } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                            if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
-                                response[i].cartridge.critical = false;
-                            } else {
-                                response[i].cartridge.critical = true;
-                                critical_printers.push(response[i]);
-                            }
-                        } else {
+                    if (response[i].color) {
+                        if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                            response[i].cartridge.critical = true;
+                            critical_printers.push(response[i]);
+                        }
+                    } else if (response[i].color === false && toner.black.value < critical_toner_level) {
+                        if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
                             response[i].cartridge.critical = false;
                         }
-
+                        else {
+                            response[i].cartridge.critical = true;
+                            critical_printers.push(response[i]);
+                        }
+                    } else {
+                        response[i].cartridge.critical = false;
+                    }
                 }
             }
-            console.log(critical_printers);
             return critical_printers;
         };
         critical_printers(response);
+
         let critical_toner = [];
         response.forEach(response => {
-            if (response.name !== 'RequestTimedOutError') {
+            if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {
                 critical_toner.push(response);
             }
         });
         let all_is_good = false;
-        if(critical_toner === []){all_is_good = true}
+        if (critical_toner.length === 0) all_is_good = true;
 
-        var finalPageHTML = compileTemplate({printers: critical_toner, date: moment().format('DD-MM-YYYY'), all_is_good: all_is_good});
+        let finalPageHTML = compileTemplate({
+            printers: critical_toner,
+            date: moment().format('DD-MM-YYYY'),
+            all_is_good: all_is_good
+        });
+        nodemailer.createTestAccount((err, account) => {
+            let transporter = nodemailer.createTransport({
+                host: "smtp.office365.com",
+                port: 587,
+                secure: false,
+                auth: {
+                    user: 'oskar.pihlak@eestimeedia.ee',
+                    pass: 'WorkDragon88'
+                },
+                tls: {
+                    ciphers: 'SSLv3'
+                }
+            });
+            let mailOptions = {
+                from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
+                to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
+                subject: 'Madala tasemega toonerid',
+                html: finalPageHTML
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) return console.log(error);
+                console.log('Message sent: %s', info.messageId);
+                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            });
+        });
+       });
+    }
+        },2700000);
 
-        console.log(finalPageHTML);
-        console.log(JSON.stringify(response));
+
+
         app.post('/emailstuff', urlEncodedParser, function (req, res) {
-            console.log(chart_master);
-            nodemailer.createTestAccount((err, account) => {
-                // create reusable transporter object using the default SMTP transport
-                let transporter = nodemailer.createTransport({
-                    host: "smtp.office365.com", // hostname
-                    port: 587,
-                    secure: false, // true for 465, false for other ports
-                    auth: {
-                        user: 'oskar.pihlak@tptlive.ee',
-                        pass: 'Teadmatus8'
-                    },
-                    tls: {
-                        ciphers: 'SSLv3'
+            let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
+            let compileTemplate = Handlebars.compile(template);
+            printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+
+                let critical_printers = response => {
+                    let critical_printers = [];
+                    for (let i = 1; i < response.length; i++) {
+                        if (response[i].hasOwnProperty('cartridge')) {
+
+                            let toner = response[i].cartridge;
+                            let critical_toner_level = 12;
+
+                            if (response[i].color) {
+                                if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                                    response[i].cartridge.critical = true;
+                                    critical_printers.push(response[i]);
+                                }
+                            } else if (response[i].color === false && toner.black.value < critical_toner_level) {
+                                if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
+                                    response[i].cartridge.critical = false;
+                                }
+                                else {
+                                    response[i].cartridge.critical = true;
+                                    critical_printers.push(response[i]);
+                                }
+                            } else {
+                                response[i].cartridge.critical = false;
+                            }
+                        }
+                    }
+                    return critical_printers;
+                };
+                critical_printers(response);
+
+                let critical_toner = [];
+                response.forEach(response => {
+                    if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {
+                        critical_toner.push(response);
                     }
                 });
+                let all_is_good = false;
+                if (critical_toner.length === 0) all_is_good = true;
 
-                // setup email data with unicode symbols
-                let mailOptions = {
-                    from: '"Eesti Meedia Printerid " <oskar.pihlak@tptlive.ee>', // sender address
-                    to: 'oskar.pihlak@eestimeedia.ee', // list of receivers
-                    subject: 'Madala tasemega toonerid', // Subject line
-                    text: '', // plain text body
-                    html: finalPageHTML // html body
-                };
-
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        return console.log(error);
-                    }
-                    console.log('Message sent: %s', info.messageId);
-                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                let finalPageHTML = compileTemplate({
+                    printers: critical_toner,
+                    date: moment().format('DD-MM-YYYY'),
+                    all_is_good: all_is_good
+                });
+                nodemailer.createTestAccount((err, account) => {
+                    let transporter = nodemailer.createTransport({
+                        host: "smtp.office365.com",
+                        port: 587,
+                        secure: false,
+                        auth: {
+                            user: 'oskar.pihlak@eestimeedia.ee',
+                            pass: 'WorkDragon88'
+                        },
+                        tls: {
+                            ciphers: 'SSLv3'
+                        }
+                    });
+                    let mailOptions = {
+                        from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
+                        to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
+                        subject: 'Madala tasemega toonerid',
+                        html: finalPageHTML
+                    };
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) return console.log(error);
+                        console.log('Message sent: %s', info.messageId);
+                        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                    });
                 });
             });
             res.redirect('/preview');
         });
 
-    });
 
 
     setInterval(() => {

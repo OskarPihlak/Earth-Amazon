@@ -384,39 +384,48 @@ module.exports = function (app) {
 
             let critical_printers = response => {
                 let critical_printers = [];
-                for (let i = 1; i < response.length; i++){
-                    if (response[i].hasOwnProperty('cartridge')){
+                for (let i = 1; i < response.length; i++) {
+                    if (response[i].hasOwnProperty('cartridge')) {
 
                         let toner = response[i].cartridge;
-                        let critical_toner_level = 99;
-                        console.log((response[i].color));
+                        let critical_toner_level = 12;
+
+                        console.log(response[i].ip !== '192.168.67.42' || '192.168.67.3');
                         if (response[i].color) {
-                            if (toner.black.value < critical_toner_level ||
-                                toner.cyan.value < critical_toner_level ||
-                                toner.magenta.value < critical_toner_level ||
-                                toner.yellow.value < critical_toner_level) {
+                            if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
                                 response[i].cartridge.critical = true;
                                 critical_printers.push(response[i]);
                             }
                         } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                            response[i].cartridge.critical = true;
-                            critical_printers.push(response[i]);
+                            if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
+                                response[i].cartridge.critical = false;
+                            } else {
+                                response[i].cartridge.critical = true;
+                                critical_printers.push(response[i]);
+                            }
                         } else {
                             response[i].cartridge.critical = false;
                         }
+
                     }
                 }
+                console.log(critical_printers);
                 return critical_printers;
             };
             critical_printers(response);
             let critical_toner = [];
             response.forEach(response => {
-                if(response.name !== 'RequestTimedOutError'){ critical_toner.push(response);}
+                if (response.name !== 'RequestTimedOutError') {
+                    critical_toner.push(response);
+                }
             });
+            let all_is_good = false;
+            if(critical_toner === []){all_is_good = true}
 
             res.render('email-dev', {
                 printers: critical_toner,
-                date: moment().format('DD-MM-YYYY')
+                date: moment().format('DD-MM-YYYY'),
+                all_is_good: all_is_good
             });
         });
     });
