@@ -185,7 +185,7 @@ setInterval(()=>{
                     });
                     let mailOptions = {
                         from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
-                        to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
+                        to: 'oskar.pihlak@eestimeedia.ee',
                         subject: 'Madala tasemega toonerid',
                         html: finalPageHTML
                     };
