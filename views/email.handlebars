@@ -18,6 +18,7 @@
         font-size: 15px;
         margin: 0 auto;
         padding: 20px;
+        text-align: center;
     }
 
     .email-footer {
@@ -25,6 +26,7 @@
         overflow: hidden;
         border-radius: 5px;
         padding: 20px;
+        text-align: center;
     }
 
     .email-bar {
@@ -68,6 +70,8 @@
         text-align: center;
     }
 
+
+
     .black-bar {
         background-color: #000;
     }
@@ -89,9 +93,14 @@
 <div class="email-background" style="background: #eee;padding: 10px;">
 
     <!-- -->
-    <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;">Toonerite seis {{date}}</div>
+    <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;text-align: center;">Toonerite seis {{date}}</div>
     <div>
         <div class="email-container" style="background: white;margin: 0 auto;overflow: hidden;border-radius: 5px;">
+            {{#if all_is_good}}
+                <p>Printerid on korras</p>
+            {{else}}
+                <p>Mõned toonerid on madalad</p>
+            {{/if}}
             {{#each printers}}
                 {{#if this.cartridge.critical}}
                     {{#if this.color}}
@@ -144,7 +153,7 @@
                 {{/if}}
             {{/each}}
         </div>
-        <div class="email-footer" style="margin: 0 auto;overflow: hidden;border-radius: 5px;padding: 20px;">@EestiMeediaPrinterid</div>
+        <div class="email-footer" style="margin: 0 auto;overflow: hidden;border-radius: 5px;padding: 20px;text-align: center;">@EestiMeediaPrinterid</div>
     </div>
 </div>
 

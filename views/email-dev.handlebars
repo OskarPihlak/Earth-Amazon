@@ -18,6 +18,7 @@
         font-size: 15px;
         margin: 0 auto;
         padding: 20px;
+        text-align: center;
     }
 
     .email-footer {
@@ -25,6 +26,7 @@
         overflow: hidden;
         border-radius: 5px;
         padding: 20px;
+        text-align: center;
     }
 
     .email-bar {
@@ -92,6 +94,11 @@
     <div class="email-preheader">Toonerite seis {{date}}</div>
     <div>
         <div class="email-container">
+            {{#if all_is_good}}
+                <p>Printerid on korras</p>
+            {{else}}
+            <p>Mõned toonerid on madalad</p>
+            {{/if}}
             {{#each printers}}
                 {{#if this.cartridge.critical}}
                     {{#if this.color}}

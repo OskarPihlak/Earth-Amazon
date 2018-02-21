@@ -47,19 +47,22 @@ module.exports = function (app) {
                     let critical_toner_level = 12;
 
                     console.log(response[i].ip !== '192.168.67.42' || '192.168.67.3');
-                    if (response[i].ip !== '192.168.67.42' || '192.168.67.3') {
                         if (response[i].color) {
                             if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
                                 response[i].cartridge.critical = true;
                                 critical_printers.push(response[i]);
                             }
                         } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                            response[i].cartridge.critical = true;
-                            critical_printers.push(response[i]);
+                            if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
+                                response[i].cartridge.critical = false;
+                            } else {
+                                response[i].cartridge.critical = true;
+                                critical_printers.push(response[i]);
+                            }
                         } else {
                             response[i].cartridge.critical = false;
                         }
-                    }
+
                 }
             }
             console.log(critical_printers);
@@ -72,9 +75,10 @@ module.exports = function (app) {
                 critical_toner.push(response);
             }
         });
+        let all_is_good = false;
+        if(critical_toner === []){all_is_good = true}
 
-
-        var finalPageHTML = compileTemplate({printers: critical_toner, date: moment().format('DD-MM-YYYY')});
+        var finalPageHTML = compileTemplate({printers: critical_toner, date: moment().format('DD-MM-YYYY'), all_is_good: all_is_good});
 
         console.log(finalPageHTML);
         console.log(JSON.stringify(response));
