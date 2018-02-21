@@ -1,123 +1,170 @@
 <link href="/css/style.css" rel="stylesheet" type="text/css">
 <style>
-    .email-background{
+    .email-background {
         background: #eee;
-        padding: 10px;  }
+        padding: 10px;
+    }
 
-    .email-container{
+    .email-container {
         background: white;
-        margin:0 auto;
+        margin: 0 auto;
         overflow: hidden;
-        border-radius: 5px;  }
+        border-radius: 5px;
+    }
 
-    .email-preheader{
+    .email-preheader {
         background: #eee;
         color: #555;
         font-size: 15px;
         margin: 0 auto;
-        padding: 20px;}
+        padding: 20px;
+    }
 
-    .email-footer{
-        margin:0 auto;
+    .email-footer {
+        margin: 0 auto;
         overflow: hidden;
         border-radius: 5px;
         padding: 20px;
     }
-    .email-bar{
+
+    .email-bar {
         height: 50px;
         width: 300px;
         display: inline-block;
         background-color: #e9ecef;
         overflow: hidden;
         border-radius: .20rem;
-        margin: 3px 0 0 0;  }
+        margin: 3px 0 0 0;
+    }
 
-    .email-container-printer{
+    .email-container-printer {
         display: block;
         position: relative;
         margin: 20px auto;
         width: 310px;
         border-radius: .25rem;
-        padding: 5px; }
+        padding: 5px;
+    }
 
-    .progress-bar-toner{
-        height:50px;
+    .progress-bar-toner {
+        height: 50px;
         color: #ffffff;
         text-align: center;
-        line-height: 45px;}
+        line-height: 45px;
+    }
 
-    .email-container-section-toners{
+    .email-container-section-toners {
         width: 300px;
         display: inline-block;
     }
 
-    .email-chart{
+    .email-chart {
         display: inline-block;
         width: 675px;
     }
 
-    .email-printer-heading{
-        color:#000;
+    .email-printer-heading {
+        color: #000;
         text-align: center;
     }
 
-    .black-bar {  background-color: #000;  }
-    .cyan-bar-map {  background-color: rgba(87, 202, 244, 0.6);  }
-    .magenta-bar-map {  background-color: rgba(236, 0, 140, 0.6);  }
-    .yellow-bar-map {  background-color: rgba(241, 196, 15, 0.6);  }
+    .black-bar {
+        background-color: #000;
+    }
+
+    .cyan-bar-map {
+        background-color: rgba(87, 202, 244, 0.6);
+    }
+
+    .magenta-bar-map {
+        background-color: rgba(236, 0, 140, 0.6);
+    }
+
+    .yellow-bar-map {
+        background-color: rgba(241, 196, 15, 0.6);
+    }
 
 </style>
 
 <div class="email-background" style="background: #eee;padding: 10px;">
 
     <!-- -->
-    <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;">Toonerite seis {{date}}</div>
+    <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;">
+        Toonerite seis {{date}}</div>
     <div>
         <div class="email-container" style="background: white;margin: 0 auto;overflow: hidden;border-radius: 5px;">
             {{#each printers}}
-                {{#if this.color}}
-                    <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-                        <div class="email-printer-heading" style="color: #000;text-align: center;">
-                            <p>{{this.name}}<br></p>
-                            <span>
-                                {{this.ip}}
-                            </span>
+                {{#if this.critical}}
+                    {{#if this.color}}
+                        <div class="email-container-printer"
+                             style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
+                            <div class="email-printer-heading" style="color: #000;text-align: center;">
+                                <p>{{this.name}}<br></p>
+                                <span>
+                                    {{this.ip}}
+                                </span>
+                            </div>
+                            <div class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                <div class="email-bar"
+                                     style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
+                                    <div class="progress-bar black-bar progress-bar-toner"
+                                         style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}
+                                        %
+                                    </div>
+                                </div>
+                                <div class="email-bar"
+                                     style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
+                                    <div class="progress-bar cyan-bar-map progress-bar-toner"
+                                         style="width: {{this.cartridge.cyan.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(87, 202, 244, 0.6);">{{this.cartridge.cyan.value}}
+                                        %
+                                    </div>
+                                </div>
+                                <div class="email-bar"
+                                     style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
+                                    <div class="progress-bar yellow-bar-map progress-bar-toner"
+                                         style="width: {{this.cartridge.yellow.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(241, 196, 15, 0.6);">{{this.cartridge.yellow.value}}
+                                        %
+                                    </div>
+                                </div>
+                                <div class="email-bar"
+                                     style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
+                                    <div class="progress-bar magenta-bar-map progress-bar-toner"
+                                         style="width: {{this.cartridge.magenta.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(236, 0, 140, 0.6);">{{this.cartridge.magenta.value}}
+                                        %
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="chart_{{this.name}}" class="email-chart"
+                                 style="display: inline-block;width: 675px;"></div>
                         </div>
-                        <div class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                            <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                <div class="progress-bar black-bar progress-bar-toner" style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}%</div>
+                    {{else}}
+                        <div class="email-container-printer"
+                             style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
+                            <div class="email-printer-heading" style="color: #000;text-align: center;">
+                                <p>{{this.name}}</p>
+                                <span>
+                                    {{this.ip}}
+                                </span>
                             </div>
-                            <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                <div class="progress-bar cyan-bar-map progress-bar-toner" style="width: {{this.cartridge.cyan.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(87, 202, 244, 0.6);">{{this.cartridge.cyan.value}}%</div>
+
+                            <div class="email-bar"
+                                 style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
+                                <div class="progress-bar black-bar progress-bar-toner"
+                                     style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}
+                                    %
+                                </div>
                             </div>
-                            <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                <div class="progress-bar yellow-bar-map progress-bar-toner" style="width: {{this.cartridge.yellow.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(241, 196, 15, 0.6);">{{this.cartridge.yellow.value}}%</div>
-                            </div>
-                            <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                <div class="progress-bar magenta-bar-map progress-bar-toner" style="width: {{this.cartridge.magenta.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: rgba(236, 0, 140, 0.6);">{{this.cartridge.magenta.value}}%</div>
-                            </div>
-                        </div>
-                        <div id="chart_{{this.name}}" class="email-chart" style="display: inline-block;width: 675px;"></div>
-                    </div>
-                {{else}}
-                    <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-                        <div class="email-printer-heading" style="color: #000;text-align: center;">
-                            <p>{{this.name}}</p>
-                            <span>
-                                {{this.ip}}
-                            </span>
+                            <div id="chart_{{this.name}}" class="email-chart"
+                                 style="display: inline-block;width: 675px;"></div>
                         </div>
 
-                        <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                            <div class="progress-bar black-bar progress-bar-toner" style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}%</div>
-                        </div>
-                        <div id="chart_{{this.name}}" class="email-chart" style="display: inline-block;width: 675px;"></div>
-                    </div>
-
+                    {{/if}}
                 {{/if}}
             {{/each}}
         </div>
-        <div class="email-footer" style="margin: 0 auto;overflow: hidden;border-radius: 5px;padding: 20px;">@EestiMeediaPrinterid</div>
+        <div class="email-footer" style="margin: 0 auto;overflow: hidden;border-radius: 5px;padding: 20px;">
+            @EestiMeediaPrinterid
+        </div>
     </div>
 </div>
 
