@@ -101,9 +101,104 @@
 <div class="email-background" style="background: #eee;padding: 10px;">
 
     <!-- -->
-    <div class="email-preheader" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;padding: 20px;text-align: center;">Toonerite seis {{date}}</div>
+    <table class="email-preheader" align="center" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
+        <tr style="height: 25px;width: 50%">
+            <td>Toonerite seis {{date}}</td>
+        </tr>
+    </table>
     <div>
         <div class="email-container" style="background: white;margin: 0 auto;overflow: hidden;border-radius: 5px;">
+
+            <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
+
+                <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 100%;border-radius: .25rem;padding: 5px;">
+                <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
+                    <tbody>
+                    <tr>
+                        <td align="center">test</td>
+                    </tr>
+                    <tr>
+                        <td align="center">192.168.67.133</td>
+                    </tr>
+                </table>
+                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                        <tr>
+                            <td align="center" style="background-color:#6a696b;color:#ffffff;width:100%;height: 40px;">100%</td>
+                            <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
+                        </tr>
+                    </table>
+                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                        <tr>
+                            <td align="center" style="background-color:#aad4fa;color:#ffffff;width:88%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">88%</p></td>
+                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                        </tr>
+                    </table>
+                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                        <tr>
+                            <td align="center" style="background-color:#F0D470;color:#ffffff;width:1%;">8%</td>
+                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                        </tr>
+                    </table>
+                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                        <tr>
+                            <td align="center" style="background-color:#EC008C;color:#ffffff;width:1%;">8%</td>
+                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                        </tr>
+                    </table>
+            </div>
+
+
+                <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
+
+                    <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 100%;border-radius: .25rem;padding: 5px;">
+                        <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
+                            <tbody>
+                            <tr>
+                                <td align="center">test</td>
+                            </tr>
+                            <tr>
+                                <td align="center">192.168.67.133</td>
+                            </tr>
+                        </table>
+                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                            <tr>
+                                <td align="center" style="background-color:#6a696b;color:#ffffff;width:100%;height: 40px;">100%</td>
+                                <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
+                            </tr>
+                        </table>
+                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                            <tr>
+                                <td align="center" style="background-color:#aad4fa;color:#ffffff;width:88%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">88%</p></td>
+                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                            </tr>
+                        </table>
+                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                            <tr>
+                                <td align="center" style="background-color:#F0D470;color:#ffffff;width:1%;">8%</td>
+                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                            </tr>
+                        </table>
+                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                            <tr>
+                                <td align="center" style="background-color:#EC008C;color:#ffffff;width:1%;">8%</td>
+                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="email-status-container" style="text-align: center;">
                 {{#if all_is_good}}
                     <p class="email-status-green" style="color: #06ff00;">Printerid on korras</p>
@@ -163,11 +258,49 @@
                 {{/if}}
             {{/each}}
         </div>
-        <div class="email-footer" style="margin: 0 auto;overflow: hidden;border-radius: 5px;padding: 20px;text-align: center;">@EestiMeediaPrinterid</div>
+
+            <table class="email-preheader" align="center" style="background: #5ecfef;color: #fff;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
+                <tr style="height: 25px;width: 50%">
+                    <td>@EestiMeediaPrinterid</td>
+                </tr>
+            </table>
     </div>
 </div>
 
 <form action="/emailstuff" method="post">
     <button class="btn btn-primary">submit</button>
 </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
