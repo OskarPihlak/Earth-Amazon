@@ -1,24 +1,26 @@
 module.exports = function (app) {
-    const bodyParser = require('body-parser');
-    const nodemailer = require('nodemailer');
-    const mysql = require('mysql');
-    const pad = require('pad-number');
-    const urlEncodedParser = bodyParser.urlencoded({extended: false});
+    const bodyParser =           require('body-parser');
+    const nodemailer =           require('nodemailer');
+    const mysql =                require('mysql');
+    const pad =                  require('pad-number');
+    const urlEncodedParser =     bodyParser.urlencoded({extended: false});
     const printer_data_promise = require('./printer-data-promise');
-    const database = require('./db.js');
-    const helpers = require('./helpers.js');
-    const cartridge_add = require('./cartridge-add.js');
-    const printer_oid_data = require('./oids.js');
-    const moment = require('moment');
-    let pool = database.db_define_database();
-    const colors = require('colors');
-    const fs = require('fs');
-    const Hogan = require('hogan.js');
-    const Handlebars = require('handlebars');
-    const moment_range = require('moment-range');
-    const moment_ranges = moment_range.extendMoment(moment);
-    const chart = require('./chart.js');
+    const database =             require('./db.js');
+    const helpers =              require('./helpers.js');
+    const cartridge_add =        require('./cartridge-add.js');
+    const printer_oid_data =     require('./oids.js');
+    const moment =               require('moment');
+    const pool =                 database.db_define_database();
+    const colors =               require('colors');
+    const fs =                   require('fs');
+    const Handlebars =           require('handlebars');
+    const moment_range =         require('moment-range');
+    const moment_ranges =        moment_range.extendMoment(moment);
+    const chart =                require('./chart.js');
+    const bcrypt =               require('bcrypt');
 
+//TODO password to bcrypt
+//automatic statistics graphic generation in statistics
     let chart_master = [];
     const range = moment_ranges.range(5, 9);
     chart().then(data => chart().then(data => {
@@ -32,20 +34,14 @@ module.exports = function (app) {
                 if (data.critical) chart_master.push(data);
             });
         }
-    }, 2700000);
-
-
-
-
-
-
-
+    }, 2700000); //45min in milliseconds
+//graphics generation end
+//automatic email notification for printers
 setInterval(()=>{
-    if((moment.format('dddd') === 'Monday' || moment.format('dddd') === 'Friday') && moment_ranges.range(5, 9).contains(moment.format('H'))){
+    if(moment().format('dddd-H') === 'Monday-8'){
     let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-
         let critical_printers = response => {
             let critical_printers = [];
             for (let i = 1; i < response.length; i++) {
@@ -82,42 +78,45 @@ setInterval(()=>{
                 critical_toner.push(response);
             }
         });
-        let all_is_good = false;
-        if (critical_toner.length === 0) all_is_good = true;
+        let all_is_good = true;
+        if (critical_toner.length > 0){
+            all_is_good = false;
 
-        let finalPageHTML = compileTemplate({
-            printers: critical_toner,
-            date: moment().format('DD-MM-YYYY'),
-            all_is_good: all_is_good
-        });
-        nodemailer.createTestAccount((err, account) => {
-            let transporter = nodemailer.createTransport({
-                host: "smtp.office365.com",
-                port: 587,
-                secure: false,
-                auth: {
-                    user: 'oskar.pihlak@eestimeedia.ee',
-                    pass: 'WorkDragon88'
-                },
-                tls: {
-                    ciphers: 'SSLv3'
-                }
+            let finalPageHTML = compileTemplate({
+                printers: critical_toner,
+                date: moment().format('DD-MM-YYYY'),
+                all_is_good: all_is_good
             });
-            let mailOptions = {
-                from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
-                to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
-                subject: 'Madala tasemega toonerid',
-                html: finalPageHTML
-            };
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) return console.log(error);
-                console.log('Message sent: %s', info.messageId);
-                console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            nodemailer.createTestAccount((err, account) => {
+                let transporter = nodemailer.createTransport({
+                    host: "smtp.office365.com",
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: 'oskar.pihlak@eestimeedia.ee',
+                        pass: 'WorkDragon88'
+                    },
+                    tls: {
+                        ciphers: 'SSLv3'
+                    }
+                });
+                let mailOptions = {
+                    from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
+                    to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
+                    subject: 'Madala tasemega toonerid',
+                    html: finalPageHTML
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) return console.log(error);
+                    console.log('Message sent: %s', info.messageId);
+                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                });
             });
-        });
+        }
        });
     }
-        },2700000);
+},2700000); //45min in milliseconds
+//end of email
 
 
 
@@ -132,7 +131,7 @@ setInterval(()=>{
                         if (response[i].hasOwnProperty('cartridge')) {
 
                             let toner = response[i].cartridge;
-                            let critical_toner_level = 12;
+                            let critical_toner_level = 90;
 
                             if (response[i].color) {
                                 if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
@@ -156,6 +155,7 @@ setInterval(()=>{
                 };
                 critical_printers(response);
 
+                console.log(response);
                 let critical_toner = [];
                 response.forEach(response => {
                     if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {

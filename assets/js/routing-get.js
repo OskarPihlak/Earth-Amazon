@@ -1,34 +1,28 @@
 module.exports = function (app) {
-
     //npm
-    const Hogan = require('hogan.js');
-    const sendgrid = require('sendgrid');
-
     const bodyParser = require('body-parser');
     const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const filter = require('filter-object');
     const moment = require('moment-business-days');
     const ping = require('ping');
-    const jQuery = require('jquery');
     const fs = require('fs');
     const colors = require('colors');
     const moment_range = require('moment-range');
     const moment_ranges = moment_range.extendMoment(moment);
-
     //files
-    const printer_oid_data = require('./oids.js');
     const printer_data_promise = require('./printer-data-promise.js');
     const chart = require('./chart.js');
     const database = require('./db.js');
     const helpers = require('./helpers.js');
     const pool = database.db_define_database();
-
+    //helper: array last element
     if (!Array.prototype.last) {
         Array.prototype.last = function () {
             return this[this.length - 1];
         };
     }
+    //helper:  only keepunique array values
     Array.prototype.unique = function () {
         let arr = [];
         for (let i = 0; i < this.length; i++) {
@@ -36,9 +30,7 @@ module.exports = function (app) {
                 arr.push(this[i]);
             }
         }
-        return arr;
-    };
-
+        return arr; };
 
     //main page
     app.get('/', function (req, res) {
@@ -363,7 +355,7 @@ module.exports = function (app) {
     });
 
 
-    //TODO
+    //TODO get this fixed
     app.get('/details/:name/:ip', (req, res) => {
         let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
         console.log(query);
@@ -388,9 +380,8 @@ module.exports = function (app) {
                     if (response[i].hasOwnProperty('cartridge')) {
 
                         let toner = response[i].cartridge;
-                        let critical_toner_level = 12;
+                        let critical_toner_level = 90;
 
-                        console.log(response[i].ip !== '192.168.67.42' || '192.168.67.3');
                         if (response[i].color) {
                             if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
                                 response[i].cartridge.critical = true;
@@ -399,30 +390,30 @@ module.exports = function (app) {
                         } else if (response[i].color === false && toner.black.value < critical_toner_level) {
                             if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
                                 response[i].cartridge.critical = false;
-                            } else {
+                            }
+                            else {
                                 response[i].cartridge.critical = true;
                                 critical_printers.push(response[i]);
                             }
                         } else {
                             response[i].cartridge.critical = false;
                         }
-
                     }
                 }
-                console.log(critical_printers);
                 return critical_printers;
             };
             critical_printers(response);
+
             let critical_toner = [];
             response.forEach(response => {
-                if (response.name !== 'RequestTimedOutError') {
+                if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {
                     critical_toner.push(response);
                 }
             });
             let all_is_good = false;
-            if(critical_toner === []){all_is_good = true}
+            if (critical_toner.length === 0) all_is_good = true;
 
-            res.render('email-dev', {
+            res.render('email', {
                 printers: critical_toner,
                 date: moment().format('DD-MM-YYYY'),
                 all_is_good: all_is_good

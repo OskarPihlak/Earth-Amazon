@@ -2,15 +2,13 @@
 <style>
     .email-background {
         background: #eee;
-        padding: 10px;
-    }
+        padding: 10px;  }
 
     .email-container {
         background: white;
         margin: 0 auto;
         overflow: hidden;
-        border-radius: 5px;
-    }
+        border-radius: 5px;  }
 
     .email-preheader {
         background: #eee;
@@ -18,16 +16,14 @@
         font-size: 15px;
         margin: 0 auto;
         padding: 20px;
-        text-align: center;
-    }
+        text-align: center;  }
 
     .email-footer {
         margin: 0 auto;
         overflow: hidden;
         border-radius: 5px;
         padding: 20px;
-        text-align: center;
-    }
+        text-align: center;  }
 
     .email-bar {
         height: 50px;
@@ -36,8 +32,7 @@
         background-color: #e9ecef;
         overflow: hidden;
         border-radius: .20rem;
-        margin: 3px 0 0 0;
-    }
+        margin: 3px 0 0 0;  }
 
     .email-container-printer {
         display: block;
@@ -45,160 +40,53 @@
         margin: 20px auto;
         width: 310px;
         border-radius: .25rem;
-        padding: 5px;
-    }
+        padding: 5px;  }
 
     .progress-bar-toner {
         height: 50px;
         color: #ffffff;
         text-align: center;
-        line-height: 45px;
-    }
+        line-height: 45px;  }
 
     .email-container-section-toners {
         width: 300px;
-        display: inline-block;
-    }
+        display: inline-block;  }
 
     .email-chart {
         display: inline-block;
-        width: 675px;
-    }
+        width: 675px;  }
 
     .email-printer-heading {
         color: #000;
-        text-align: center;
-    }
+        text-align: center;  }
+
     .email-status-green{
-        color: #06ff00;
-    }
+        color: #06ff00;  }
+
     .email-status-red{
-        color: #ff0000;
-    }
+        color: #ff0000;  }
 
     .email-status-container{
-        text-align: center;
-    }
+        text-align: center;  }
 
-    .black-bar {
-        background-color: #000;
-    }
-
-    .cyan-bar-map {
-        background-color: #96d8f3;
-    }
-
-    .magenta-bar-map {
-        background-color: #ec008c;
-    }
-
-    .yellow-bar-map {
-        background-color:#f0d470;
-    }
+    .black-bar {  background-color: #000;  }
+    .cyan-bar-map {  background-color: #96d8f3;  }
+    .magenta-bar-map {  background-color: #ec008c;  }
+    .yellow-bar-map {  background-color:#f0d470;  }
 
 </style>
 
 <div class="email-background" style="background: #eee;padding: 10px;">
-
-    <!-- -->
+    <!-- email header -->
     <table class="email-preheader" align="center" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
         <tr style="height: 25px;width: 50%">
             <td>Toonerite seis {{date}}</td>
         </tr>
     </table>
     <div>
+        <!-- email contents -->
         <div class="email-container" style="background: white;margin: 0 auto;overflow: hidden;border-radius: 5px;">
-
-            <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-
-                <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 100%;border-radius: .25rem;padding: 5px;">
-                <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
-                    <tbody>
-                    <tr>
-                        <td align="center">test</td>
-                    </tr>
-                    <tr>
-                        <td align="center">192.168.67.133</td>
-                    </tr>
-                </table>
-                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                        <tr>
-                            <td align="center" style="background-color:#6a696b;color:#ffffff;width:100%;height: 40px;">100%</td>
-                            <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
-                        </tr>
-                    </table>
-                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                        <tr>
-                            <td align="center" style="background-color:#aad4fa;color:#ffffff;width:88%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">88%</p></td>
-                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                        </tr>
-                    </table>
-                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                        <tr>
-                            <td align="center" style="background-color:#F0D470;color:#ffffff;width:1%;">8%</td>
-                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                        </tr>
-                    </table>
-                    <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                        <tr>
-                            <td align="center" style="background-color:#EC008C;color:#ffffff;width:1%;">8%</td>
-                            <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                        </tr>
-                    </table>
-            </div>
-
-
-                <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-
-                    <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 100%;border-radius: .25rem;padding: 5px;">
-                        <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
-                            <tbody>
-                            <tr>
-                                <td align="center">test</td>
-                            </tr>
-                            <tr>
-                                <td align="center">192.168.67.133</td>
-                            </tr>
-                        </table>
-                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                            <tr>
-                                <td align="center" style="background-color:#6a696b;color:#ffffff;width:100%;height: 40px;">100%</td>
-                                <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
-                            </tr>
-                        </table>
-                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                            <tr>
-                                <td align="center" style="background-color:#aad4fa;color:#ffffff;width:88%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">88%</p></td>
-                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                            </tr>
-                        </table>
-                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                            <tr>
-                                <td align="center" style="background-color:#F0D470;color:#ffffff;width:1%;">8%</td>
-                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                            </tr>
-                        </table>
-                        <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                            <tr>
-                                <td align="center" style="background-color:#EC008C;color:#ffffff;width:1%;">8%</td>
-                                <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
-                            </tr>
-                        </table>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             <!-- status overview -->
             <div class="email-status-container" style="text-align: center;">
                 {{#if all_is_good}}
                     <p class="email-status-green" style="color: #06ff00;">Printerid on korras</p>
@@ -206,64 +94,90 @@
                     <p class="email-status-red" style="color: #ff0000;">Mõned toonerid on madalad</p>
                 {{/if}}
             </div>
+            <!-- status overview end -->
             {{#each printers}}
                 {{#if this.cartridge.critical}}
                     {{#if this.color}}
+                        <!-- colored printer node -->
                         <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-                            <div class="email-printer-heading" style="color: #000;text-align: center;">
-                                <p>{{this.name}}<br></p>
-                                <span>
-                                    {{this.ip}}
-                                </span>
-                            </div>
-                            <div class="email-container-section-toners" style="width: 300px;display: inline-block;">
-                                <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                    <div class="progress-bar black-bar progress-bar-toner" style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}%
-                                    </div>
-                                </div>
-                                <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                    <div class="progress-bar cyan-bar-map progress-bar-toner" style="width: {{this.cartridge.cyan.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #96d8f3;">{{this.cartridge.cyan.value}}%
-                                    </div>
-                                </div>
-                                <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                    <div class="progress-bar yellow-bar-map progress-bar-toner" style="width: {{this.cartridge.yellow.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #f0d470;">{{this.cartridge.yellow.value}}
-                                        %
-                                    </div>
-                                </div>
-                                <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                    <div class="progress-bar magenta-bar-map progress-bar-toner" style="width: {{this.cartridge.magenta.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #ec008c;">{{this.cartridge.magenta.value}}
-                                        %
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="chart_{{this.name}}" class="email-chart" style="display: inline-block;width: 675px;"></div>
+                            <!-- node info -->
+                            <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
+                                <tbody>
+                                <tr><td align="center">{{this.name}}</td></tr>
+                                <tr><td align="center">{{this.ip}}</td></tr>
+                                </tbody>
+                            </table>
+                            <!-- black cartridge -->
+                            <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                <tbody>
+                                <tr>
+                                    <td align="center" style="background-color:#6a696b;color:#ffffff;width:{{this.cartridge.black.value}}%;height: 40px;">{{this.cartridge.black.value}}%</td>
+                                    <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- cyan cartridge -->
+                            <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                <tbody>
+                                <tr>
+                                    <td align="center" style="background-color:#aad4fa;color:#ffffff;width:{{this.cartridge.cyan.value}}%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">{{this.cartridge.cyan.value}}%</p></td>
+                                    <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- yellow cartridge -->
+                            <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                <tbody>
+                                <tr>
+                                    <td align="center" style="background-color:#F0D470;color:#ffffff;width:{{this.cartridge.cyan.value}}%;">{{this.cartridge.yellow.value}}%</td>
+                                    <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- magenta cartridge -->
+                            <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                <tbody>
+                                <tr>
+                                    <td align="center" style="background-color:#EC008C;color:#ffffff;width:{{this.cartridge.magenta.value}}%;">{{this.cartridge.magenta.value}}%</td>
+                                    <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
+                        <!-- colored printer node end -->
                     {{else}}
+                        <!-- black & white node -->
                         <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 310px;border-radius: .25rem;padding: 5px;">
-                            <div class="email-printer-heading" style="color: #000;text-align: center;">
-                                <p>{{this.name}}</p>
-                                <span>
-                                    {{this.ip}}
-                                </span>
+                            <div class="email-container-printer" style="display: block;position: relative;margin: 20px auto;width: 100%;border-radius: .25rem;padding: 5px;">
+                                <!-- node info -->
+                                <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
+                                    <tbody>
+                                        <tr><td align="center">{{this.name}}</td></tr>
+                                        <tr><td align="center">{{this.ip}}</td></tr>
+                                    </tbody>
+                                </table>
+                                <!-- black cartridge -->
+                                <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
+                                    <tbody>
+                                    <tr>
+                                        <td align="center" style="background-color:#6a696b;color:#ffffff;width:{{this.cartridge.black.value}}%;height: 40px;">{{this.cartridge.black.value}}%</td>
+                                        <td style="background-color:#eeeeee;padding:0;width: 300px"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <div class="email-bar" style="height: 50px;width: 300px;display: inline-block;background-color: #e9ecef;overflow: hidden;border-radius: .20rem;margin: 3px 0 0 0;">
-                                <div class="progress-bar black-bar progress-bar-toner" style="width: {{this.cartridge.black.value}}%;height: 50px;color: #ffffff;text-align: center;line-height: 45px;background-color: #000;">{{this.cartridge.black.value}}%
-                                </div>
-                            </div>
-                            <div id="chart_{{this.name}}" class="email-chart" style="display: inline-block;width: 675px;"></div>
                         </div>
-
+                        <!-- black & white node end -->
                     {{/if}}
                 {{/if}}
             {{/each}}
         </div>
-
-            <table class="email-preheader" align="center" style="background: #5ecfef;color: #fff;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
-                <tr style="height: 25px;width: 50%">
-                    <td>@EestiMeediaPrinterid</td>
-                </tr>
-            </table>
+        <!-- email footer -->
+        <table class="email-preheader" align="center" style="background: #5ecfef;color: #fff;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
+            <tr style="height: 25px;width: 50%">
+                <td>@EestiMeediaPrinterid</td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -271,7 +185,7 @@
     <button class="btn btn-primary">submit</button>
 </form>
 
-</div>
+
 
 
 
