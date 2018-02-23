@@ -131,7 +131,7 @@ setInterval(()=>{
                         if (response[i].hasOwnProperty('cartridge')) {
 
                             let toner = response[i].cartridge;
-                            let critical_toner_level = 90;
+                            let critical_toner_level = 12;
 
                             if (response[i].color) {
                                 if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
