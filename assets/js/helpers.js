@@ -303,5 +303,49 @@ module.exports.isEmpty = (obj) => {
     return true;
 };
 
+module.exports.critical_printers = response => {
+    let critical_printers = [];
+    for (let i = 1; i < response.length; i++){
+        if (response[i].hasOwnProperty('cartridge')){
+
+            let toner = response[i].cartridge;
+            let critical_toner_level = 12;
+
+            console.log((response[i].color));
+            if (response[i].color) {
+                if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                    response[i].cartridge.critical = true;
+                    critical_printers.push(response[i]);
+                }
+            } else if (response[i].color === false && toner.black.value < critical_toner_level) {
+                if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
+                    response[i].cartridge.critical = false;
+                }
+                else {
+                    response[i].cartridge.critical = true;
+                    critical_printers.push(response[i]);
+                }
+            } else {
+                response[i].cartridge.critical = false;
+            }
+        }
+    }
+    return critical_printers;
+};
+
+
+/*
+*   ADMIN HELPERS
+*/
+const ping = require('ping');
+
+module.exports.ipStatus = ip => {
+    return new Promise(resolve => {
+        ping.sys.probe(ip, isAlive => {
+            let msg = isAlive ? {ip: ip, alive: true} : {ip: ip, alive: false};
+            return resolve(msg);
+        })
+    });
+};
 
 

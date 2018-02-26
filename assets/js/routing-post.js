@@ -20,6 +20,7 @@ module.exports = function (app) {
     const bcrypt =               require('bcrypt');
 
 //TODO password to bcrypt
+
 //automatic statistics graphic generation in statistics
     let chart_master = [];
     const range = moment_ranges.range(5, 9);
@@ -35,6 +36,7 @@ module.exports = function (app) {
             });
         }
     }, 2700000); //45min in milliseconds
+
 //graphics generation end
 //automatic email notification for printers
 setInterval(()=>{
@@ -42,36 +44,7 @@ setInterval(()=>{
     let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        let critical_printers = response => {
-            let critical_printers = [];
-            for (let i = 1; i < response.length; i++) {
-                if (response[i].hasOwnProperty('cartridge')) {
-
-                    let toner = response[i].cartridge;
-                    let critical_toner_level = 12;
-
-                    if (response[i].color) {
-                        if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
-                            response[i].cartridge.critical = true;
-                            critical_printers.push(response[i]);
-                        }
-                    } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                        if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
-                            response[i].cartridge.critical = false;
-                        }
-                        else {
-                            response[i].cartridge.critical = true;
-                            critical_printers.push(response[i]);
-                        }
-                    } else {
-                        response[i].cartridge.critical = false;
-                    }
-                }
-            }
-            return critical_printers;
-        };
-        critical_printers(response);
-
+        helpers.critical_printers(response);
         let critical_toner = [];
         response.forEach(response => {
             if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {
@@ -118,42 +91,11 @@ setInterval(()=>{
 },2700000); //45min in milliseconds
 //end of email
 
-
-
         app.post('/emailstuff', urlEncodedParser, function (req, res) {
             let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
             let compileTemplate = Handlebars.compile(template);
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-
-                let critical_printers = response => {
-                    let critical_printers = [];
-                    for (let i = 1; i < response.length; i++) {
-                        if (response[i].hasOwnProperty('cartridge')) {
-
-                            let toner = response[i].cartridge;
-                            let critical_toner_level = 12;
-
-                            if (response[i].color) {
-                                if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
-                                    response[i].cartridge.critical = true;
-                                    critical_printers.push(response[i]);
-                                }
-                            } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                                if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
-                                    response[i].cartridge.critical = false;
-                                }
-                                else {
-                                    response[i].cartridge.critical = true;
-                                    critical_printers.push(response[i]);
-                                }
-                            } else {
-                                response[i].cartridge.critical = false;
-                            }
-                        }
-                    }
-                    return critical_printers;
-                };
-                critical_printers(response);
+                helpers.critical_printers(response);
 
                 console.log(response);
                 let critical_toner = [];
@@ -198,17 +140,6 @@ setInterval(()=>{
             });
             res.redirect('/preview');
         });
-
-
-
-    setInterval(() => {
-    }, 2700000);
-
-    let low_toner_printers;
-    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        console.log(colors.red(response));
-    });
-
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
         console.log(req);
@@ -315,18 +246,4 @@ setInterval(()=>{
         }
     }, 2700000);    //1h
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
