@@ -74,35 +74,12 @@ module.exports = function (app) {
 
     app.get('/admin', function (req, res) {
         let sql_statement_get_snmp_adresses = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
-         pool.getConnection((err, connection) => {
+        pool.getConnection((err, connection) => {
             connection.query(sql_statement_get_snmp_adresses, function (error, result) {
                 if (error) throw error;
-
                 let hosts = [];
-                result.forEach(data=> hosts.push(data.ip));
-
-                async function adminRender(array) {
-                    let array_of_ips = [];
-                    for (const item of array) { await helpers.ipStatus(item).then(data => array_of_ips.push(data)); }
-
-                    //add promise result to matching query element //TODO can be merged with upper loop
-                    let final_data = [];
-                    array_of_ips.forEach(status_object => {
-                        result.forEach(query_result => {
-                            if (status_object.ip === query_result.ip) {
-                                query_result.printer_ping = status_object;
-                                final_data.push(query_result);
-                            }
-                        });
-                    });
-                    let number_of_floors = helpers.numberOfFloors(final_data).number_of_floors;
-                    await res.render('admin', {
-                        printers_all: final_data,
-                        floors: number_of_floors
-                    });
-                    return result;
-                }
-                adminRender(hosts);
+                result.forEach(data => hosts.push(data.ip));
+                helpers.admin_render(hosts, result, res);
             });
             connection.release();
         });
@@ -127,47 +104,35 @@ module.exports = function (app) {
         });
     });
 
-//TODO storage routings can be merged with RegEx
-    app.get('/storage', function (req, res) {
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
+    //storage with optionated id
+    app.get(/^\/storage(\/(?:([^\/]+?)))?$/,(req, res)=>{
+        let sql_statement_get = `SELECT * FROM printers_inc_supply.inc_supply_status;`;
         pool.getConnection((err, connection) => {
-            connection.query(sql_statement_get, function (error, sql_data) {
-                let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
-                let sorted_storage = helpers.printerStorageSorting(toner_storage, sql_data);
-                if (error) { throw error; }
+            connection.query(sql_statement_get, (error, sql_data) => {
+                if (error) throw error;
+                let master_storage;
+                let printer_param = req.params[0];
 
-                res.render('storage', {
-                    storage: sorted_storage
-                });
-            });
-            connection.release();
-        });
-    });
-
-    app.get('/storage/:id', function (req, res) {
-        let selected_storage = req.params.id;
-        let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status;';
-        pool.getConnection((err, connection) => {
-            connection.query(sql_statement_get, function (error, sql_data) {
-                if (error) {
-                    throw error
+                if(printer_param === undefined) {
+                    let toner_storage = helpers.arrayToObjectArray(helpers.uniqueCartridges(sql_data).unique_array);
+                    master_storage = helpers.storageSorting(sql_data, toner_storage);
                 }
-                let sorted_storage = helpers.storageSorting(sql_data, selected_storage);
+                else {
+                   master_storage = helpers.storageSorting(sql_data, printer_param);
+                }
                 res.render('storage', {
-                    storage: sorted_storage
+                    storage: master_storage
                 });
             });
             connection.release();
         });
     });
-    //TODO
 
     app.get('/toner-usage-chart', function (req, res) {
         res.render('cartridge-statistics', {
             chart: chart_master
         });
     });
-
 
     //TODO build this
     app.get('/details/:name/:ip', (req, res) => {

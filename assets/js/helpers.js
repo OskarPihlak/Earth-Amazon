@@ -348,4 +348,25 @@ module.exports.ipStatus = ip => {
     });
 };
 
+module.exports.admin_render =
+    async (array, result, res) => {
+    let final_data = [];
+    for (const item of array) {
+        await exports.ipStatus(item).then(data => {
+            result.forEach(query_result => {
+                if (data.ip === query_result.ip) {
+                    query_result.printer_ping = data;
+                    final_data.push(query_result);
+                }
+            });
+        });
+    }
+    let number_of_floors = exports.numberOfFloors(final_data).number_of_floors;
+    await res.render('admin', {
+        printers_all: final_data,
+        floors: number_of_floors
+    });
+    return result;
+};
+
 
