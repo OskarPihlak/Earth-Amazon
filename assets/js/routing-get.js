@@ -77,147 +77,15 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/12k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '12'", pool).then(response => {
+    //use 0 and 2nd params
+    app.get(/^\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/gi, (req, res) => {
+        console.log(req.params);
+        let floor_number = req.params[0].replace(/k/g,'');
+        printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('twelf-floor', {
-                printers_12k: response,
-            });
-        })
-    });
-
-    app.get('/12k', function (req, res) {
-        printer_data_promise("WHERE floor = '12'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('twelf-floor', {
-                printers_12k: response,
-            });
-        })
-    });
-
-    app.get('/10k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '10'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('tenth-floor', {
-                printers_10k: response
-            });
-        })
-    });
-
-    app.get('/10k', function (req, res) {
-        printer_data_promise("WHERE floor = '10'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            console.log(JSON.stringify(response));
-            res.render('tenth-floor', {
-                printers_10k: response
-            });
-        })
-    });
-
-    app.get('/6k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '6'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('sixth-floor', {
-                printers_6k: response
-            });
-        })
-    });
-
-    app.get('/6k', function (req, res) {
-        printer_data_promise("WHERE floor = '6'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('sixth-floor', {
-                printers_6k: response
-            });
-        })
-    });
-
-    app.get('/5k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '5'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('fift-floor', {
-                printers_5k: response
-            });
-        })
-    });
-
-    app.get('/5k', function (req, res) {
-        printer_data_promise("WHERE floor = '5'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('fift-floor', {
-                printers_5k: response
-            });
-        })
-    });
-
-    app.get('/4k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '4'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('fourth-floor', {
-                printers_4k: response
-            });
-        })
-    });
-
-    app.get('/4k', function (req, res) {
-        printer_data_promise("WHERE floor = '4'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('fourth-floor', {
-                printers_4k: response
-            });
-        })
-    });
-
-    app.get('/3k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '3'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('third-floor', {
-                printers_3k: response
-            });
-        })
-    });
-
-    app.get('/3k', function (req, res) {
-        printer_data_promise("WHERE floor = '3k'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('third-floor', {
-                printers_3k: response
-            });
-        })
-    });
-
-    app.get('/2k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '2'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('second-floor', {
-                printers_2k: response
-            });
-        })
-    });
-
-    app.get('/2k', function (req, res) {
-        printer_data_promise("WHERE floor = '2'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('second-floor', {
-                printers_2k: response
-            });
-        })
-    });
-
-    app.get('/1k/:id', function (req, res) {
-        printer_data_promise("WHERE floor = '1'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('first-floor', {
-                printers_1k: response
-            });
-        })
-    });
-
-    app.get('/1k', function (req, res) {
-        printer_data_promise("WHERE floor = '1'", pool).then(response => {
-            helpers.requestedPrinterJoinToResponse(response, req);
-            res.render('first-floor', {
-                printers_1k: response
+            console.log(response);
+            res.render(`${floor_number}-floor`, {
+                floor_printers: response
             });
         })
     });
@@ -370,7 +238,7 @@ module.exports = function (app) {
     });
 
     //get file
-    app.get('/preview', (req, res) => {
+    app.get('/email', (req, res) => {
         console.log('Route -> /');
         printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
 
@@ -380,7 +248,7 @@ module.exports = function (app) {
                     if (response[i].hasOwnProperty('cartridge')) {
 
                         let toner = response[i].cartridge;
-                        let critical_toner_level = 90;
+                        let critical_toner_level = 12;
 
                         if (response[i].color) {
                             if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
@@ -420,22 +288,4 @@ module.exports = function (app) {
             });
         });
     });
-
-
-
-
-
-
-
-    /*
-    //tests
-        app.get('/service-worker.js', (req, res) => {
-            res.set('Content-Type', 'application/javascript');
-            const input = fs.createReadStream(`${__dirname}/client/service-worker.js`);
-            input.pipe(res);
-        });
-
-        app.get('/idb-test', (req, res) => {
-            res.render('idb');
-        });*/
 };

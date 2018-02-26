@@ -4,7 +4,7 @@
         <section class="black-precentage-section printer-section">
             <article class="printer-map">
                 <div>
-                    {{#each printers_6k}}
+                    {{#each floor_printers}}
                         <button onClick="reply_click(this.id)" class="hidden-button button-special-style"
                                 id="{{@index}}">
 
@@ -82,14 +82,13 @@
                         </div>
                     </div>
                     {{/each}}
-
-                    <img src="/images/6-floor.png" width="1640" height="1000" alt="10-floor">
-
+                    <img src="/images/1-floor.png" width="1640" height="1000" alt="12-floor" usemap="#12_floor">
                 </div>
             </article>
         </section>
-        <form action="/">
-            <button class="button-special-style">BACK</button>
-        </form>
     </div>
+
 </div>
+<form action="/">
+    <button class="button-special-style">BACK</button>
+</form>

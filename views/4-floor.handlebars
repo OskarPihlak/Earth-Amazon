@@ -4,7 +4,7 @@
         <section class="black-precentage-section printer-section">
             <article class="printer-map">
                 <div>
-                    {{#each printers_5k}}
+                    {{#each floor_printers}}
                         <button onClick="reply_click(this.id)" class="hidden-button button-special-style"
                                 id="{{@index}}">
 
@@ -60,6 +60,7 @@
                                 </div>
                             </div>
                         {{/if}}
+
                         <button class="button-special-style">Connect</button>
                         <button class="button-special-style toggle-position" id="position-changing-button">Position</button>
 
@@ -82,7 +83,7 @@
                         </div>
                     </div>
                     {{/each}}
-                    <img src="/images/5-floor.png" width="1640" height="1000" alt="10-floor">
+                    <img src="/images/4-floor.png" width="1640" height="1000" alt="10-floor">
 
                 </div>
             </article>

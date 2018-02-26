@@ -16,7 +16,7 @@
         {{#each critical_printers}}
     <div class="container-critical-printer">
         <!-- displays location of printer on map -->
-        <form action="/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
+        <form action="/floor/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
             <button class="btn btn-danger btn-critical-printer-location">Asukoht</button>
         </form>
         <!-- critical printer toner check -->
@@ -186,7 +186,7 @@
 
                     <div>
                         <form class="input-inline" action="/{{this.floor}}k/{{this.name}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Asukoht</button>
+                            <button class="button-special-style {{this.name}}" href="/floor/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
                         <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Detailid</button>
