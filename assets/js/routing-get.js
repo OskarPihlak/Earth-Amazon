@@ -78,7 +78,7 @@ module.exports = function (app) {
     });
 
     //use 0 and 2nd params
-    app.get(/^\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/gi, (req, res) => {
+    app.get(/^\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
         console.log(req.params);
         let floor_number = req.params[0].replace(/k/g,'');
         printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
