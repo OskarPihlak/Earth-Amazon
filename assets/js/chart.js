@@ -7,7 +7,6 @@ module.exports = () => {
     const moment = require('moment-business-days');
     const moment_range = require('moment-range');
     const helpers = require('./helpers.js');
-    const obj_filter = require('object-filter');
     const moment_ranges = moment_range.extendMoment(moment);
     return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {

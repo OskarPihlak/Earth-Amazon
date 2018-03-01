@@ -1,4 +1,3 @@
-const port = 8888;
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
@@ -52,16 +51,15 @@ routing_delete(app);
 process.on('uncaughtException', function (err) {
     console.log(err);
 });
+
 process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
     // application specific logging, throwing an error, or other logic here
 });
 
-
-
-app.set('port', (process.env.PORT) || 8888);
-app.listen(app.get('port'), function () {
-    console.log('Local               http://localhost:' + app.get('port')+'/');
-    console.log(`On Your Network:    http://${ip.address()}:${app.get('port')}/`);
+let port = (process.env.PORT) || 3000;
+app.listen(port, () => {
+    console.log('Local               http://localhost:' + port +'/');
+    console.log(`On Your Network:    http://${ip.address()}:${port}/`);
 });
 

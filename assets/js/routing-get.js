@@ -32,35 +32,51 @@ module.exports = function (app) {
         return arr; };
     //chart generator
     let chart_master;
-    const range = moment_ranges.range(8, 10);
+    let range = moment_ranges.range(8, 10);
+
     chart().then(data => chart_master = data);
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
         if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+            console.log(`${day_name} chart update - ${date.getHours()}`);
             chart().then(data => chart_master = data);
         }
     }, 2700000);
 
+    //printer_data_promise generation
+    //when server starts wait a few seconds before making requests due to result loading
+    let printer_result;
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+        printer_result = response;
+    });
+    range = moment_ranges.range(9, 16);
+    setInterval(() => {
+        let date = new Date();
+        let day_name = moment().format('dddd');
+        if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+            console.log(`${day_name} printer data update - ${date.getHours()}`);
+            printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+                printer_result = response;
+            });
+        }
+    },3600000);
+
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
-        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-
-            for (let i = 0; i < response.length; i++) {
-                response[i].requested = req.params.id;
-            }
-
-            let floors = helpers.numberOfFloors(response).number_of_floors;
-            let critically_printers = helpers.critical_printers(response);
+          /*  for (let i = 0; i < printer_result.length; i++) {
+                printer_result[i].requested = req.params.id;
+            }*/
+            let floors = helpers.numberOfFloors(printer_result).number_of_floors;
+            let critically_printers = helpers.critical_printers(printer_result);
             res.render('main', {
-                printers: response,
+                printers: printer_result,
                 floors: floors,
                 critical_printers: critically_printers
             });
-        });
     });
 
-    //use 0 and 2nd params //NOTE printer map
+    //use 0 and 2nd params, this displays printer location on map
     app.get(/^\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
         let floor_number = req.params[0].replace(/k/g,'');
         console.log(colors.magenta(`Navigating to route -> /floor/${floor_number}/${req.params[2]}`));
@@ -139,11 +155,9 @@ module.exports = function (app) {
         let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
         console.log(query);
         printer_data_promise(query, pool).then(response => {
-
-            res.render('detailed-printer-report', {
+            res.render('det-printer', {
                 chart: chart_master,
                 data: response
-
             })
         });
     });

@@ -2,6 +2,7 @@ const Handlebars = require('handlebars');
 let database = require('./db.js');
 const pool = database.db_define_database();
 const colors = require('colors');
+//TODO cleanup this file
 
 module.exports.requestedPrinterJoinToResponse = (response, req) => {
     for (let i = 0; i < response.length; i++) {
@@ -335,8 +336,8 @@ module.exports.critical_printers = response => {
 
 
 /*
-*   ADMIN HELPERS
-*/
+*   ADMIN PAGE
+* */
 const ping = require('ping');
 
 module.exports.ipStatus = ip => {
@@ -368,5 +369,16 @@ module.exports.admin_render =
     });
     return result;
 };
-
+/*
+* MAIN PAGE
+* */
+const printer_data_promise = require('./printer-data-promise.js');
+module.exports.printer_data = () => {
+    let printer_result_init;
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+        console.log(response);
+        printer_result_init = response;
+    });
+    return printer_result_init
+};
 
