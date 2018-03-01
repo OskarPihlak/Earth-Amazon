@@ -27,7 +27,7 @@ module.exports = (sql_conditional, pool) => {
                             let ping_check = await wait_ping(row.ip);
 
                             if (ping_check.alive === true) {
-                                console.log(colors.green(`OK ${row.ip}`));
+                                //console.log(colors.green(`OK ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     color: !!row.color,
@@ -40,7 +40,7 @@ module.exports = (sql_conditional, pool) => {
                                     printer_ping:{ip:row.ip, alive: true}
                                 };
                             } else {
-                                console.log(colors.red(`FAILED ${row.ip}`));
+                               // console.log(colors.red(`FAILED ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     name: row.name,
