@@ -4,11 +4,11 @@ module.exports = function (app) {
     const mysql =                require('mysql');
     const pad =                  require('pad-number');
     const urlEncodedParser =     bodyParser.urlencoded({extended: false});
-    const printer_data_promise = require('./printer-data-promise');
-    const database =             require('./db.js');
-    const helpers =              require('./helpers.js');
-    const cartridge_add =        require('./cartridge-add.js');
-    const printer_oid_data =     require('./oids.js');
+    const printer_data_promise = require('../oid-proccessing/printer-data-promise');
+    const database =             require('../db/db.js');
+    const helpers =              require('../helpers.js');
+    const cartridge_add =        require('../db/cartridge-add.js');
+    const printer_oid_data =     require('../oid-proccessing/oids.js');
     const moment =               require('moment');
     const pool =                 database.db_define_database();
     const colors =               require('colors');
@@ -16,7 +16,7 @@ module.exports = function (app) {
     const Handlebars =           require('handlebars');
     const moment_range =         require('moment-range');
     const moment_ranges =        moment_range.extendMoment(moment);
-    const chart =                require('./chart.js');
+    const chart =                require('../chart.js');
     const bcrypt =               require('bcrypt');
 
 //TODO password to bcrypt
@@ -41,7 +41,7 @@ module.exports = function (app) {
 //automatic email notification for printers
 setInterval(()=>{
     if(moment().format('dddd-H') === 'Monday-8'){
-    let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
+    let template = fs.readFileSync('./views/email/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
         helpers.critical_printers(response);
@@ -92,7 +92,7 @@ setInterval(()=>{
 //end of email
 
         app.post('/emailstuff', urlEncodedParser, function (req, res) {
-            let template = fs.readFileSync('./views/email.handlebars', 'utf-8');
+            let template = fs.readFileSync('./views/email/email.handlebars', 'utf-8');
             let compileTemplate = Handlebars.compile(template);
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 helpers.critical_printers(response);

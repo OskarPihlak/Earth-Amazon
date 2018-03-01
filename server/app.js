@@ -7,10 +7,10 @@ const urlEncodedParser = bodyParser.urlencoded({extended: false});
 const fs = require('fs');
 const ip = require('ip');
 const minifyHTML = require('express-minify-html');
-const printer_data_promise = require('../assets/js/printer-data-promise.js');
-const routing_get = require('../assets/js/routing-get.js');
-const routing_post = require('../assets/js/routing-post.js');
-const routing_delete = require('../assets/js/routing-delete.js');
+const printer_data_promise = require('../assets/js/oid-proccessing/printer-data-promise.js');
+const routing_get = require('../assets/js/routing/routing-get.js');
+const routing_post = require('../assets/js/routing/routing-post.js');
+const routing_delete = require('../assets/js/routing/routing-delete.js');
 const helpers = require('../assets/js/helpers');
 
 //app init

@@ -4,7 +4,7 @@ module.exports = (sql_conditional, pool) => {
     const mysql = require('mysql');
     const ping = require('ping');
     const colors = require('colors');
-    let helpers = require('./helpers.js');
+    let helpers = require('../helpers.js');
     const printer_oid_data = require('./oids.js');
 
     let wait_ping = ip => new Promise((resolve, reject) => {

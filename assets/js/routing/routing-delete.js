@@ -1,7 +1,7 @@
 module.exports = (app) => {
     const bodyParser = require('body-parser');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
-    const database = require('./db.js');
+    const database = require('../db/db.js');
     const color = require('colors');
     let pool = database.db_define_database();
 

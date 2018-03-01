@@ -1,8 +1,8 @@
 module.exports = () => {
     const colors = require('colors');
-    const printer_data_promise = require('./printer-data-promise');
-    let database = require('./db.js');
-    const printer_oid_data = require('./oids.js');
+    const printer_data_promise = require('./oid-proccessing/printer-data-promise');
+    let database = require('./db/db.js');
+    const printer_oid_data = require('./oid-proccessing/oids.js');
     const pool = database.db_define_database();
     const moment = require('moment-business-days');
     const moment_range = require('moment-range');

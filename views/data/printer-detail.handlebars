@@ -14,13 +14,13 @@
 
 
     -->
-<div class="">
+
     {{#each data}}
         {{#if this.color}}
             {{#if this.cartridge.critical}}
-            <div class="printer printer-{{this.floor}} container-critical-unit">
+            <div class="printer printer-{{this.floor}} container-critical-unit" style="display: block;float: none;">
             {{else}}
-            <div class="printer printer-{{this.floor}}">
+            <div class="printer printer-{{this.floor}}" style="display: block;float: none;">
             {{/if}}
 
             {{#ifEquals this.printer_ping.alive false}}
@@ -67,7 +67,7 @@
                             <input type="hidden" class="cartridge-name" name="update_route" value="/">
                         </form>
                         <div class="progress" style="height: 50px;">
-                            <div class="progress-bar bg-dark"
+                            <div class="progress-bar black-bar"
                                  style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}
                                 %
                             </div>
@@ -226,22 +226,17 @@
         {{/if}}
     </div>
     {{/each}}
-
-
-
-
-
-
-
-
-    {{#if this.critical}}
-    <div class="statistics-printer-container container-critical-unit">
-    {{else}}
-    <div class="statistics-printer-container">
-    {{/if}}
-    <div class="chart-info" style="display:inline-block"></div>
 </div>
-</div>
+    <div class="chart-info" style="
+
+
+    display:inline-block;
+    position: relative;
+    margin: 111px 0 0 0;
+    width: 800px;
+
+
+"></div>
 
 
 

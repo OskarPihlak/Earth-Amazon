@@ -10,10 +10,10 @@ module.exports = function (app) {
     const moment_range = require('moment-range');
     const moment_ranges = moment_range.extendMoment(moment);
     //files
-    const printer_data_promise = require('./printer-data-promise.js');
-    const chart = require('./chart.js');
-    const database = require('./db.js');
-    const helpers = require('./helpers.js');
+    const printer_data_promise = require('../oid-proccessing/printer-data-promise.js');
+    const chart = require('../chart.js');
+    const database = require('../db/db.js');
+    const helpers = require('../helpers.js');
     const pool = database.db_define_database();
     //helper: array last element
     if (!Array.prototype.last) {
@@ -82,7 +82,7 @@ module.exports = function (app) {
         console.log(colors.magenta(`Navigating to route -> /floor/${floor_number}/${req.params[2]}`));
         printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
-            res.render(`${floor_number}-floor`, {
+            res.render(`./floors/${floor_number}-floor`, {
                 floor_printers: response
             });
         })
@@ -112,7 +112,7 @@ module.exports = function (app) {
                 });
                 let number_of_floors = helpers.numberOfFloors(floors_master).number_of_floors;
                 if (error) throw error;
-                res.render('floors', {
+                res.render('./navbar/floors', {
                     floors: number_of_floors
                 });
             });
@@ -145,7 +145,7 @@ module.exports = function (app) {
     });
 
     app.get('/toner-usage-chart', function (req, res) {
-        res.render('cartridge-statistics', {
+        res.render('charts', {
             chart: chart_master
         });
     });
@@ -155,7 +155,7 @@ module.exports = function (app) {
         let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
         console.log(query);
         printer_data_promise(query, pool).then(response => {
-            res.render('det-printer', {
+            res.render('./data/printer-detail', {
                 chart: chart_master,
                 data: response
             })
@@ -175,7 +175,7 @@ module.exports = function (app) {
             let all_is_good = false;
             if (critical_toner.length === 0) all_is_good = true;
 
-            res.render('email', {
+            res.render('./email/email', {
                 printers: critical_toner,
                 date: moment().format('DD-MM-YYYY'),
                 all_is_good: all_is_good
