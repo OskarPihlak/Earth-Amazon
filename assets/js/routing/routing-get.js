@@ -69,7 +69,7 @@ module.exports = function (app) {
             }*/
             let floors = helpers.numberOfFloors(printer_result).number_of_floors;
             let critically_printers = helpers.critical_printers(printer_result);
-            res.render('main', {
+            res.render('./navbar/main', {
                 printers: printer_result,
                 floors: floors,
                 critical_printers: critically_printers
@@ -136,7 +136,7 @@ module.exports = function (app) {
                 else {
                    master_storage = helpers.storageSorting(sql_data, printer_param);
                 }
-                res.render('storage', {
+                res.render('./navbar/storage', {
                     storage: master_storage
                 });
             });
@@ -145,7 +145,7 @@ module.exports = function (app) {
     });
 
     app.get('/toner-usage-chart', function (req, res) {
-        res.render('charts', {
+        res.render('./navbar/charts', {
             chart: chart_master
         });
     });

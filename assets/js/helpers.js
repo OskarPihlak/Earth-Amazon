@@ -363,7 +363,7 @@ module.exports.admin_render =
         });
     }
     let number_of_floors = exports.numberOfFloors(final_data).number_of_floors;
-    await res.render('admin', {
+    await res.render('./navbar/admin', {
         printers_all: final_data,
         floors: number_of_floors
     });
