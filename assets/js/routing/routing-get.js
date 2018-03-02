@@ -152,15 +152,21 @@ module.exports = function (app) {
     });
 
     //TODO build this
+    // noinspection JSAnnotator
     app.get('/details/:name/:ip', (req, res) => {
-        let query = `WHERE  name = "${req.params.name}" AND ip= "${req.params.ip}"`;
-        console.log(query);
-        printer_data_promise(query, pool).then(response => {
+
+        let result;
+        for(let i = 0; i < printer_result.length; i++){
+            if(printer_result[i].name === req.params.name && printer_result[i].ip === req.params.ip){
+                result = printer_result[i];
+                break;
+            }
+        }
+        //TODO redirect if undefined
             res.render('./data/printer-detail', {
                 chart: chart_master,
-                data: response
+                data: result
             })
-        });
     });
 
     //get file
