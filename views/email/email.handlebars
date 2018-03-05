@@ -76,9 +76,9 @@
 
 </style>
 
-<div class="email-background" style="background: #eee;padding: 10px;">
+<div class="email-background" style="background: #8b9dc3;padding: 10px;">
     <!-- email header -->
-    <table class="email-preheader" align="center" style="background: #eee;color: #555;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
+    <table class="email-preheader" align="center" style="font-size: 15px;margin: 0 auto;text-align:center;width: 50%;background: #8b9dc3;color: #fff;">
         <tr style="height: 25px;width: 50%">
             <td>Toonerite seis {{date}}</td>
         </tr>
@@ -152,8 +152,8 @@
                                 <!-- node info -->
                                 <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
                                     <tbody>
-                                        <tr><td align="center">{{this.name}}</td></tr>
-                                        <tr><td align="center">{{this.ip}}</td></tr>
+                                        <tr><td align="center" style="background-color: #3b5796;color: white;">{{this.name}} <br> {{this.ip}}</td></tr>
+                                        <tr><td align="center">{{this.cartridge.black.name}} <br> storage : {{this.cartridge.black.supply.storage}}</td></tr>
                                     </tbody>
                                 </table>
                                 <!-- black cartridge -->
@@ -173,7 +173,7 @@
             {{/each}}
         </div>
         <!-- email footer -->
-        <table class="email-preheader" align="center" style="background: #5ecfef;color: #fff;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
+        <table class="email-preheader" align="center" style="background: #8b9dc3;color: #fff;font-size: 15px;margin: 0 auto;text-align:center;width: 50%">
             <tr style="height: 25px;width: 50%">
                 <td>@EestiMeediaPrinterid</td>
             </tr>

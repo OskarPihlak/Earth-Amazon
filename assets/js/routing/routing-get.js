@@ -145,16 +145,7 @@ module.exports = function (app) {
         });
     });
 
-    app.get('/toner-usage-chart', function (req, res) {
-        res.render('./navbar/charts', {
-            chart: chart_master
-        });
-    });
-
-    //TODO build this
-    // noinspection JSAnnotator
     app.get('/details/:name/:ip', (req, res) => {
-
         let result;
         for(let i = 0; i < printer_result.length; i++){
             if(printer_result[i].name === req.params.name && printer_result[i].ip === req.params.ip){
@@ -163,10 +154,16 @@ module.exports = function (app) {
             }
         }
         //TODO redirect if undefined
-            res.render('./data/printer-detail', {
-                chart: chart_master,
-                data: result
-            })
+        res.render('./data/printer-detail', {
+            chart: chart_master, //TODO write html filter
+            data: result
+        })
+    });
+
+    app.get('/toner-usage-chart', function (req, res) {
+        res.render('./navbar/charts', {
+            chart: chart_master
+        });
     });
 
     //get file

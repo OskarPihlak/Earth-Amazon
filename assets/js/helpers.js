@@ -319,7 +319,8 @@ module.exports.critical_printers = response => {
                     critical_printers.push(response[i]);
                 }
             } else if (response[i].color === false && toner.black.value < critical_toner_level) {
-                if (response[i].ip === '192.168.67.42' || '192.168.67.3') {
+
+                if (response[i].ip === '192.168.67.42' || response[i].ip === '192.168.67.3') {
                     response[i].cartridge.critical = false;
                 }
                 else {

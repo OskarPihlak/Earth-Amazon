@@ -74,9 +74,9 @@ setInterval(()=>{
                     }
                 });
                 let mailOptions = {
-                    from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
+                    from: '"Printerid.wwsys.ee" <oskar.pihlak@eestimeedia.ee>',
                     to: 'oskar.pihlak@eestimeedia.ee ,it@eestimeedia.ee',
-                    subject: 'Madala tasemega toonerid',
+                    subject: 'Printerid.wwsys.ee',
                     html: finalPageHTML
                 };
                 transporter.sendMail(mailOptions, (error, info) => {
@@ -126,9 +126,9 @@ setInterval(()=>{
                         }
                     });
                     let mailOptions = {
-                        from: '"Eesti Meedia Printerid " <oskar.pihlak@eestimeedia.ee>',
+                        from: '"Printerid.wwsys.ee" <oskar.pihlak@eestimeedia.ee>',
                         to: 'oskar.pihlak@eestimeedia.ee',
-                        subject: 'Madala tasemega toonerid',
+                        subject: 'Printerid.wwsys.ee',
                         html: finalPageHTML
                     };
                     transporter.sendMail(mailOptions, (error, info) => {
@@ -138,7 +138,7 @@ setInterval(()=>{
                     });
                 });
             });
-            res.redirect('/preview');
+            res.redirect('/email');
         });
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
