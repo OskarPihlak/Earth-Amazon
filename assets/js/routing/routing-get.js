@@ -67,7 +67,6 @@ module.exports = function (app) {
           /*  for (let i = 0; i < printer_result.length; i++) {
                 printer_result[i].requested = req.params.id;
             }*/
-          console.log(printer_result);
             let floors = helpers.numberOfFloors(printer_result).number_of_floors;
             let critically_printers = helpers.critical_printers(printer_result);
             res.render('./navbar/main', {
@@ -169,21 +168,17 @@ module.exports = function (app) {
     //get file
     app.get('/email', (req, res) => {
         console.log(colors.magenta('Routing to backend email sender view -> /email'));
-        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-            helpers.critical_printers(response);
+        let critical_toner = [];
+        helpers.critical_printers(printer_result).forEach(response => {
+            if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) critical_toner.push(response);
+        });
+        let all_is_good = false;
+        if (critical_toner.length === 0) all_is_good = true;
 
-            let critical_toner = [];
-            response.forEach(response => {
-                if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) critical_toner.push(response);
-            });
-            let all_is_good = false;
-            if (critical_toner.length === 0) all_is_good = true;
-
-            res.render('./email/email', {
-                printers: critical_toner,
-                date: moment().format('DD-MM-YYYY'),
-                all_is_good: all_is_good
-            });
+        res.render('./email/email', {
+            printers: critical_toner,
+            date: moment().format('DD-MM-YYYY'),
+            all_is_good: all_is_good
         });
     });
 };

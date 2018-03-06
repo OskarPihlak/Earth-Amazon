@@ -103,8 +103,8 @@
                             <!-- node info -->
                             <table class="email-printer-heading" align="center" style="color: #000;text-align: center;width: 300px">
                                 <tbody>
-                                <tr><td align="center">{{this.name}}</td></tr>
-                                <tr><td align="center">{{this.ip}}</td></tr>
+                                <tr><td align="center" style="background-color: #3b5796;color: white;">{{this.name}} <br> {{this.ip}}</td></tr>
+                                <tr><td align="center">{{this.cartridge.black.name}} <br> storage : {{this.cartridge.black.supply.storage}}</td></tr>
                                 </tbody>
                             </table>
                             <!-- black cartridge -->
@@ -120,7 +120,7 @@
                             <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
                                 <tbody>
                                 <tr>
-                                    <td align="center" style="background-color:#aad4fa;color:#ffffff;width:{{this.cartridge.cyan.value}}%;"><p style="position: absolute;top:10px;left: 50%;line-height: 1;">{{this.cartridge.cyan.value}}%</p></td>
+                                    <td align="center" style="background-color:#aad4fa;color:#ffffff;width:{{this.cartridge.cyan.value}}%;">{{this.cartridge.cyan.value}}%</td>
                                     <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
                                 </tr>
                                 </tbody>
@@ -129,7 +129,7 @@
                             <table align="center" class="email-container-section-toners" style="width: 300px;display: inline-block;">
                                 <tbody>
                                 <tr>
-                                    <td align="center" style="background-color:#F0D470;color:#ffffff;width:{{this.cartridge.cyan.value}}%;">{{this.cartridge.yellow.value}}%</td>
+                                    <td align="center" style="background-color:#F0D470;color:#ffffff;width:{{this.cartridge.yellow.value}}%;">{{this.cartridge.yellow.value}}%</td>
                                     <td style="background-color:#eeeeee;padding:0;width: 300px;height: 40px;"></td>
                                 </tr>
                                 </tbody>

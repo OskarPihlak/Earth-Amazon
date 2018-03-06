@@ -153,7 +153,7 @@ module.exports = () => {
                                         if(last_toner.black < critical_limit ||
                                            last_toner.cyan < critical_limit ||
                                            last_toner.yellow < critical_limit ||
-                                           last_toner.magenta < critical_limit) master_printer_data[i].critical = true;
+                                           last_toner.magenta < critical_limit) master_printer_data[i].critical = true;  //TODO maybe write else statement...
 
                                         master_printer_data[i].usage.push({
                                             toner: master_printer_data[i][0].toner_black,

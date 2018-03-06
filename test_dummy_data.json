@@ -1,0 +1,20 @@
+[{"ip":"192.168.160.32",
+  "color":false,
+  "name":"pr_tln_6k_HP2420n",
+  "key":"pr_tln_6k_HP2420n__",
+  "max_capacity":true,
+  "floor":"6",
+  "position_left":"1070","position_top":"242","printer_ping":{"ip":"192.168.160.32","alive":true},
+  "cartridge":{"black":{"value":9,"name":"Black Cartridge HP Q6511A", "supply":{"storage":1}}}},
+
+  {"ip":"192.168.66.30",
+    "color":true,
+    "name":"pr_tln_10k_HPM476dn",
+    "key":"pr_tln_10k_HPM476dn__",
+    "max_capacity":false,
+    "floor":"10","position_left":"1100","position_top":"260","printer_ping":{"ip":"192.168.66.30","alive":true},
+    "cartridge":{"black":{"value":29,"name":"Black Cartridge HP CF380X","supply":{"storage":1}},
+      "cyan":{"value":19,"name":"Cyan Cartridge HP CF381A","supply":{"storage":1}},
+      "magenta":{"value":79,"name":"Magenta Cartridge HP CF383A","supply":{"storage":2}},
+      "yellow":{"value":79,"name":"Yellow Cartridge HP CF382A","supply":{"storage":2}}}}
+]

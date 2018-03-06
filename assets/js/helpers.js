@@ -306,13 +306,10 @@ module.exports.isEmpty = (obj) => {
 
 module.exports.critical_printers = response => {
     let critical_printers = [];
-    for (let i = 1; i < response.length; i++){
+    for (let i = 0; i < response.length; i++){
         if (response[i].hasOwnProperty('cartridge')){
-
             let toner = response[i].cartridge;
             let critical_toner_level = 12;
-
-            console.log((response[i].color));
             if (response[i].color) {
                 if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
                     response[i].cartridge.critical = true;
@@ -334,7 +331,6 @@ module.exports.critical_printers = response => {
     }
     return critical_printers;
 };
-
 
 /*
 *   ADMIN PAGE

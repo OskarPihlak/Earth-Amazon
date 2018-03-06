@@ -133,9 +133,11 @@ module.exports = (sql_conditional, pool) => {
             let session = snmp.createSession(printer.ip, "public");
             session.get(oids, (err, data) => {
                 if (err) {
-                    console.log('session_get_error', err);
-                    console.log('session_get_data', data);
+                    //console.log('session_get_error', err);
+                    console.log(colors.red(`session_get_data for ${printer.name} is ${data}`));
                     return reject(err);
+                } else{
+                    console.log(colors.green(`session_get_data for ${printer.name}`));
                 }
                 printer_data_parse(printer, data).then(data => {
                     return resolve(data);
