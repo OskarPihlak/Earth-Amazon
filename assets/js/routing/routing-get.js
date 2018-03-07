@@ -77,7 +77,7 @@ module.exports = function (app) {
     });
 
     //use 0 and 2nd params, this displays printer location on map
-    app.get(/^\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
+    app.get(/^\/(?:([^\/]+?))\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
         let floor_number = req.params[0].replace(/k/g,'');
         console.log(colors.magenta(`Navigating to route -> /floor/${floor_number}/${req.params[2]}`));
         printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
@@ -181,4 +181,20 @@ module.exports = function (app) {
             all_is_good: all_is_good
         });
     });
+    /*
+
+
+    3d test route
+
+
+     */
+    let UE4Files = ['UE4Game.js','MyProject.data.js','Utility.js','MyProject.data','UE4Game.wasm'];
+    let root = "C:\\Users\\oskar.pihlak\\Desktop\\Development\\Printer\\views\\3d";
+    app.get('/3d',(req,res)=>{ res.render('./3d/MyProject'); });
+    app.get('/UE4Game.js',(req,res)=>{ res.sendFile('UE4Game.js',{ root:root });});
+    app.get('/MyProject.data.js',(req,res)=>{ res.sendFile('/MyProject.data.js',{ root:root });});
+    app.get('/Utility.js',(req,res)=>{ res.sendFile('/Utility.js',{ root:root });});
+    app.get('/MyProject.data',(req,res)=>{ res.sendFile('/MyProject.data',{ root:root });});
+    app.get('/UE4Game.wasm',(req,res)=>{res.sendFile('/UE4Game.wasm',{ root:root });});
+
 };
