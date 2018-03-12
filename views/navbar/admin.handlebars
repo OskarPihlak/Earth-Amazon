@@ -111,12 +111,7 @@
             <!-- Printer floor position -->
             <td>
                 <p class="static-floor-data-{{@index}}">{{this.floor}}</p>
-                  {{#each ../floors}}
-                        {{#ifEquals this ../this.floor}}
-                            <input id="input-status-floor-{{@index}}" class="printer-add input-display input-toggle" onload="floorIdentification({{@index}})" value="{{this}}"/>
-                        {{/ifEquals}}
-                    {{/each}}
-
+                <input id="input-status-floor-{{@index}}" class="printer-add input-display input-toggle" onload="floorIdentification({{@index}})" value="{{this.floor}}"/>
             </td>
             <td>
                 <div class="input-admin-buttons">
