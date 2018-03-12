@@ -14,9 +14,10 @@
 </style>
 <button class="button-special-style" id="printer-add-table-toggle" onclick="togglePrinterAdd()" style="display: block;left: 50%;position: relative;transform: translateX(-50%);">Add a printer</button>
 <table id="printer-creation" style="display: none">
-
+<!-- Add a printer-->
     <thead>
     <tr>
+        <th>ASUKOHT</th>
         <th>IP</th>
         <th>VÄRV</th>
         <th>NIMI</th>
@@ -27,18 +28,16 @@
     </thead>
     <tbody>
     <tr>
-        <td><input id="input-ip" class="printer-add" required></td>
+        <td><input id="input-location" class="printer-add" name="location" required placeholder="Masina asukoht"></td>
+        <td><input id="input-ip" class="printer-add" name="IP" required placeholder="Masina IP"></td>
         <td><input id="input-color" class="printer-add" type="checkbox"></td>
-        <td><input id="input-name" class="printer-add" required></td>
+        <td><input id="input-name" class="printer-add" name="printer_name" required placeholder="Printeri nimi"></td>
         <td><input id="input-max-capacity" class="printer-add" type="checkbox"></td>
-        <td><select id="input-floor" class="printer-add">
-                {{#each floors}}
-                    <option>{{this}}</option>
-                {{/each}}
-            </select>
-        </td>
+        <td><input id="input-floor" class="printer-add" type="number" name="printer_floor" placeholder="Korruse number"></td>
+
         <td><form method="post" action="/admin/printer/add">
                 <button id="button-printer-add" class="button-special-style" onclick="addPrinter()">Add</button>
+                <input hidden name="input_location_submit" id="input-location-submit">
                 <input hidden name="input_ip_submit" id="input-ip-submit">
                 <input hidden name="input_color_submit" id="input-color-submit">
                 <input hidden name="input_name_submit" id="input-name-submit">
@@ -49,7 +48,6 @@
     </tr>
     </tbody>
 </table>
-
 <table>
     <thead>
     <tr>
@@ -67,24 +65,29 @@
     {{#each printers_all}}
 
         <tr id="row-{{@index}}">
-
+            <!-- Printer ping status -->
             {{#if this.printer_ping.alive}}
 
                 <td style="color: #01ff0b">{{@index}}</td>
             {{else}}
                 <td style="color: red;">{{@index}}</td>
             {{/if}}
+            <!-- Printer location-->
             <td>
-                {{this.location}}
+                <p id="printer-location-{{@index}}">{{this.location}}</p>
+                <input class="admin_input admin_input-cell input-display input-toggle" id="{{@index}}-location" name="printer-location" value="{{this.location}}"/>
             </td>
+            <!-- Printer name -->
             <td>
                 <p id="printer-name-{{@index}}">{{this.name}}</p>
                 <input class="admin_input admin_input-cell input-display" id="{{@index}}-name" name="printer-name" value="{{this.name}}"/>
             </td>
+            <!--Printer ip-->
             <td>
                 <a href="//{{this.ip}}/" target="_blank"><p id="printer-ip-{{@index}}" style="color:rgb(155, 207, 253);">{{this.ip}}</p></a>
                 <input  class="admin_input admin_input-cell input-display" id="{{@index}}-ip" name="printer-ip" value="{{this.ip}}"/>
             </td>
+            <!--Printer color-->
             <td class="input-color" id="color-{{@index}}">
                 {{#if this.color}}
                     <p class="identification-{{@index}}">yes</p>
@@ -94,7 +97,7 @@
                     <input class="input-identification-color-{{@index}} input-display" type="checkbox">
                 {{/if}}
             </td>
-
+            <!-- Printer calculation neccesity-->
             <td class="input-max-capacity" id="max-capacity-{{@index}}">
                 {{#if this.max_capacity}}
                     <p class="identification-{{@index}}">true</p>
@@ -105,26 +108,22 @@
                 {{/if}}
             </td>
 
+            <!-- Printer floor position -->
             <td>
                 <p class="static-floor-data-{{@index}}">{{this.floor}}</p>
-                <select id="input-status-floor-{{@index}}" class="printer-add input-display"
-                        onload="floorIdentification({{@index}})">
-                    {{#each ../floors}}
-                        {{this}}
+                  {{#each ../floors}}
                         {{#ifEquals this ../this.floor}}
-                            <option selected>{{this}}</option>
-                        {{else}}
-                            <option>{{this}}</option>
+                            <input id="input-status-floor-{{@index}}" class="printer-add input-display input-toggle" onload="floorIdentification({{@index}})" value="{{this}}"/>
                         {{/ifEquals}}
-                        </option>
                     {{/each}}
-                </select>
+
             </td>
             <td>
                 <div class="input-admin-buttons">
                     <button class="button-special-style" id="modify-{{@index}}" onclick="modifyToggle({{@index}})">
                         Uuenda
                     </button>
+                    <!-- Data push -->
                     <form method="post" action="/admin/update" style="display:inline-block">
                         <input type="hidden" class="admin_input" id="{{@index}}-name" name="printer_name"/>
                         <input type="hidden" class="admin_input" id="{{@index}}-ip" name="printer_ip"/>
