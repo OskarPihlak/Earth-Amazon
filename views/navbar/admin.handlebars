@@ -67,7 +67,6 @@
         <tr id="row-{{@index}}">
             <!-- Printer ping status -->
             {{#if this.printer_ping.alive}}
-
                 <td style="color: #01ff0b">{{@index}}</td>
             {{else}}
                 <td style="color: red;">{{@index}}</td>
@@ -107,7 +106,6 @@
                     <input class="input-identification-max-capacity-{{@index}} input-display" type="checkbox">
                 {{/if}}
             </td>
-
             <!-- Printer floor position -->
             <td>
                 <p class="static-floor-data-{{@index}}">{{this.floor}}</p>
@@ -132,7 +130,6 @@
                         </button>
                     </form>
 
-
                     <form method="post" action="/admin/printer/delete" style="display:inline-block">
                         <button class=" btn btn-danger" id="delete-{{@index}}" onclick="deletePrinter({{@index}})"
                                 style="display: none;padding: 2px 4px;margin-bottom: -4px;">Kustuta
@@ -140,8 +137,6 @@
                         <input hidden name="input_name_delete" id="input_name_delete-{{@index}}">
                         <input hidden name="input_ip_delete" id="input_ip_delete-{{@index}}">
                     </form>
-
-
 
                     <button class="button-special-style" id="button-info-{{@index}}" onclick="infoToggle({{@index}})">Info</button>
                     <div id="div-info-{{@index}}" class="input-display">

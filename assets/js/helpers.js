@@ -131,7 +131,7 @@ module.exports.numberOfFloors = (sql_data) => {
         return arr;
     };
     let number_of_floors = floorArray.unique();
-    return {number_of_floors: number_of_floors};
+    return number_of_floors;
 };
 
 module.exports.criticalPrinters = response => {

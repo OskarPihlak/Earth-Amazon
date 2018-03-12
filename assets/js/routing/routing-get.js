@@ -67,7 +67,8 @@ module.exports = function (app) {
           /*  for (let i = 0; i < printer_result.length; i++) {
                 printer_result[i].requested = req.params.id;
             }*/
-            let floors = helpers.numberOfFloors(printer_result).number_of_floors;
+            console.log(JSON.stringify(printer_result));
+            let floors = helpers.numberOfFloors(printer_result);
             let critically_printers = helpers.critical_printers(printer_result);
             res.render('./navbar/main', {
                 printers: printer_result,
