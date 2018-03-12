@@ -938,3 +938,16 @@ tr td:first-child {
 .c3-ygrid-line.gridRed text {
   fill: red;
 }
+ .valid{
+   color: #4f714f;
+   border-color: limegreen;
+   border-width: 3px;
+   border-radius: 5px;
+ }
+
+ .invalid{
+   color: #9a0000;
+   border-color: #ff0024;
+   border-width: 3px;
+   border-radius: 5px;
+ }

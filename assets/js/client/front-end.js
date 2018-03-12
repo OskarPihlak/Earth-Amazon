@@ -166,6 +166,9 @@ function modifyToggle(data) {
     $('#'+ data +'-old-name').val(printer_name.val());
     $('#printer-name-'+data).toggle();
     $('#printer-ip-'+data).toggle();
+    $('#printer-location-'+data).toggleClass('input-display');
+    $('#'+data+'-location').toggle();
+
     printer_name.toggleClass('input-toggle');
     printer_name.toggleClass('input-display');
     printer_ip.toggleClass('input-toggle');
@@ -180,9 +183,16 @@ function infoToggle(data){
 function addPrinter() {
     let input_ip = $('#input-ip-submit').val($('#input-ip').val()).submit();
     let input_name =$('#input-name-submit').val($('#input-name').val()).submit();
-    let input_floor = $('#input-floor-submit').val($('#input-floor').val()).submit();
+
+    if($('#input-floor').val() === '-'){
+        let input_floor = $('#input-floor-submit').val(parseInt('503')).submit();
+    } else {
+        let input_floor = $('#input-floor-submit').val($('#input-floor').val()).submit();
+    }
+
     let input_color = $('#input-color-submit').val(!!$('#input-color').is(":checked")).submit();
     let input_max_capacity = $('#input-max-capacity-submit').val(!!$('#input-max-capacity').is(":checked")).submit();
+    let input_location = $('#input-location-submit').val($('#input-location').val()).submit();
 }
 
 function deletePrinter(data) {
@@ -204,4 +214,30 @@ function toggleCheckboxes(){
 
 $(document).ready(function() {
         $('body').addClass('loaded');
+});
+
+/*
+* Form validation with regex
+* */
+//location, ip, name, floor
+const inputs = document.querySelectorAll('input[placeholder]');
+const patterns = {
+    location:/^[a-zA-Z'-]+$/,
+    IP:/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
+    printer_name:/^[\w-]+|~$/,
+    printer_floor:/^[0-9]{1,2}$/
+};
+
+function validate(field, regex){
+    if(regex.test(field.value)){
+        field.className = 'printer-add valid';
+    } else {
+        field.className = 'printer-add invalid';
+    }
+}
+
+inputs.forEach(input =>{
+    input.addEventListener('keyup', e =>{
+        validate(e.target, patterns[e.target.attributes.name.value])
+    });
 });
