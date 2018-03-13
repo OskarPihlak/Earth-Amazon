@@ -58,12 +58,8 @@ module.exports = function (app) {
             });
         }
     },3600000);
-
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
-          /*  for (let i = 0; i < printer_result.length; i++) {
-                printer_result[i].requested = req.params.id;
-            }*/
             console.log(JSON.stringify(printer_result));
             let floors = helpers.numberOfFloors(printer_result);
             let critically_printers = helpers.critical_printers(printer_result);
