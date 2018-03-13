@@ -101,7 +101,7 @@ module.exports = (sql_conditional, pool) => {
                 }
             }
 
-            let sql_statement_get = 'SELECT * FROM inc_supply_status WHERE printer_name ="' + printer.name + '"';
+            let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status WHERE printer_name ="' + printer.name + '"';
 
             pool.getConnection((err, connection) => {
 
@@ -132,11 +132,10 @@ module.exports = (sql_conditional, pool) => {
         return new Promise((resolve, reject) => {
 
             let session = snmp.createSession(printer.ip, "public");
-            session.get(oids, (err, data) => {
-                if (err) {
-                    //console.log('session_get_error', err);
-                    console.log(colors.red(`session_get_data for ${printer.name} is ${data}`));
-                    return reject(err);
+            session.get(oids, (error, data) => {
+                if (error) {
+                    console.log(colors.red(`session_get_data for  -  ${printer.name}  -  is ${data}, ${error}`));
+                    return reject(error);
                 } else{
                     console.log(colors.green(`session_get_data for ${printer.name}`));
                 }
