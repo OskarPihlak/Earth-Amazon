@@ -61,10 +61,13 @@ module.exports = function (app) {
     console.log(printer_result);
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
-            let floors = helpers.numberOfFloors(printer_result);
             let critically_printers = helpers.critical_printers(printer_result);
             let locations = [];
-            printer_result.forEach(printer =>{if(!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location)});
+            let floors = [];
+            printer_result.forEach(printer =>{
+                if(!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location);
+                if(!floors.includes(printer.floor) && printer.floor !== undefined) floors.push(printer.floor);
+            });
             console.log(locations);
             res.render('./navbar/main', {
                 printers: printer_result,
@@ -104,14 +107,16 @@ module.exports = function (app) {
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, function (error, result) {
                 let floors_master = [];
+                let floor_list = [];
                 result.forEach(data => {
                     data.printer_ping = {alive: true};
-                    floors_master.push(data)
+                    floors_master.push(data);
+                    if(!floor_list.includes(data.floor) && floor_list !== undefined) floor_list.push(data.floor);
                 });
-                let number_of_floors = helpers.numberOfFloors(floors_master);
+
                 if (error) throw error;
                 res.render('./navbar/floors', {
-                    floors: number_of_floors
+                    floors:floor_list
                 });
             });
             connection.release();

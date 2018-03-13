@@ -104,35 +104,6 @@ module.exports.handlebars = () => {
 
 };
 
-module.exports.numberOfFloors = (sql_data) => {
-    let floorArray = [];
-    console.log(sql_data);
-    for (let i = 0; i < sql_data.length; i++) {
-        if (sql_data[i].hasOwnProperty('printer_ping')){
-            if (sql_data[i].printer_ping.alive === true) {
-                floorArray.push(sql_data[i].floor);
-            }
-        }
-    }
-
-    Array.prototype.contains = function (v) {
-        for (let i = 0; i < this.length; i++) {
-            if (this[i] === v) return true;
-        }
-        return false;
-    };
-
-    Array.prototype.unique = function () {
-        let arr = [];
-        for (let i = 0; i < this.length; i++) {
-            if (!arr.includes(this[i])) arr.push(this[i]);
-        }
-        return arr;
-    };
-    let number_of_floors = floorArray.unique();
-    return number_of_floors;
-};
-
 module.exports.criticalPrinters = response => {
     console.log('passby');
     console.log(response);
