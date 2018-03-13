@@ -106,6 +106,7 @@ module.exports.handlebars = () => {
 
 module.exports.numberOfFloors = (sql_data) => {
     let floorArray = [];
+    console.log(sql_data);
     for (let i = 0; i < sql_data.length; i++) {
         if (sql_data[i].hasOwnProperty('printer_ping')){
             if (sql_data[i].printer_ping.alive === true) {

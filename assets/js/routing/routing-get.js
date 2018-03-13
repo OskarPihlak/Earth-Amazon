@@ -1,11 +1,8 @@
 module.exports = function (app) {
     //npm
     const bodyParser = require('body-parser');
-    const mysql = require('mysql');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
-    const filter = require('filter-object');
     const moment = require('moment-business-days');
-    const fs = require('fs');
     const colors = require('colors');
     const moment_range = require('moment-range');
     const moment_ranges = moment_range.extendMoment(moment);
@@ -111,7 +108,7 @@ module.exports = function (app) {
                     data.printer_ping = {alive: true};
                     floors_master.push(data)
                 });
-                let number_of_floors = helpers.numberOfFloors(floors_master).number_of_floors;
+                let number_of_floors = helpers.numberOfFloors(floors_master);
                 if (error) throw error;
                 res.render('./navbar/floors', {
                     floors: number_of_floors
