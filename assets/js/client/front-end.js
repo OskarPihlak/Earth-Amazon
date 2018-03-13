@@ -210,8 +210,11 @@ function togglePrinterAdd() {
     $('#printer-creation').toggle();
 }
 
-function toggleCheckboxes(){
+function toggleFloorCheckboxes(){
     $('.btn-deselect-all-checkboxes').click();
+}
+function toggleLocationCheckboxes(){
+    $('.btn-toggle-all-location-checkboxes').click();
 }
 
 $(document).ready(function() {

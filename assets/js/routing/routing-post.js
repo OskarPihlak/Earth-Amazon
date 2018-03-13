@@ -142,11 +142,12 @@ setInterval(()=>{
         });
 
     app.post('/admin/update', urlEncodedParser, function (req, res) {
-        console.log(req);
+        console.log(JSON.stringify(req.body.printer_location));
         let printer_id = (req.body.printer_measure).slice(4);
-        let sql_statement_put_snmpadresses = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', key_name='" + req.body.printer_name + "__', color=" + req.body.printer_color + ", max_capacity=" + req.body.printer_max_capacity + ", floor=" + req.body.printer_floor + ", location =" + req.body.input_location_submit + " WHERE id=" + printer_id + ";";
+        let sql_statement_put_snmpadresses = "UPDATE printers_inc_supply.snmpadresses SET ip='" + req.body.printer_ip + "', name='" + req.body.printer_name + "', key_name='" + req.body.printer_name + "__', color=" + req.body.printer_color + ", max_capacity=" + req.body.printer_max_capacity + ", floor=" + req.body.printer_floor + ", location ='" + req.body.printer_location + "' WHERE id=" + printer_id + ";";
         let sql_statement_put_printer_inc_supply = `UPDATE printers_inc_supply.inc_supply_status SET printer_name ='${req.body.printer_name}' WHERE printer_name='${req.body.printer_old_name}';`;
-
+        console.log(colors.magenta(sql_statement_put_snmpadresses));
+        console.log(colors.magenta(sql_statement_put_printer_inc_supply));
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_put_snmpadresses, function (error, data) {
                 if (error) throw error;

@@ -10,8 +10,20 @@
             </div>
         {{/each}}
         <!-- toggle all floor checkboxes -->
-        <button class="btn btn-primary btn-toggle-floor" onclick="toggleCheckboxes()">Toggle checboxes</button>
+        <button class="btn btn-primary btn-toggle-floor" onclick="toggleFloorCheckboxes()">Toggle Floors</button>
     </div>
+<div class="container-locations">
+
+    <!-- generates location checkboxes -->
+    {{#each locations}}
+        <div class="btn-checkbox-filter">
+            <label for="{{this}}">{{this}}</label>
+            <input checked id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
+        </div>
+    {{/each}}
+    <!-- toggle all location checkboxes -->
+    <button class="btn btn-primary btn-toggle-floor" onclick="toggleLocationCheckboxes()">Toggle Locations</button>
+</div>
 <div class="container-main">
         {{#each critical_printers}}
     <div class="container-critical-printer">
@@ -50,10 +62,13 @@
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;"  class="pr-12k title">
                             <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
+                            <p>{{this.location}}</p>
+
                         </div>
                     {{else}}
                         <div  class="pr-12k title">
                             <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
+                            <p>{{this.location}}</p>
                         </div>
                     {{/ifEquals}}
 
@@ -177,10 +192,12 @@
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;" class="pr-12k title">
                             <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
+                            <p>{{this.location}}</p>
                         </div>
                     {{else}}
                         <div  class="pr-12k title">
                             <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
+                            <p>{{this.location}}</p>
                         </div>
                     {{/ifEquals}}
 

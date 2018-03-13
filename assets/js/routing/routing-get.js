@@ -58,15 +58,19 @@ module.exports = function (app) {
             });
         }
     },3600000);
+    console.log(printer_result);
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
-            console.log(JSON.stringify(printer_result));
             let floors = helpers.numberOfFloors(printer_result);
             let critically_printers = helpers.critical_printers(printer_result);
+            let locations = [];
+            printer_result.forEach(printer =>{if(!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location)});
+            console.log(locations);
             res.render('./navbar/main', {
                 printers: printer_result,
                 floors: floors,
-                critical_printers: critically_printers
+                critical_printers: critically_printers,
+                locations: locations
             });
     });
 
