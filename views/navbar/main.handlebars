@@ -54,9 +54,9 @@
         {{#each printers}}
             {{#if this.color}}
                 {{#if this.cartridge.critical}}
-                    <div class="printer printer-{{this.floor}} container-critical-unit">
+                    <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
                 {{else}}
-                    <div class="printer printer-{{this.floor}}">
+                    <div class="printer printer-{{this.floor}} printer-{{this.location}}">
                 {{/if}}
 
                     {{#ifEquals this.printer_ping.alive false}}
@@ -185,9 +185,9 @@
 
             {{else}}
                 {{#if this.cartridge.critical}}
-                <div class="printer printer-{{this.floor}} container-critical-unit">
+                <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
                     {{else}}
-                <div class="printer printer-{{this.floor}}">
+                <div class="printer printer-{{this.floor}} printer-{{this.location}}">
                 {{/if}}
                     {{#ifEquals this.printer_ping.alive false}}
                         <div style="color: red;text-decoration: line-through;" class="pr-12k title">

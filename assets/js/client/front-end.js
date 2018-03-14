@@ -148,7 +148,7 @@ function repositionMarker(data) {
 }
 
 function valueChanged(data) {
-   console.log('change');
+   console.log(`change ${data}`);
     if($('#'+data).is(":checked")) { $('.printer-' + data).show();}
     else { $('.printer-' + data).hide(); }
 }

@@ -669,6 +669,14 @@ tr td:first-child {
     display: inline-block;
     margin: 0 auto;
     border-radius: 3px;
+    padding: 1px 1px 1px 10px;
+  }
+  &-locations{
+    background-color: white;
+    display: table;
+    margin: 5px auto 0 auto;
+    border-radius: 5px;
+    padding: 2px 2px 2px 10px;
   }
 }
 
@@ -951,3 +959,5 @@ tr td:first-child {
    border-width: 3px;
    border-radius: 5px;
  }
+
+

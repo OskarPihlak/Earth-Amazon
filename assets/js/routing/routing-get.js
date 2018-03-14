@@ -184,6 +184,9 @@ module.exports = function (app) {
             all_is_good: all_is_good
         });
     });
+    app.get('/restart', function (req, res, next) {
+        process.exit(1);
+    });
     /*
 
 
