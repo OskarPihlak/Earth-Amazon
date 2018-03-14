@@ -119,6 +119,7 @@ $('.toggle-position').click(function () {
 function savePrinterData(data) {
     let password_autentication = prompt('Enter the password to UPDATE printer');
     if (password_autentication === 'Midagi1lusat') {
+        let model = $('#'+ data +'-model-admin').val($('#'+ data +'-model').val()).submit();
         let location = $('#'+ data +'-location-admin').val($('#'+ data +'-location').val()).submit();
         let ip = $('#' + data + '-ip.admin_input').val($('#' + data + '-ip').val()).submit();
         let name = $('#' + data + '-name.admin_input').val($('#' + data + '-name').val()).submit();
@@ -170,6 +171,8 @@ function modifyToggle(data) {
     $('#printer-ip-'+data).toggle();
     $('#printer-location-'+data).toggleClass('input-display');
     $('#'+data+'-location').toggle();
+    $('#printer-model-'+data).toggleClass('input-display');
+    $('#'+data+'-model').toggle();
 
     printer_name.toggleClass('input-toggle');
     printer_name.toggleClass('input-display');

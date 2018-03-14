@@ -38,7 +38,8 @@ module.exports = (sql_conditional, pool) => {
                                     position_left: row.position_left,
                                     position_top: row.position_top,
                                     printer_ping:{ip:row.ip, alive: true},
-                                    location: row.location
+                                    location: row.location,
+                                    model: row.model
                                 };
                             } else {
                                // console.log(colors.red(`FAILED ${row.ip}`));

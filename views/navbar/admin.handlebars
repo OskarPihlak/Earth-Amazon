@@ -21,6 +21,7 @@
         <th>IP</th>
         <th>VÄRV</th>
         <th>NIMI</th>
+        <th>PRINTER</th>
         <th>ALGEBRA+</th>
         <th>KORRUS</th>
         <th></th>
@@ -32,6 +33,7 @@
         <td><input id="input-ip" class="printer-add" name="IP" required placeholder="Masina IP"></td>
         <td><input id="input-color" class="printer-add" type="checkbox"></td>
         <td><input id="input-name" class="printer-add" name="printer_name" required placeholder="Printeri nimi"></td>
+        <td><input id="input-floor" class="printer-add" type="number" name="printer_floor" placeholder="Printeri mudel"></td>
         <td><input id="input-max-capacity" class="printer-add" type="checkbox"></td>
         <td><input id="input-floor" class="printer-add" type="number" name="printer_floor" placeholder="Korruse number"></td>
 
@@ -43,6 +45,7 @@
                 <input hidden name="input_name_submit" id="input-name-submit">
                 <input hidden name="input_max_capacity_submit" id="input-max-capacity-submit">
                 <input hidden name="input_floor_submit" id="input-floor-submit">
+                <input hidden name="input_printer_submit" id="input-printer-submit">
             </form>
         </td>
     </tr>
@@ -53,6 +56,7 @@
     <tr>
         <th>#</th>
         <th>ASUKOHT</th>
+        <th>PRINTER</th>
         <th>NIMI</th>
         <th>IP</th>
         <th>VÄRV</th>
@@ -75,6 +79,11 @@
             <td>
                 <p id="printer-location-{{@index}}">{{this.location}}</p>
                 <input class="admin_input admin_input-cell input-display input-toggle" id="{{@index}}-location" name="printer-location" value="{{this.location}}"/>
+            </td>
+            <!-- THE printer model -->
+            <td>
+                <p id="printer-model-{{@index}}">{{this.model}}</p>
+                <input class="admin_input admin_input-cell input-display input-toggle" id="{{@index}}-model" name="printer-model" value="{{this.model}}"/>
             </td>
             <!-- Printer name -->
             <td>
@@ -126,6 +135,7 @@
                         <input type="hidden" class="admin_input" id="{{@index}}-measure" name="printer_measure" value="2034{{this.id}}"/>
                         <input type="hidden" class="admin_input" id="{{@index}}-old-name" name="printer_old_name">
                         <input type="hidden" class="admin_input" id="{{@index}}-location-admin" name="printer_location">
+                        <input type="hidden" class="admin_input" id="{{@index}}-model-admin" name="printer_model">
                         <button onclick="savePrinterData({{@index}})" class="btn btn-success" id="save-{{@index}}" style="display: none;padding: 2px 4px;margin-bottom: -4px;">
                             Salvesta
                         </button>

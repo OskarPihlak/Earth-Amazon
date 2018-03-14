@@ -52,6 +52,7 @@
 </div>
     <div class="container-main container-home" id="container">
         {{#each printers}}
+
             {{#if this.color}}
                 {{#if this.cartridge.critical}}
                     <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
@@ -63,6 +64,7 @@
                         <div style="color: red;text-decoration: line-through;"  class="pr-12k title">
                             <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                             <p>{{this.location}}</p>
+                            <p class="printer-model">{{this.model}}</p>
 
                         </div>
                     {{else}}
@@ -72,7 +74,7 @@
                         </div>
                     {{/ifEquals}}
 
-                    <div>
+                    <div class="printer-navigation">
                         <form class="input-inline" action="/{{this.location}}/floor/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.location}}/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
@@ -198,10 +200,11 @@
                         <div  class="pr-12k title">
                             <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                             <p>{{this.location}}</p>
+                            <p class="printer-model">{{this.model}}</p>
                         </div>
                     {{/ifEquals}}
 
-                    <div>
+                    <div class="printer-navigation">
                         <form class="input-inline" action="/{{this.location}}/floor/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.location}}/floor/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>

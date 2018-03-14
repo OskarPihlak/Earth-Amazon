@@ -329,7 +329,8 @@ module.exports.admin_render =
             });
         });
     }
-    let number_of_floors = exports.numberOfFloors(final_data);
+    let number_of_floors = [];
+    final_data.forEach(data=>{ if(!number_of_floors.includes(final_data.floor)) number_of_floors.push(final_data.floor) });
     await res.render('./navbar/admin', {
         printers_all: final_data,
         floors: number_of_floors
