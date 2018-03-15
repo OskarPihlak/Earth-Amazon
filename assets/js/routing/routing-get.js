@@ -79,7 +79,8 @@ module.exports = function (app) {
 
     //use 0 and 2nd params, this displays printer location on map
     app.get(/^\/(?:([^\/]+?))\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
-        let floor_number = req.params[0].replace(/k/g,'');
+        console.log(req.params);
+        let floor_number = req.params[1].replace(/k/g,'');
         console.log(colors.magenta(`Navigating to route -> /floor/${floor_number}/${req.params[2]}`));
         printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
