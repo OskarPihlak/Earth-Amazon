@@ -70,17 +70,17 @@ module.exports = function (app) {
             const printer_ignored = ['192.168.67.42','192.168.67.3'];
 
             printer_result.forEach(printer =>{
-                if(printer !== null) {
                     if (!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location);
                     if (!floors.includes(printer.floor) && printer.floor !== undefined) floors.push(printer.floor);
-                    if (printer.hasOwnProperty('cartridge')) {
+
+                   if (printer.hasOwnProperty('cartridge')) {
                         if (printer.cartridge.black.value < critical_toner_level) {
                             printer.cartridge.critical = true;
                             critically_printers.push(printer);
                         }
-                        if (printer.color) {
-                            if (printer.cartridge.cyan.value < critical_toner_level ||
-                                printer.cartridge.yellow.value < critical_toner_level ||
+                        if(printer.color) {
+                            if (printer.cartridge.cyan.value    < critical_toner_level ||
+                                printer.cartridge.yellow.value  < critical_toner_level ||
                                 printer.cartridge.magenta.value < critical_toner_level) {
                                 printer.cartridge.critical = true;
                                 critically_printers.push(printer);
@@ -90,9 +90,9 @@ module.exports = function (app) {
                             printer.cartridge.critical = false;
                             critically_printers.push(printer);
                         }
-                        if (!printer_ignored.includes(printer.ip)) printer.cartridge.critical = false;
+                        if (printer_ignored.includes(printer.ip)) printer.cartridge.critical = false;
                     }
-                }
+                console.log(printer);
             });
 
             res.render('./navbar/main', {

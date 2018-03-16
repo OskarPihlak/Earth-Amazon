@@ -281,7 +281,10 @@ module.exports.critical_printers = response => {
             let toner = response[i].cartridge;
             let critical_toner_level = 12;
             if (response[i].color) {
-                if (toner.black.value < critical_toner_level || toner.cyan.value < critical_toner_level || toner.magenta.value < critical_toner_level || toner.yellow.value < critical_toner_level) {
+                if (toner.black.value < critical_toner_level   ||
+                    toner.cyan.value < critical_toner_level    ||
+                    toner.magenta.value < critical_toner_level ||
+                    toner.yellow.value < critical_toner_level) {
                     response[i].cartridge.critical = true;
                     critical_printers.push(response[i]);
                 }
