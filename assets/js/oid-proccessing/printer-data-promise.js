@@ -22,7 +22,7 @@ module.exports = (sql_conditional, pool) => {
                 connection.query(sql_statement_get, function (error, result) {
                     if (error) throw(error);
 
-console.log(`result ${JSON.stringify(result)}`);
+console.log(`result getsnmp ${JSON.stringify(result)}`);
                     return resolve (Promise.all(result.map(async row => {
                             let ping_check = await wait_ping(row.ip);
 
@@ -47,12 +47,11 @@ console.log(`result ${JSON.stringify(result)}`);
                                     ip: row.ip,
                                     color: !!row.color,
                                     name: row.name,
-                                    key: row.key_name,
-                                    max_capacity: !!row.max_capacity,
+                                    key: '',
+                                    max_capacity: '',
                                     floor: row.floor,
-                                    position_left: row.position_left,
-                                    position_top: row.position_top,
                                     printer_ping:{ip:row.ip, alive: false},
+                                    location: row.location,
                                     model: row.model
                                 }
                             }
@@ -184,7 +183,14 @@ console.log(`result ${JSON.stringify(result)}`);
                     console.log(colors.yellow(`Printer is not responding! It may be turned off.`));
                     console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
                     console.log(colors.yellow(`Printer name:  ${adress.name}`));
-                    return {printer_ping:{alive:false}, ip:adress.ip, name:adress.name}
+                    return {
+                        printer_ping: {alive:false},
+                        ip:adress.ip,
+                        name:adress.name,
+                        floor: adress.floor,
+                        model: adress.model,
+                        location: adress.location
+                    }
                 }
             })
         );

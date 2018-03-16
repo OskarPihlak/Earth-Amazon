@@ -46,7 +46,7 @@ module.exports = function (app) {
     let printer_result;
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
         printer_result = response;
-        console.log(`response  ->  ${response}`);
+        console.log(`response  ->  ${JSON.stringify(response)}`);
     });
     range = moment_ranges.range(9, 16);
     setInterval(() => {
@@ -72,25 +72,27 @@ module.exports = function (app) {
             printer_result.forEach(printer =>{
                 if(!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location);
                 if(!floors.includes(printer.floor) && printer.floor !== undefined) floors.push(printer.floor);
-
-                if(printer.cartridge.black.value < critical_toner_level){
-                   printer.cartridge.critical = true;
-                   critically_printers.push(printer);
-                }
-                if(printer.color) {
-                    if (printer.cartridge.cyan.value < critical_toner_level ||
-                        printer.cartridge.yellow.value < critical_toner_level ||
-                        printer.cartridge.magenta.value < critical_toner_level) {
+                if (printer.hasOwnProperty('cartridge')) {
+                    if (printer.cartridge.black.value < critical_toner_level) {
                         printer.cartridge.critical = true;
                         critically_printers.push(printer);
                     }
+                    if (printer.color) {
+                        if (printer.cartridge.cyan.value < critical_toner_level ||
+                            printer.cartridge.yellow.value < critical_toner_level ||
+                            printer.cartridge.magenta.value < critical_toner_level) {
+                            printer.cartridge.critical = true;
+                            critically_printers.push(printer);
+                        }
+                    }
+                    if (!printer.cartridge.hasOwnProperty('critical')) {
+                        printer.cartridge.critical = false;
+                        critically_printers.push(printer);
+                    }
+                    if (!printer_ignored.includes(printer.ip)) printer.cartridge.critical = false;
                 }
-                if(!printer.cartridge.hasOwnProperty('critical')) {
-                    printer.cartridge.critical = false;
-                    critically_printers.push(printer);
-                }
-                if(!printer_ignored.includes(printer.ip)) printer.cartridge.critical = false;
             });
+
             console.log(critically_printers);
             res.render('./navbar/main', {
                 printers: printer_result,
