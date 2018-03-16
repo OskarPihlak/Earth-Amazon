@@ -22,12 +22,12 @@ module.exports = (sql_conditional, pool) => {
                 connection.query(sql_statement_get, function (error, result) {
                     if (error) throw(error);
 
-
+console.log(`result ${JSON.stringify(result)}`);
                     return resolve (Promise.all(result.map(async row => {
                             let ping_check = await wait_ping(row.ip);
 
                             if (ping_check.alive === true) {
-                                //console.log(colors.green(`OK ${row.ip}`));
+                                console.log(colors.green(`PING OK ${row.ip}`));
                                 return {
                                     ip: row.ip,
                                     color: !!row.color,
@@ -42,13 +42,18 @@ module.exports = (sql_conditional, pool) => {
                                     model: row.model
                                 };
                             } else {
-                               // console.log(colors.red(`FAILED ${row.ip}`));
+                                console.log(colors.red(`PING FAILED ${row.ip}`));
                                 return {
                                     ip: row.ip,
+                                    color: !!row.color,
                                     name: row.name,
-                                    color:'',
-                                    max_capacity:'',
-                                    printer_ping:{ip:row.ip, alive: false}
+                                    key: row.key_name,
+                                    max_capacity: !!row.max_capacity,
+                                    floor: row.floor,
+                                    position_left: row.position_left,
+                                    position_top: row.position_top,
+                                    printer_ping:{ip:row.ip, alive: false},
+                                    model: row.model
                                 }
                             }
                         }
@@ -138,9 +143,10 @@ module.exports = (sql_conditional, pool) => {
                     console.log(colors.red(`session_get_data for  -  ${printer.name}  -  is ${data}, ${error}`));
                     return reject(error);
                 } else{
-                    console.log(colors.green(`session_get_data for ${printer.name}`));
+                    console.log(colors.green(`session_get_data for ${printer.name}: ${data}`));
                 }
                 printer_data_parse(printer, data).then(data => {
+                    console.log(`final_data ${JSON.stringify(data)}`);
                     return resolve(data);
                 }).catch(error => {
                     console.log('printer_data_parse_error', error);
@@ -157,23 +163,23 @@ module.exports = (sql_conditional, pool) => {
 
                 if (adress.color === true && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
-                        return err;
+                        console.log(err);
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === true) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
-                        return err;
+                        console.log(err);
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
-                        return err;
+                        console.log(err);
                     });
                 }
                 else if (adress.color === true && adress.max_capacity === true) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
-                        return err;
-                    });
+                        console.log(err);
+                    })
                 } else{
                     console.log(colors.yellow(`Printer is not responding! It may be turned off.`));
                     console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
