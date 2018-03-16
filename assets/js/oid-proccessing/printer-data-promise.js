@@ -162,22 +162,22 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
 
                 if (adress.color === true && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
-                        console.log(err);
+                        return err;
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === true) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
-                        console.log(err);
+                        return err;
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
-                        console.log(err);
+                        return err;
                     });
                 }
                 else if (adress.color === true && adress.max_capacity === true) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
-                        console.log(err);
+                        return err;
                     })
                 } else{
                     console.log(colors.yellow(`Printer is not responding! It may be turned off.`));
