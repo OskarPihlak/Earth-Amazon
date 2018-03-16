@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/app.js",
+    "pm": "pm2 start server/app.js",
     "startn": "node server/app.js",
     "serve": "gulp serve"
   },
