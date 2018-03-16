@@ -31,7 +31,7 @@ module.exports = function (app) {
     let chart_master;
     let range = moment_ranges.range(8, 10);
 
-    //chart().then(data => chart_master = data);
+    chart().then(data => chart_master = data);
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
