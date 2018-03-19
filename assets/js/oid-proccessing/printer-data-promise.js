@@ -109,7 +109,8 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
             let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status WHERE printer_name ="' + printer.name + '"';
 
             pool.getConnection((err, connection) => {
-
+                console.log(colors.red(err));
+                console.log(connection);
                 connection.query(sql_statement_get, function (error, sql_data) {
                     if (error) return reject(error);
                     if (printer.color === true) {
