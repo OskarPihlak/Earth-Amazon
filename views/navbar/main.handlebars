@@ -18,7 +18,11 @@
     {{#each locations}}
         <div class="btn-checkbox-filter">
             <label for="{{this}}">{{this}}</label>
-            <input checked id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
+            {{#ifEquals this 'Tallinn'}}
+                <input checked id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
+            {{else}}
+                <input id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
+            {{/ifEquals}}
         </div>
     {{/each}}
     <!-- toggle all location checkboxes -->
@@ -36,7 +40,7 @@
         -->
         <p class="list-group-item list-group-item-action list-group-item-danger list-critical" style="line-height: 1">
             <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}<br>{{this.name}}</a>
-            {{this.location}}<br>{{this.model}}
+            <br>{{this.location}}<br>{{this.model}}
         </p>
         {{#lessOrEquals 25 this.cartridge.black.value}}
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}%</p>

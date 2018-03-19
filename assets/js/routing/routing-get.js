@@ -61,13 +61,13 @@ module.exports = function (app) {
     },3600000);
 
     app.get('/', function (req, res) {
-        console.log(colors.magenta('Navigating to main page -> /'));
+            console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer result ${JSON.stringify(printer_result)}`);
             let critically_printers = [];
             let locations =           [];
             let floors =              [];
             const critical_toner_level = 12;
-            const printer_ignored = ['192.168.67.42','192.168.67.3'];
+            const printer_ignored = ['192.168.67.42','192.168.67.3', '192.168.67.42'];
 
             printer_result.forEach(printer =>{
                     if (!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location);

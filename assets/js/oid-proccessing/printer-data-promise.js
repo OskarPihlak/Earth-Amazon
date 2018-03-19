@@ -132,11 +132,21 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
         });
     }
 
+    let snmp_options = {
+        port: 161,
+        retries: 1,
+        timeout: 5000,
+        transport: "udp4",
+        trapPort: 162,
+        version: snmp.Version1,
+        idBitsSize: 16
+    };
+
 //Parse the oids to usable data
     let session_get = (printer, oids) => {
         return new Promise((resolve, reject) => {
 
-            let session = snmp.createSession(printer.ip, "public");
+            let session = snmp.createSession(printer.ip, "public", snmp_options);
             session.get(oids, (error, data) => {
                 if (error) {
                     console.log(colors.red(`session_get_data for  -  ${printer.name}  -  is ${data}, ${error}`));
@@ -151,6 +161,9 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                     console.log('printer_data_parse_error', error);
                     reject(error);
                 });
+            });
+            session.on ("close", function () {
+                console.log (`Socket closed`);
             });
         });
     };
