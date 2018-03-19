@@ -114,20 +114,28 @@ module.exports = (sql_conditional, pool) => {
 
                         for (let x = 0; x < printer_oid_data.colors_loop_info().length; x++) {
                             let printer_name = printer_oid_data.colors_loop_info()[x].inc_name;
-                            if (sql_data[x].hasOwnProperty('cartridge_supply')) {
-                                printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+
+                            if (sql_data[x] !== undefined) {
+                                if (sql_data[x].hasOwnProperty('cartridge_supply')) {
+                                    printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+                                } else {
+                                    console.log(colors.red(`${printer} is missing a cartridge`))
+                                }
                             } else {
-                                console.log(colors.red(`${printer} is missing a cartridge`))
+                                console.log(colors.red(` ${printer} has a undefined cartridge`));
                             }
                         }
-
                     } else if (printer.color === false) {
                         for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                             let printer_name = printer_oid_data.black_and_white_loop_info[x].inc_name;
-                            if (sql_data[x].hasOwnProperty('cartridge_supply')) {
-                                printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                            if (sql_data[x] !== undefined) {
+                                if (sql_data[x].hasOwnProperty('cartridge_supply')) {
+                                    printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                                } else {
+                                    console.log(colors.red(`${printer} is missing a cartridge`))
+                                }
                             } else {
-                                console.log(colors.red(`${printer} is missing a cartridge`))
+                                console.log(colors.red(` ${printer} has a undefined cartridge`));
                             }
                         }
                     }
