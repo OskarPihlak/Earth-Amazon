@@ -1,10 +1,7 @@
 module.exports = (sql_conditional, pool) => {
-
     const snmp = require("net-snmp");
-    const mysql = require('mysql');
     const ping = require('ping');
     const colors = require('colors');
-    let helpers = require('../helpers.js');
     const printer_oid_data = require('./oids.js');
 
     let wait_ping = ip => new Promise((resolve, reject) => {
@@ -16,14 +13,15 @@ module.exports = (sql_conditional, pool) => {
 
     //factory
     function getSnmpAdresses() {
+        console.log(sql_conditional);
         return new Promise((resolve, rejected) => {
             let sql_statement_get = `SELECT * FROM snmpadresses ${sql_conditional};`;
             pool.getConnection((err, connection) => {
                 connection.query(sql_statement_get, function (error, result) {
                     if (error) throw(error);
 
-console.log(`result getsnmp ${JSON.stringify(result)}`);
-                    return resolve (Promise.all(result.map(async row => {
+                    console.log(`result getsnmp ${JSON.stringify(result)}`);
+                    return resolve(Promise.all(result.map(async row => {
                             let ping_check = await wait_ping(row.ip);
 
                             if (ping_check.alive === true) {
@@ -37,7 +35,7 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                                     floor: row.floor,
                                     position_left: row.position_left,
                                     position_top: row.position_top,
-                                    printer_ping:{ip:row.ip, alive: true},
+                                    printer_ping: {ip: row.ip, alive: true},
                                     location: row.location,
                                     model: row.model
                                 };
@@ -50,7 +48,7 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                                     key: '',
                                     max_capacity: '',
                                     floor: row.floor,
-                                    printer_ping:{ip:row.ip, alive: false},
+                                    printer_ping: {ip: row.ip, alive: false},
                                     location: row.location,
                                     model: row.model
                                 }
@@ -109,21 +107,28 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
             let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status WHERE printer_name ="' + printer.name + '"';
 
             pool.getConnection((err, connection) => {
-                console.log(colors.red(err));
-                console.log(connection);
+                if (err) console.log(colors.red(err));
                 connection.query(sql_statement_get, function (error, sql_data) {
                     if (error) return reject(error);
                     if (printer.color === true) {
 
                         for (let x = 0; x < printer_oid_data.colors_loop_info().length; x++) {
                             let printer_name = printer_oid_data.colors_loop_info()[x].inc_name;
-                            printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+                            if (sql_data[x].hasOwnProperty('cartridge_supply')) {
+                                printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+                            } else {
+                                console.log(colors.red(`${printer} is missing a cartridge`))
+                            }
                         }
 
                     } else if (printer.color === false) {
                         for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                             let printer_name = printer_oid_data.black_and_white_loop_info[x].inc_name;
-                            printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                            if (sql_data[x].hasOwnProperty('cartridge_supply')) {
+                                printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                            } else {
+                                console.log(colors.red(`${printer} is missing a cartridge`))
+                            }
                         }
                     }
                     return resolve(printer);
@@ -152,7 +157,7 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                 if (error) {
                     console.log(colors.red(`session_get_data for  -  ${printer.name}  -  is ${data}, ${error}`));
                     return reject(error);
-                } else{
+                } else {
                     console.log(colors.green(`session_get_data for ${printer.name}: ${data}`));
                 }
                 printer_data_parse(printer, data).then(data => {
@@ -163,7 +168,6 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                     reject(error);
                 });
             });
-            session.close();
         });
     };
 
@@ -171,6 +175,7 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
         return Promise.all(adresses.map((adress) => {
+                console.log(`adresses ${JSON.stringify(adress)} \n`);
 
                 if (adress.color === true && adress.max_capacity === false) {
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
@@ -191,14 +196,14 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                     return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
                         return err;
                     })
-                } else{
+                } else {
                     console.log(colors.yellow(`Printer is not responding! It may be turned off.`));
                     console.log(colors.yellow(`Printer ip:    ${adress.ip}`));
                     console.log(colors.yellow(`Printer name:  ${adress.name}`));
                     return {
-                        printer_ping: {alive:false},
-                        ip:adress.ip,
-                        name:adress.name,
+                        printer_ping: {alive: false},
+                        ip: adress.ip,
+                        name: adress.name,
                         floor: adress.floor,
                         model: adress.model,
                         location: adress.location

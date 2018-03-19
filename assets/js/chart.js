@@ -1,19 +1,19 @@
-module.exports = () => {
+module.exports = (printer_data_saved) => {
     const colors = require('colors');
-    const printer_data_promise = require('./oid-proccessing/printer-data-promise');
     let database = require('./db/db.js');
     const printer_oid_data = require('./oid-proccessing/oids.js');
     const pool = database.db_define_database();
     const moment = require('moment-business-days');
     const moment_range = require('moment-range');
-    const helpers = require('./helpers.js');
     const moment_ranges = moment_range.extendMoment(moment);
+    console.log('CHART DATA                                                                       '+printer_data_saved);
+
     return new Promise((resolve, reject) => {
         pool.getConnection((err, connection) => {
 
             let sql_statmenet_get_target_statistics = 'SELECT * FROM printers_inc_supply.printer_cartridge_statistics;';
             connection.query(sql_statmenet_get_target_statistics, function (error, result, fields) {
-                printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+               function CharDataGeneration(response) {
 
                         function precisionRound(number, precision) {
                             let factor = Math.pow(10, precision);
@@ -185,7 +185,7 @@ module.exports = () => {
                             });
                         });
                     }
-                );
+                CharDataGeneration(printer_data_saved);
             });
         });
     });

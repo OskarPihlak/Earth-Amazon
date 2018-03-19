@@ -27,38 +27,37 @@ module.exports = function (app) {
             }
         }
         return arr; };
-    //chart generator
-    let chart_master;
-    let range = moment_ranges.range(8, 10);
 
-    chart().then(data => chart_master = data);
-    setInterval(() => {
-        let date = new Date();
-        let day_name = moment().format('dddd');
-        if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-            console.log(`${day_name} chart update - ${date.getHours()}`);
-            chart().then(data => chart_master = data);
-        }
-    }, 2700000);
-
-    //printer_data_promise generation
+    //data generation
     //when server starts wait a few seconds before making requests due to result loading
     let printer_result;
+    let chart_master;
+    let range_chart = moment_ranges.range(8, 10);
+    let range_printer = moment_ranges.range(9, 16);
+
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        printer_result = response;
+        console.log(colors.red('response'));
         console.log(`response  ->  ${JSON.stringify(response)}`);
+        printer_result = response;
+        chart(response).then(data => chart_master = data); //chart generator
     });
-    range = moment_ranges.range(9, 16);
+
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
-        if (range.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-            console.log(`${day_name} printer data update - ${date.getHours()}`);
+        if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 printer_result = response;
+
+                if (range_chart.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+                    chart(response).then(data => chart_master = data);
+                }
             });
         }
+        console.log(`${day_name} data update, time: - ${date.getHours()}:${date.getMinutes()}`);
     },3600000);
+
 
     app.get('/', function (req, res) {
             console.log(colors.magenta('Navigating to main page -> /'));
