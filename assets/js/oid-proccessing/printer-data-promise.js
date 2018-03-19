@@ -163,9 +163,7 @@ console.log(`result getsnmp ${JSON.stringify(result)}`);
                     reject(error);
                 });
             });
-            session.on ("close", function () {
-                console.log (`Socket closed`);
-            });
+            session.close();
         });
     };
 
