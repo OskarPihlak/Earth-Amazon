@@ -1,6 +1,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
 <link href="/css/style.css" rel="stylesheet" type="text/css">
-
     <div class="container-floor">
         <!-- generates floor checkboxes -->
         {{#each floors}}
@@ -29,7 +31,8 @@
     <button class="btn btn-primary btn-toggle-floor" onclick="toggleLocationCheckboxes()">Toggle Locations</button>
 </div>
 <div class="container-main">
-        {{#each critical_printers}}
+{{#each critical_printers}}
+    {{#if this.cartridge.critical}}
     <div class="container-critical-printer">
         <!-- displays location of printer on map -->
         <form action="/floor/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
@@ -55,11 +58,11 @@
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}%</p>
         {{/lessOrEquals}}
     </div>
+    {{/if}}
 {{/each}}
 </div>
     <div class="container-main container-home" id="container">
         {{#each printers}}
-
             {{#if this.color}}
                 {{#if this.cartridge.critical}}
                     <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
@@ -72,12 +75,11 @@
                             <a style="color: red" name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                             <p>{{this.location}}</p>
                             <p class="printer-model">{{this.model}}</p>
-
                         </div>
                     {{else}}
                         <div  class="pr-12k title">
                             <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
-                            <p>{{this.location}}</p>
+                            <p>{{this.location}} <br> {{this.pages_printed_in_month}} pages printed in {{../month}}</p>
                         </div>
                     {{/ifEquals}}
 
@@ -188,9 +190,50 @@
                                     <div class="progress-bar yellow-bar-map" style="width:{{this.cartridge.yellow.value}}%; height: 50px;">{{this.cartridge.yellow.value}}%</div>
                                 </div>
                             </div>
+
+                            <div id="chart_{{this.name}}" class="chart-print"></div>
                         </article>
                     </section>
+                <script>
+                    let chart_{{this.name}} = c3.generate({
+                        bindto: '#chart_{{this.name}}',
+                        size: {
+                            height: 150,
+                            width: 320
+                        },
+                        data: {
+                            type: 'spline',
+                            json: [
+                                {{#each graph}}
+                                    {printed: {{this.pages_printed}}, date: '{{this.date}}' },
+                                {{/each}}
+                            ],
+                            keys: {
+                                x: 'date',
+                                value: ['printed']
+                            }
+                        },
+                        axis: {
+                            x: {
+                                type: 'category',
+                            },
+                            y:{
+                                min:0,
+                                max:40000,
+                                padding: {top:0, bottom:0}
+                            }
+                        },
+                        grid: {
+
+                        },
+                        point: {
+                            show: false
+                        },
+                    });
+                </script>
                 </div>
+
+
 
             {{else}}
                 {{#if this.cartridge.critical}}
@@ -208,6 +251,7 @@
                             <a name="title" href="//{{this.ip}}/" target="_blank" rel="noopener">{{this.name}}<br>{{this.ip}}</a>
                             <p>{{this.location}}</p>
                             <p class="printer-model">{{this.model}}</p>
+                            <p> {{this.pages_printed_in_month}} pages printed in {{../month}}</p>
                         </div>
                     {{/ifEquals}}
 
@@ -245,6 +289,44 @@
                                     <div class="progress-bar bg-dark" style="width:{{this.cartridge.black.value}}%; height: 50px;">{{this.cartridge.black.value}}%</div>
                                 </div>
                             </div>
+                            <div id="chart_{{this.name}}" class="chart-print" ></div>
+                            <script>
+                                let chart_{{this.name}} = c3.generate({
+                                    bindto: '#chart_{{this.name}}',
+                                    size: {
+                                        height: 150,
+                                        width: 320
+                                    },
+                                    data: {
+                                        type: 'spline',
+                                        json: [
+                                            {{#each graph}}
+                                                {printed: {{this.pages_printed}}, date: '{{this.date}}' },
+                                            {{/each}}
+                                        ],
+                                        keys: {
+                                            x: 'date',
+                                            value: ['printed']
+                                        }
+                                    },
+                                    axis: {
+                                        x: {
+                                            type: 'category',
+                                        },
+                                        y:{
+                                            min:0,
+                                            max:40000,
+                                            padding: {top:0, bottom:0}
+                                        }
+                                    },
+                                    grid: {
+
+                                    },
+                                    point: {
+                                        show: false
+                                    },
+                                });
+                            </script>
                         </article>
                     </section>
                 </div>

@@ -12,6 +12,8 @@ module.exports.colors_loop_info = ()=>{
 module.exports.oidsArray  =
 {
     pr_name: ["1.3.6.1.2.1.1.5.0"],
+
+    lifetime_prints:['1.3.6.1.2.1.43.10.2.1.4.1.1'],
     bw: ["1.3.6.1.2.1.43.11.1.1.6.1.1",        //black name
         "1.3.6.1.2.1.43.11.1.1.9.1.1"],       //black cartridge
     colors: {

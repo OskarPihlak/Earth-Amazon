@@ -145,7 +145,7 @@ module.exports = (printer_data_saved) => {
                                     }
                                     master_printer_data[i].usage = [];
                                     master_printer_data[i].critical = false;
-                                    let last_toner = (master_printer_data[i]).last();
+                                    let last_toner = master_printer_data[master_printer_data.length - 1]; //TODO make sure this works
                                     let critical_limit = 12;
 
                                     if (master_printer_data[i].color === true) {

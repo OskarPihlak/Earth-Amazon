@@ -68,15 +68,17 @@ module.exports = (sql_conditional, pool) => {
             printer.cartridge = {};
 
             if (printer.color === true && printer.max_capacity === false) {
+                printer.lifetime_print = data[9].value;
                 for (let x = 0; x < printer_oid_data.colors_loop_info().length; x++) {
                     let printer_name = printer_oid_data.colors_loop_info()[x];
                     let inc_real_name = printer_name.inc_name;
                     printer.cartridge[inc_real_name] = {
                         value: data[printer_name.inc_number].value,
-                        name: data[printer_name.cartridge_number].value.toString('utf8')
+                        name: data[printer_name.cartridge_number].value.toString('utf8'),
                     };
                 }
             } else if (printer.color === false && printer.max_capacity === false) {
+                printer.lifetime_print = data[3].value;
                 for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                     let printer_name = printer_oid_data.black_and_white_loop_info[x];
                     printer.cartridge[printer_name.inc_name] = {
@@ -85,6 +87,7 @@ module.exports = (sql_conditional, pool) => {
                     };
                 }
             } else if (printer.color === false && printer.max_capacity === true) {
+                printer.lifetime_print = data[4].value;
                 for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                     let printer_name = printer_oid_data.black_and_white_loop_info[x];
                     let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_name.max_capacity_bw].value) * 100);
@@ -93,7 +96,8 @@ module.exports = (sql_conditional, pool) => {
                         name: data[printer_name.cartridge_number].value.toString('utf8')
                     };
                 }
-            } else if (printer.color === true && printer.max_capacity === true) {
+            } else if (printer.color === true && printer.max_capacity === true) { //TODO this option is broken
+                printer.lifetime_print = data[10].value;
                 for (let x = 0; x < printer_oid_data.colors_loop_info(); x++) {
                     let printer_name = printer_oid_data.colors_loop_info()[x];
                     let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_oid_data.colors_loop_info()[x].max_capacity_color].value) * 100);
@@ -103,7 +107,8 @@ module.exports = (sql_conditional, pool) => {
                     };
                 }
             }
-
+console.log(printer);
+console.log(colors.red('data'));
             let sql_statement_get = 'SELECT * FROM printers_inc_supply.inc_supply_status WHERE printer_name ="' + printer.name + '"';
 
             pool.getConnection((err, connection) => {
@@ -166,10 +171,10 @@ module.exports = (sql_conditional, pool) => {
                     console.log(colors.red(`session_get_data for  -  ${printer.name}  -  is ${data}, ${error}`));
                     return reject(error);
                 } else {
-                    console.log(colors.green(`session_get_data for ${printer.name}: ${data}`));
+                    console.log(colors.green(`session_get_data for ${printer.name}: ${JSON.stringify(data)}`));
                 }
                 printer_data_parse(printer, data).then(data => {
-                    console.log(`final_data ${JSON.stringify(data)}`);
+                    console.log(`final_data ${JSON.stringify(data)} \n`);
                     return resolve(data);
                 }).catch(error => {
                     console.log('printer_data_parse_error', error);
@@ -186,22 +191,22 @@ module.exports = (sql_conditional, pool) => {
                 console.log(`adresses ${JSON.stringify(adress)} \n`);
 
                 if (adress.color === true && adress.max_capacity === false) {
-                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array())).catch(function (err) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.lifetime_prints ,)).catch(function (err) {
                         return err;
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === true) {
-                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw)).catch(function (err) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.lifetime_prints ,)).catch(function (err) {
                         return err;
                     });
                 }
                 else if (adress.color === false && adress.max_capacity === false) {
-                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw)).catch(function (err) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw,printer_oid_data.oidsArray.lifetime_prints)).catch(function (err) {
                         return err;
                     });
                 }
                 else if (adress.color === true && adress.max_capacity === true) {
-                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color)).catch(function (err) {
+                    return session_get(adress, printer_oid_data.oidsArray.pr_name.concat(printer_oid_data.oidsArray.bw, printer_oid_data.oid_color_array(), printer_oid_data.oidsArray.max_capacity_bw, printer_oid_data.oidsArray.max_capacity_color,printer_oid_data.oidsArray.lifetime_prints ,)).catch(function (err) {
                         return err;
                     })
                 } else {
