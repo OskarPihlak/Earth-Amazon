@@ -162,7 +162,7 @@ module.exports = function (app) {
             }
         });
         res.render('./navbar/main', {
-            printers: printed_master,
+            printers: printer_result,
             floors: floors,
             critical_printers: critically_printers,
             locations: locations,
