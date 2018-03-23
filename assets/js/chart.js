@@ -31,13 +31,13 @@ module.exports = (printer_data_saved) => {
                             else if (!printer.color) {
                                 toners.push(printer.cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name);
                             }
-                            unique_data.push({name: printer.name, toner: toners})
+                            unique_data.push({name: printer.name, toner: toners, color: printer.color, ip: printer.ip})
                         });
                         return unique_data;
                     };
 
                     let displayed_date_range = () => {
-                        const days_visible = 20;
+                        const days_visible = 40;
                         let result = [];
                         let i = 0;
 
@@ -52,15 +52,12 @@ module.exports = (printer_data_saved) => {
                         return moment_ranges.range(start, end);
                     };
 
-                    let master_data = [];
-                        master_data.xgrid = [];
-                        master_data.dates = [];
-
+                    let printer_page_source = [];
                     unique_printers_and_toners().forEach(printer => {
-                        let data = [];
-                        data.printer = {};
-                        data.value = [];
-                        data.critical = false;
+                      printer.toner_graph = [];
+                      printer.dates = [];
+                      printer.xgrid = [];
+                      let data = [];
 
                         result.forEach(database_element => {
                             printer.toner.forEach(toner => {
@@ -69,23 +66,21 @@ module.exports = (printer_data_saved) => {
                                     database_element.printer_name === printer.name &&
                                     displayed_date_range().contains(database_element.date)) {
 
-                                    data.printer = database_element.printer_name; //TODO put dis to global alongside master_data
-                                    if(!master_data.dates.includes(moment(database_element.date).format('DD-MM-YYYY'))) master_data.dates.push(moment(database_element.date).format('DD-MM-YYYY'));
-                                    if(database_element.precentage < 10) data.critical = true;
+                                    if(!printer.dates.includes(moment(database_element.date).format('DD-MM-YYYY'))) printer.dates.push(moment(database_element.date).format('DD-MM-YYYY'));
 
                                     data.value.push({
                                         date:                                moment(database_element.date).format('DD-MM-YYYY'),
                                         [database_element.color]:            database_element.precentage,
                                         [`toner_`+ database_element.color] : database_element.cartridge
                                     });
-                                    console.log(colors.red('chart data'));
-                                    console.log(data);
                                 }
                             });
                         });
                         let printer_objects = [];
-                            printer_objects.printer_name = data.printer;
-                            master_data.dates.forEach(date => {
+                            printer_objects.printer_name = printer.name;
+                            printer_objects.ip = printer.ip;
+                            printer_objects.color = printer.color;
+                            data.dates.forEach(date => {
                                 let single_date_object = [];
                                 data.value.forEach(toner_object => {
                                     if (toner_object.date === date) {
@@ -94,80 +89,22 @@ module.exports = (printer_data_saved) => {
                                         single_date_object.push(toner_object);
                                     }
                                 });
+
                                 let combined_single_date_object = [];
-                                    combined_single_date_object.forEach(object => Object.assign(combined_single_date_object, object));
+                                    single_date_object.forEach(object => Object.assign(combined_single_date_object, object));
                                     printer_objects.push(combined_single_date_object);
                             });
-
                         data.push(printer_objects);
                     });
-
-                    master_data.dates.forEach((date) => {
+                    data.dates.forEach((date) => {
                         if (moment(date, 'DD-MM-YYYY').format('dddd') === 'Monday') master_data.xgrid.push({
                             value: moment(date, 'DD-MM-YYYY').format('DD'),
                             text: `${(moment(date, 'DD-MM-YYYY').format('W'))} Nädal`
                         });
                     });
 
-
-
-
-
-
-                    let sql_statement_get = 'SELECT name,color,floor,ip FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
-                    pool.getConnection((err, connection) => {
-                        connection.query(sql_statement_get, function (error, sql_data) {
-
-                            for (let i = 0; i < master_data.length; i++) {
-                                for (let x = 0; x < sql_data.length; x++) {
-                                    if (master_data[i].printer_name === sql_data[x].name) {
-                                        master_data[i].color = !!sql_data[x].color;
-                                        master_data[i].ip = sql_data[x].ip;
-                                    }
-                                }
-                                master_data[i].usage = [];
-                                master_data[i].critical = false;
-                                let last_toner = master_data[master_data.length - 1]; //TODO make sure this works
-                                let critical_limit = 12;
-
-                                if (master_data[i].color === true) {
-
-                                    if (last_toner.black < critical_limit ||
-                                        last_toner.cyan < critical_limit ||
-                                        last_toner.yellow < critical_limit ||
-                                        last_toner.magenta < critical_limit) master_data[i].critical = true;  //TODO maybe write else statement...
-
-                                    master_data[i].usage.push({
-                                        toner: master_data[i][0].toner_black,
-                                        used_per_day: precisionRound((master_data[i][0].black - (master_data[i]).last().black) / master_data[i].length, 1)
-                                    });
-                                    master_data[i].usage.push({
-                                        toner: master_data[i][0].toner_cyan,
-                                        used_per_day: precisionRound((master_data[i][0].cyan - (master_data[i]).last().cyan) / master_data[i].length, 1)
-                                    });
-                                    master_data[i].usage.push({
-                                        toner: master_data[i][0].toner_yellow,
-                                        used_per_day: precisionRound((master_data[i][0].yellow - (master_data[i]).last().yellow) / master_data[i].length, 1)
-                                    });
-                                    master_data[i].usage.push({
-                                        toner: master_data[i][0].toner_magenta,
-                                        used_per_day: precisionRound((master_data[i][0].magenta - (master_data[i]).last().magenta) / master_data[i].length, 1)
-                                    });
-                                } else if (master_data[i].color === false) {
-
-                                    if (last_toner.black < critical_limit) master_data[i].critical = true;
-
-                                    master_data[i].usage.push({
-                                        toner: master_data[i][0].toner_black,
-                                        used_per_day: precisionRound((master_data[i][0].black - (master_data[i]).last().black) / master_data[i].length, 1)
-                                    });
-                                }
-                            }
-                            return resolve(master_data);
-                        });
-                    });
+                printer_page_source.push(printer);
                 }
-
                 CharDataGeneration(printer_data_saved);
             });
         });

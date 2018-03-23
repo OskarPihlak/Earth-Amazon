@@ -21,16 +21,12 @@ module.exports = function (app) {
     const range_printer = moment_ranges.range(9, 16);
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-
-        chart(response).then(data => data.forEach(chart => {
+        printer_result = response;
+        /* chart(response).then(data => data.forEach(chart => {
             chart.has_data = chart.usage.length < 0;
             chart_master.push(chart);
-        }),);
-        printer_result = response;
-        response.forEach(printer => {
+        }));*/
 
-        });
-        console.log(colors.red(`response ->  `), `${JSON.stringify(response)}`);
     });
 
     setInterval(() => {
@@ -259,7 +255,7 @@ module.exports = function (app) {
     });
 
     app.get('/toner-usage-chart', function (req, res) {
-        console.log(chart_master);
+        console.log(JSON.stringify(chart_master));
         res.render('./navbar/charts', {
             chart: chart_master
         });
