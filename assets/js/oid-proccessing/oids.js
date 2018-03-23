@@ -1,12 +1,11 @@
-module.exports.black_and_white_loop_info =  [
-    {inc_name: 'black', cartridge_number: 1, inc_number: 2, max_capacity_bw: 3, max_capacity_color: 9}];
-
+module.exports.black_and_white_loop_info = [
+    {inc_name: 'black',   cartridge_number: 1, inc_number: 2, max_capacity_bw: 3, max_capacity_color: 9}];
 module.exports.colors_info = [{
-    inc_name: 'cyan', cartridge_number: 3, inc_number: 4, max_capacity_bw: 3, max_capacity_color: 10},
+    inc_name:  'cyan',    cartridge_number: 3, inc_number: 4, max_capacity_bw: 3, max_capacity_color: 10},
     {inc_name: 'magenta', cartridge_number: 5, inc_number: 6, max_capacity_bw: 3, max_capacity_color: 11},
-    {inc_name: 'yellow', cartridge_number: 7, inc_number: 8, max_capacity_bw: 3, max_capacity_color: 12}];
+    {inc_name: 'yellow',  cartridge_number: 7, inc_number: 8, max_capacity_bw: 3, max_capacity_color: 12}];
 
-module.exports.colors_loop_info = ()=>{
+module.exports.colors_loop_info = () => {
     return exports.black_and_white_loop_info.concat(exports.colors_info);
 };
 module.exports.oidsArray  =

@@ -21,6 +21,7 @@ module.exports = function (app) {
     const range_printer = moment_ranges.range(9, 16);
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+
         chart(response).then(data => data.forEach(chart => {
             chart.has_data = chart.usage.length < 0;
             chart_master.push(chart);
@@ -62,7 +63,7 @@ module.exports = function (app) {
                             if (error) throw error;
                             if(result.length > 0) {
                                 printer_result.forEach(printer => {
-                                    let printer_array = [];
+                                let printer_array = [];
                                     printer_array.ip = printer.ip;
                                     printer.graph = [];
 
@@ -80,7 +81,6 @@ module.exports = function (app) {
                                             date: printer_array[i].date
                                         });
                                     }
-
                                     printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
                                     printed_master.push(printer);
                                 });
