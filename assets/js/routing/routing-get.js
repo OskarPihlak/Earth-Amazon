@@ -21,14 +21,16 @@ module.exports = function (app) {
     const range_printer = moment_ranges.range(9, 16);
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        printer_result = response;
-        /* chart(response).then(data => data.forEach(chart => {
+        chart(response).then(data => data.forEach(chart => {
             chart.has_data = chart.usage.length < 0;
             chart_master.push(chart);
-        }));*/
+        }),);
+        printer_result = response;
+        response.forEach(printer => {
 
+        });
+        console.log(colors.red(`response ->  `), `${JSON.stringify(response)}`);
     });
-
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
