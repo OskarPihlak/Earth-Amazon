@@ -29,7 +29,7 @@ module.exports = (printer_data_saved) => {
                                 }
                             }
                             else if (!printer.color) {
-                                toners.push(printer.cartridge[printer_oid_data.black_and_white_loop_info[0].inc_name].name);
+                                toners.push(printer.cartridge[printer_oid_data.colors_loop_info()[0].inc_name].name);
                             }
                             unique_data.push({name: printer.name, toner: toners})
                         });
