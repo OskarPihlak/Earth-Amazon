@@ -77,7 +77,20 @@ module.exports = (sql_conditional, pool) => {
                         name: data[printer_name.cartridge_number].value.toString('utf8'),
                     };
                 }
-            } else if (printer.color === false && printer.max_capacity === false) {
+            }
+            else if (printer.color === true && printer.max_capacity === true) { //TODO this option is broken
+                printer.lifetime_print = data[10].value;
+                for (let x = 0; x < printer_oid_data.colors_loop_info(); x++) {
+                    let printer_name = printer_oid_data.colors_loop_info()[x];
+                    let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_oid_data.colors_loop_info()[x].max_capacity_color].value) * 100);
+                    printer.cartridge[printer_name.inc_name] = {
+                        value: inc_precentage,
+                        name: data[printer_name.cartridge_number].value.toString('utf8')
+                    };
+                }
+            }
+
+            else if (printer.color === false && printer.max_capacity === false) {
                 printer.lifetime_print = data[3].value;
                 for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                     let printer_name = printer_oid_data.black_and_white_loop_info[x];
@@ -91,16 +104,6 @@ module.exports = (sql_conditional, pool) => {
                 for (let x = 0; x < printer_oid_data.black_and_white_loop_info.length; x++) {
                     let printer_name = printer_oid_data.black_and_white_loop_info[x];
                     let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_name.max_capacity_bw].value) * 100);
-                    printer.cartridge[printer_name.inc_name] = {
-                        value: inc_precentage,
-                        name: data[printer_name.cartridge_number].value.toString('utf8')
-                    };
-                }
-            } else if (printer.color === true && printer.max_capacity === true) { //TODO this option is broken
-                printer.lifetime_print = data[10].value;
-                for (let x = 0; x < printer_oid_data.colors_loop_info(); x++) {
-                    let printer_name = printer_oid_data.colors_loop_info()[x];
-                    let inc_precentage = Math.round((data[printer_name.inc_number].value / data[printer_oid_data.colors_loop_info()[x].max_capacity_color].value) * 100);
                     printer.cartridge[printer_name.inc_name] = {
                         value: inc_precentage,
                         name: data[printer_name.cartridge_number].value.toString('utf8')

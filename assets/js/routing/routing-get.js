@@ -1,4 +1,5 @@
 module.exports = function (app) {
+
     //npm
     const bodyParser = require('body-parser');
     const urlEncodedParser = bodyParser.urlencoded({extended: false});
@@ -12,35 +13,42 @@ module.exports = function (app) {
     const database = require('../db/db.js');
     const helpers = require('../helpers.js');
     const pool = database.db_define_database();
-
-    //snmp data pulling
+    //
     let printer_result;
     let printed_master = [];
-    let chart_master = [];
+    let master = [];
     const range_chart = moment_ranges.range(8, 10);
     const range_printer = moment_ranges.range(9, 16);
 
-    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-        chart(response).then(data => data.forEach(chart => {
-            chart.has_data = chart.usage.length < 0;
-            chart_master.push(chart);
-        }),);
-        printer_result = response;
-        response.forEach(printer => {
-
+    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
+        .then(response => {
+            chart(response)
+                .then(data => {
+                    data.forEach(chart => {
+                        chart.has_data = chart.toner_graph.length > 0;
+                        master.push(chart);
+                    });
+                });
+            printer_result = response;
         });
-        console.log(colors.red(`response ->  `), `${JSON.stringify(response)}`);
-    });
+
+
+    ///////////////
+
+
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
         if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
 
+            //update chart graph data
             printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
                 if (range_chart.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-                    chart(response).then(data => chart_master = data);
+                    chart(response).then(data => master = data);
                 }
-                if(date.getHours() === 22 && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+
+                //insert data to pages_printed.sql
+                if (date.getHours() === 22 && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
                     response.forEach(printer => {
                         if (printer.lifetime_print !== undefined) {
                             let sql_pages_printed = `INSERT INTO printers_inc_supply.pages_printed SET pages_printed = ${printer.lifetime_print}, ip='${printer.ip}', date='${moment().format('YYYY-MM-DD')}';`;
@@ -54,36 +62,48 @@ module.exports = function (app) {
                         }
                     });
                 }
+
+                //selects from pages_printed.sql
                 if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
                     let sql_pages_printed_selection = `SELECT * FROM printers_inc_supply.pages_printed;`;
                     pool.getConnection((err, connection) => {
                         connection.query(sql_pages_printed_selection, (error, result) => {
                             if (error) throw error;
-                            if(result.length > 0) {
+
+                            //if result has data
+                            if (result.length > 0) {
+
+                                //from printer-data-promise
                                 printer_result.forEach(printer => {
-                                let printer_array = [];
+                                    let printer_array = [];
                                     printer_array.ip = printer.ip;
                                     printer.graph = [];
 
+                                    //from pages-printed.sql
                                     result.forEach(printed_pages => {
-                                        if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment().format('MM')) {
+                                        if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment('2018-03-22').format('MM')) {
                                             printer_array.push({
                                                 date: moment(printed_pages.date).format('DD-MM-YYYY'),
                                                 print_count: printed_pages.pages_printed
                                             });
                                         }
                                     });
-                                    for (let i = 0; i < printer_array.length; i++) {
-                                        printer.graph.push({
-                                            pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
-                                            date: printer_array[i].date
-                                        });
+
+                                    //generates graph data for page_print
+                                    if (printer_array.length > 0) {
+                                        for (let i = 0; i < printer_array.length; i++) {
+                                            printer.graph.push({
+                                                pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
+                                                date: printer_array[i].date
+                                            });
+                                        }
+                                        printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
+                                    } else {
+                                        console.log(colors.red('print_count is empty array'))
                                     }
-                                    printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
                                     printed_master.push(printer);
                                 });
                             }
-                            console.log(printed_master);
                         });
                         connection.release();
                     });
@@ -92,39 +112,52 @@ module.exports = function (app) {
             });
         }
         console.log(`${day_name} data update, time: - ${date.getHours()}:${date.getMinutes()}`);
-    }, 3600000);
+    }, 2700000);
+
+
+    //page print
+
 
     setTimeout(() => {
         let sql_pages_printed_selection = `SELECT * FROM printers_inc_supply.pages_printed;`;
         pool.getConnection((err, connection) => {
             connection.query(sql_pages_printed_selection, (error, result) => {
                 if (error) throw error;
-                if(result.length > 0) {
+
+                //if result has data
+                if (result.length > 0) {
+
+                    //from printer-data-promise
                     printer_result.forEach(printer => {
                         let printer_array = [];
                         printer_array.ip = printer.ip;
                         printer.graph = [];
 
+                        //from pages-printed.sql
                         result.forEach(printed_pages => {
-                            if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment().format('MM')) {
+                            if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment('2018-03-22').format('MM')) {
                                 printer_array.push({
                                     date: moment(printed_pages.date).format('DD-MM-YYYY'),
                                     print_count: printed_pages.pages_printed
                                 });
                             }
                         });
-                        for (let i = 0; i < printer_array.length; i++) {
-                            printer.graph.push({
-                                pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
-                                date: printer_array[i].date
-                            });
-                        }
 
-                        printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
+                        //generates graph data for page_print
+                        if (printer_array.length > 0) {
+                            for (let i = 0; i < printer_array.length; i++) {
+                                printer.graph.push({
+                                    pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
+                                    date: printer_array[i].date
+                                });
+                            }
+                            printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
+                        } else {
+                            console.log(colors.red('print_count is empty array'))
+                        }
                         printed_master.push(printer);
                     });
                 }
-            console.log(printed_master);
             });
             connection.release();
         });
@@ -162,7 +195,7 @@ module.exports = function (app) {
             }
         });
         res.render('./navbar/main', {
-            printers: printer_result,
+            printers: master,
             floors: floors,
             critical_printers: critically_printers,
             locations: locations,
@@ -251,15 +284,15 @@ module.exports = function (app) {
         }
         //TODO redirect if undefined
         res.render('./data/printer-detail', {
-            chart: chart_master, //TODO write html filter
+            chart: master, //TODO write html filter
             data: result
         })
     });
 
     app.get('/toner-usage-chart', function (req, res) {
-        console.log(JSON.stringify(chart_master));
+        console.log(JSON.stringify(master));
         res.render('./navbar/charts', {
-            chart: chart_master
+            chart: master
         });
     });
 
@@ -282,32 +315,4 @@ module.exports = function (app) {
     app.get('/restart', function (req, res, next) {
         process.exit(1);
     });
-    /*
-
-
-    3d test route
-
-
-     */
-    let UE4Files = ['UE4Game.js', 'MyProject.data.js', 'Utility.js', 'MyProject.data', 'UE4Game.wasm'];
-    let root = "C:\\Users\\oskar.pihlak\\Desktop\\Development\\Printer\\views\\3d";
-    app.get('/3d', (req, res) => {
-        res.render('./3d/MyProject');
-    });
-    app.get('/UE4Game.js', (req, res) => {
-        res.sendFile('UE4Game.js', {root: root});
-    });
-    app.get('/MyProject.data.js', (req, res) => {
-        res.sendFile('/MyProject.data.js', {root: root});
-    });
-    app.get('/Utility.js', (req, res) => {
-        res.sendFile('/Utility.js', {root: root});
-    });
-    app.get('/MyProject.data', (req, res) => {
-        res.sendFile('/MyProject.data', {root: root});
-    });
-    app.get('/UE4Game.wasm', (req, res) => {
-        res.sendFile('/UE4Game.wasm', {root: root});
-    });
-
 };
