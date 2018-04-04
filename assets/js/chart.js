@@ -22,9 +22,9 @@ module.exports = (printer_data_saved) => {
                     console.log(colors.red('printer_data_saved'));*/
                     //add "toner" array element to object
                     for (let i = 0; i < printer_data_saved.length; i++) {
-                        console.log(printer_data_saved[i]);
-                        if (printer_data_saved[i].name !== 'RequestFailedError') {
-                            if (printer_data_saved[i].printer_ping.alive === true) {
+                        console.log(printer_data_saved[i].name !== 'RequestFailedError' && printer_data_saved[i].hasOwnProperty('printer_ping'));
+                        if (printer_data_saved[i].name !== 'RequestFailedError' && printer_data_saved[i].hasOwnProperty('printer_ping')) {
+                            if (printer_data_saved[i].printer_ping.alive) {
                                 printer_data_saved[i].toner = [];
                                 printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
                                 if (printer_data_saved[i].color) {
@@ -63,6 +63,7 @@ module.exports = (printer_data_saved) => {
                                 data.dates = [];
                                 data.graph_data = [];
 
+                                console.log(printer);
                                 result.forEach(database_element => {
                                     printer.toner.forEach(toner => {
 
