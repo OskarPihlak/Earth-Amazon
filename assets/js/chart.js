@@ -18,7 +18,7 @@ module.exports = (printer_data_saved) => {
 
                     //add "toner" array element to object
                     for (let i = 0; i < printer_data_saved.length; i++) {
-                        console.log(printer_data_saved[i]);
+
                        if(printer_data_saved[i].name !== 'RequestFailedError') {
                            printer_data_saved[i].toner = [];
                            printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
@@ -55,6 +55,8 @@ module.exports = (printer_data_saved) => {
                         data.dates = [];
                         data.graph_data = [];
 
+                        console.log(result);
+                        console.log(printer);
                         result.forEach(database_element => {
                             printer.toner.forEach(toner => {
 
