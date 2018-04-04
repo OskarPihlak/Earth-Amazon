@@ -17,21 +17,23 @@ module.exports = (printer_data_saved) => {
                 let sql_pages_printed_selection = `SELECT * FROM printers_inc_supply.pages_printed;`;
                 connection.query(sql_pages_printed_selection, (pages_error, pages_result) => {
 
-                /*console.log(colors.red('printer_data_saved'));
-                console.log(printer_data_saved);
-                console.log(colors.red('printer_data_saved'));*/
+                    /*console.log(colors.red('printer_data_saved'));
+                    console.log(printer_data_saved);
+                    console.log(colors.red('printer_data_saved'));*/
                     //add "toner" array element to object
                     for (let i = 0; i < printer_data_saved.length; i++) {
                         console.log(printer_data_saved[i]);
-                       if(printer_data_saved[i].name !== 'RequestFailedError' && printer_data_saved[i].printer_ping.alive === true) {
-                           printer_data_saved[i].toner = [];
-                           printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
-                           if (printer_data_saved[i].color) {
-                               for (let x = 1; x < 4; x++) {
-                                   printer_data_saved[i].toner.push(printer_data_saved[i].cartridge[printer_oid_data.colors_loop_info()[x].inc_name].name);
-                               }
-                           }
-                       }
+                        if (printer_data_saved[i].name !== 'RequestFailedError') {
+                            if (printer_data_saved[i].printer_ping.alive === true) {
+                                printer_data_saved[i].toner = [];
+                                printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
+                                if (printer_data_saved[i].color) {
+                                    for (let x = 1; x < 4; x++) {
+                                        printer_data_saved[i].toner.push(printer_data_saved[i].cartridge[printer_oid_data.colors_loop_info()[x].inc_name].name);
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     //days displayed on graph
@@ -113,8 +115,6 @@ module.exports = (printer_data_saved) => {
                         /*
                         * pages printed
                         * */
-
-
 
 
                         let pages = [];
