@@ -24,9 +24,6 @@ module.exports = function (app) {
 //automatic statistics graphic generation in statistics
     let chart_master = [];
     const range = moment_ranges.range(5, 9);
-    chart().then(data => chart().then(data => {
-        if (data.critical) chart_master.push(data);
-    }));
     setInterval(() => {
         let date = new Date();
         let day_name = moment().format('dddd');
