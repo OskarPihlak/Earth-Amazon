@@ -19,13 +19,15 @@ module.exports = (printer_data_saved) => {
                     //add "toner" array element to object
                     for (let i = 0; i < printer_data_saved.length; i++) {
                         console.log(printer_data_saved[i]);
-                        printer_data_saved[i].toner = [];
-                        printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
-                        if (printer_data_saved[i].color) {
-                            for (let x = 1; x < 4; x++) {
-                                printer_data_saved[i].toner.push(printer_data_saved[i].cartridge[printer_oid_data.colors_loop_info()[x].inc_name].name);
-                            }
-                        }
+                       if(printer_data_saved[i].name !== 'RequestFailedError') {
+                           printer_data_saved[i].toner = [];
+                           printer_data_saved[i].toner.push(printer_data_saved[i].cartridge['black'].name);
+                           if (printer_data_saved[i].color) {
+                               for (let x = 1; x < 4; x++) {
+                                   printer_data_saved[i].toner.push(printer_data_saved[i].cartridge[printer_oid_data.colors_loop_info()[x].inc_name].name);
+                               }
+                           }
+                       }
                     }
 
                     //days displayed on graph
