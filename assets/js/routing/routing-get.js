@@ -32,137 +32,6 @@ module.exports = function (app) {
             printer_result = response;
         });
 
-
-    ///////////////
-
-
-    setInterval(() => {
-        let date = new Date();
-        let day_name = moment().format('dddd');
-        if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-
-            //update chart graph data
-            printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-                if (range_chart.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-                    chart(response).then(data => master = data);
-                }
-
-                //insert data to pages_printed.sql
-                if (date.getHours() === 22 && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-                    response.forEach(printer => {
-                        if (printer.lifetime_print !== undefined) {
-                            let sql_pages_printed = `INSERT INTO printers_inc_supply.pages_printed SET pages_printed = ${printer.lifetime_print}, ip='${printer.ip}', date='${moment().format('YYYY-MM-DD')}';`;
-                            pool.getConnection((err, connection) => {
-                                connection.query(sql_pages_printed, (error, result) => {
-                                    if (error) throw error;
-                                });
-                                connection.release();
-                            });
-                            console.log(sql_pages_printed);
-                        }
-                    });
-                }
-
-                //selects from pages_printed.sql
-                if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
-                    let sql_pages_printed_selection = `SELECT * FROM printers_inc_supply.pages_printed;`;
-                    pool.getConnection((err, connection) => {
-                        connection.query(sql_pages_printed_selection, (error, result) => {
-                            if (error) throw error;
-
-                            //if result has data
-                            if (result.length > 0) {
-
-                                //from printer-data-promise
-                                printer_result.forEach(printer => {
-                                    let printer_array = [];
-                                    printer_array.ip = printer.ip;
-                                    printer.graph = [];
-
-                                    //from pages-printed.sql
-                                    result.forEach(printed_pages => {
-                                        if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment('2018-03-22').format('MM')) {
-                                            printer_array.push({
-                                                date: moment(printed_pages.date).format('DD-MM-YYYY'),
-                                                print_count: printed_pages.pages_printed
-                                            });
-                                        }
-                                    });
-
-                                    //generates graph data for page_print
-                                    if (printer_array.length > 0) {
-                                        for (let i = 0; i < printer_array.length; i++) {
-                                            printer.graph.push({
-                                                pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
-                                                date: printer_array[i].date
-                                            });
-                                        }
-                                        printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
-                                    } else {
-                                        console.log(colors.red('print_count is empty array'))
-                                    }
-                                    printed_master.push(printer);
-                                });
-                            }
-                        });
-                        connection.release();
-                    });
-                }
-                printer_result = response;
-            });
-        }
-        console.log(`${day_name} data update, time: - ${date.getHours()}:${date.getMinutes()}`);
-    }, 2700000);
-
-
-    //page print
-
-
-    setTimeout(() => {
-        let sql_pages_printed_selection = `SELECT * FROM printers_inc_supply.pages_printed;`;
-        pool.getConnection((err, connection) => {
-            connection.query(sql_pages_printed_selection, (error, result) => {
-                if (error) throw error;
-
-                //if result has data
-                if (result.length > 0) {
-
-                    //from printer-data-promise
-                    printer_result.forEach(printer => {
-                        let printer_array = [];
-                        printer_array.ip = printer.ip;
-                        printer.graph = [];
-
-                        //from pages-printed.sql
-                        result.forEach(printed_pages => {
-                            if (printer.ip === printed_pages.ip && moment(printed_pages.date).format('MM') === moment('2018-03-22').format('MM')) {
-                                printer_array.push({
-                                    date: moment(printed_pages.date).format('DD-MM-YYYY'),
-                                    print_count: printed_pages.pages_printed
-                                });
-                            }
-                        });
-
-                        //generates graph data for page_print
-                        if (printer_array.length > 0) {
-                            for (let i = 0; i < printer_array.length; i++) {
-                                printer.graph.push({
-                                    pages_printed: parseInt(printer_array[i].print_count) - parseInt(printer_array[0].print_count),
-                                    date: printer_array[i].date
-                                });
-                            }
-                            printer.pages_printed_in_month = parseInt(printer_array[printer_array.length - 1].print_count) - parseInt(printer_array[0].print_count);
-                        } else {
-                            console.log(colors.red('print_count is empty array'))
-                        }
-                        printed_master.push(printer);
-                    });
-                }
-            });
-            connection.release();
-        });
-    }, 15000);
-
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer result ${printer_result}`);
@@ -315,4 +184,33 @@ module.exports = function (app) {
     app.get('/restart', function (req, res, next) {
         process.exit(1);
     });
+
+    /*
+    *          Data generation
+    * */
+
+    setInterval(() => {
+        let date = new Date();
+        let day_name = moment().format('dddd');
+        if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
+            if (range_chart.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) chart(response).then(data => master = data);
+
+            //insert data to pages_printed.sql
+            if (date.getHours() === 16 && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+                response.forEach(printer => {
+                    if (printer.lifetime_print !== undefined) {
+                        let sql_pages_printed = `INSERT INTO printers_inc_supply.pages_printed SET pages_printed = ${printer.lifetime_print}, ip='${printer.ip}', date='${moment().format('YYYY-MM-DD')}';`;
+                        pool.getConnection((err, connection) => {
+                            connection.query(sql_pages_printed, (error, result) => {
+                                if (error) throw error;
+                            });
+                            connection.release();
+                        });
+                    }
+                });
+            }
+            printer_result = response;
+        });
+        console.log(`${day_name} data update, time: - ${date.getHours()}:${date.getMinutes()}`);
+    }, 2700000);
 };
