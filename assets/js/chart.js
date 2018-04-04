@@ -43,7 +43,7 @@ module.exports = (printer_data_saved) => {
                         while (result.length < number_of_days) {
                             let today = new Date();
                             let day = moment(today.setDate(today.getDate() - i)).format('YYYY-MM-DD');
-                            if (moment(day, 'DD-MM-YYYY').isBusinessDay() === true) result.push(day);
+                            if (moment(day, 'DD-MM-YYYY').isBusinessDay() === true /*&& parseInt(Math.abs(moment(day).format('DD') % 2)) === 1*/ ) result.push(day);
                             i++
                         }
                         const start = moment(result[result.length - 1], 'YYYY-MM-DD');
@@ -63,13 +63,12 @@ module.exports = (printer_data_saved) => {
                                 data.dates = [];
                                 data.graph_data = [];
 
-                                console.log(printer);
                                 result.forEach(database_element => {
                                     printer.toner.forEach(toner => {
 
                                         if (database_element.cartridge === toner &&
                                             database_element.printer_name === printer.name &&
-                                            amount_of_days(70).contains(database_element.date)) {
+                                            amount_of_days(20).contains(database_element.date)) {
 
                                             if (!data.dates.includes(moment(database_element.date).format('DD-MM-YYYY'))) data.dates.push(moment(database_element.date).format('DD-MM-YYYY'));
 

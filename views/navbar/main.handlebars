@@ -202,7 +202,7 @@
             <div id="chart_{{this.name}}" class="chart-print"></div>
             <div id="toner_graph_{{this.name}}" class="chart-print"></div>
                 <script>
-                    let chart_{{this.name}} = c3.generate({
+                    let graph_paper_{{@index}} = c3.generate({
                         bindto: '#chart_{{this.name}}',
                         size: {
                             height: 150,
@@ -239,7 +239,7 @@
                     });
                 </script>
             <script>
-                let chart_{{@index}} = c3.generate({
+                let graph__toner_{{@index}} = c3.generate({
                     bindto: '#toner_graph_{{this.name}}',
                     size: {
                         height: 150,
