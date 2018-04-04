@@ -15,7 +15,6 @@ module.exports = function (app) {
     const pool = database.db_define_database();
     //
     let printer_result;
-    let printed_master = [];
     let master = [];
     const range_chart = moment_ranges.range(8, 10);
     const range_printer = moment_ranges.range(9, 16);
@@ -24,9 +23,11 @@ module.exports = function (app) {
         .then(response => {
             chart(response)
                 .then(data => {
-                    data.forEach(chart => {
-                        chart.has_data = chart.toner_graph.length > 0;
-                        master.push(chart);
+                    console.log(colors.red('data'));
+                    console.log(data);
+                    console.log(colors.red('data'));
+                    data.forEach(printer_object => {
+                   master.push(printer_object);
                     });
                 });
             printer_result = response;
@@ -34,7 +35,7 @@ module.exports = function (app) {
 
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
-        console.log(`printer result ${printer_result}`);
+        console.log(`printer master is  -> ${master} <-`);
         let critically_printers = [];
         let locations = [];
         let floors = [];
