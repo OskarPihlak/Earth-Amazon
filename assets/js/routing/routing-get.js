@@ -203,6 +203,7 @@ module.exports = function (app) {
                             connection.query(sql_pages_printed, (error, result) => {
                                 if (error) throw error;
                             });
+                            console.log('Added data to pages_printed.sql, time:' + date.getHours() + ':' + date.getMinutes());
                             connection.release();
                         });
                     }
