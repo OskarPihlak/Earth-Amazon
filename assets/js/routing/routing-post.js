@@ -1,25 +1,41 @@
 module.exports = function (app) {
+    /*
+    * npm
+    * */
     const bodyParser =           require('body-parser');
-    const nodemailer =           require('nodemailer');
-    const mysql =                require('mysql');
-    const pad =                  require('pad-number');
     const urlEncodedParser =     bodyParser.urlencoded({extended: false});
+    const nodemailer =           require('nodemailer');
+    const pad =                  require('pad-number');
+    const moment =               require('moment');
+    const moment_range =         require('moment-range');
+    const moment_ranges =        moment_range.extendMoment(moment);
+    const Cryptr = require('cryptr'),
+          cryptr = new Cryptr('myTotalySecretKey');
+    /*
+    * files
+    * */
     const printer_data_promise = require('../oid-proccessing/printer-data-promise');
     const database =             require('../db/db.js');
     const helpers =              require('../helpers.js');
     const cartridge_add =        require('../db/cartridge-add.js');
     const printer_oid_data =     require('../oid-proccessing/oids.js');
-    const moment =               require('moment');
     const pool =                 database.db_define_database();
     const colors =               require('colors');
     const fs =                   require('fs');
     const Handlebars =           require('handlebars');
-    const moment_range =         require('moment-range');
-    const moment_ranges =        moment_range.extendMoment(moment);
     const chart =                require('../chart.js');
-    const bcrypt =               require('bcrypt');
+    /*
+    *vars
+    *  */
+    let alpha_registry;
 
-//TODO password to bcrypt
+    pool.getConnection((err, connection) => {
+        let sql_statmenet_get_alpha = 'SELECT * FROM printers_inc_supply.alpha;';
+        connection.query(sql_statmenet_get_alpha, function (error, result, fields) {
+            alpha_registry =  cryptr.decrypt(result[0].alpha_tag);
+            connection.release();
+        });
+    });
 
 //automatic statistics graphic generation in statistics
     let chart_master = [];
@@ -37,7 +53,7 @@ module.exports = function (app) {
 //graphics generation end
 //automatic email notification for printers
 setInterval(()=>{
-    if(moment().format('dddd-H') === 'Monday-8'){
+    if(moment().format('dddd-H') === 'Thursday-15'){
     let template = fs.readFileSync('./views/email/email.handlebars', 'utf-8');
     let compileTemplate = Handlebars.compile(template);
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
@@ -64,7 +80,7 @@ setInterval(()=>{
                     secure: false,
                     auth: {
                         user: 'oskar.pihlak@eestimeedia.ee',
-                        pass: 'WorkDragon88'
+                        pass: alpha_registry
                     },
                     tls: {
                         ciphers: 'SSLv3'
@@ -116,7 +132,7 @@ setInterval(()=>{
                         secure: false,
                         auth: {
                             user: 'oskar.pihlak@eestimeedia.ee',
-                            pass: 'WorkDragon88'
+                            pass: alpha_registry
                         },
                         tls: {
                             ciphers: 'SSLv3'

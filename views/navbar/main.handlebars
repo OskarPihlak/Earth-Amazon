@@ -201,6 +201,7 @@
                     {{/if}}
             <div id="chart_{{this.name}}" class="chart-print"></div>
             <div id="toner_graph_{{this.name}}" class="chart-print"></div>
+
                 <script>
                     let graph_paper_{{@index}} = c3.generate({
                         bindto: '#chart_{{this.name}}',
@@ -251,9 +252,9 @@
                             {{#each this.toner_graph}}
                                 {{#compare this.date '!==' undefined}}
                                     {{#if ../this.color}}
-                                        {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:'{{this.date}}' },
+                                        {black: {{this.black}}, cyan:{{this.cyan}}, yellow:{{this.yellow}}, magenta:{{this.magenta}}, date:'{{this.date_big}}' },
                                     {{else}}
-                                        { black: {{this.black}}, date:'{{this.date}}' },
+                                        { black: {{this.black}}, date:'{{this.date_big}}' },
                                     {{/if}}
                                 {{/compare}}
                             {{/each}}

@@ -1,8 +1,6 @@
 module.exports = function (app) {
 
     //npm
-    const bodyParser = require('body-parser');
-    const urlEncodedParser = bodyParser.urlencoded({extended: false});
     const moment = require('moment-business-days');
     const colors = require('colors');
     const moment_range = require('moment-range');
@@ -212,6 +210,6 @@ module.exports = function (app) {
             }
             printer_result = response;
         });
-        console.log(`${day_name} data update, time: - ${date.getHours()}:${date.getMinutes()}`);
+        console.log(`${day_name} data update in routing-get, time: - ${date.getHours()}:${date.getMinutes()}`);
     }, 2700000);
 };
