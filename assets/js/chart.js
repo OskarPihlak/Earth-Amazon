@@ -68,7 +68,7 @@ module.exports = (printer_data_saved) => {
 
                                             if (database_element.cartridge === toner &&
                                                 database_element.printer_name === printer.name &&
-                                                amount_of_days(60).contains(database_element.date)) {
+                                                amount_of_days(20).contains(database_element.date)) {
 
                                                 if (!data.dates.includes(moment(database_element.date).format('DD-MM-YYYY'))) data.dates.push(moment(database_element.date).format('DD-MM-YYYY'));
 
@@ -108,16 +108,17 @@ module.exports = (printer_data_saved) => {
 
                                     //add week markers
                                     data.dates.forEach((date) => {
-                                        if (moment(date, 'DD-MM-YYYY').format('dddd') === 'Monday') printer.xgrid.push({
-                                            value: moment(date, 'DD-MM-YYYY').format('DD'),
-                                            text: `${(moment(date, 'DD-MM-YYYY').format('W'))} Nädal`
-                                        });
+                                        if (moment(date, 'DD-MM-YYYY').format('dddd') === 'Monday') {
+                                            printer.xgrid.push({
+                                                value: moment(date, 'DD-MM-YYYY').format('DD-MM'),
+                                                text: `${(moment(date, 'DD-MM-YYYY').format('W'))} Nädal`
+                                            });
+                                        }
                                     });
 
                                     /*
-                                    * pages printed
+                                    * PAGES PRINTED
                                     * */
-
 
                                     let pages = [];
                                     printer.graph = [];
