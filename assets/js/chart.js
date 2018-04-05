@@ -103,7 +103,6 @@ module.exports = (printer_data_saved) => {
                                         let combined_single_date_object = {};
                                         single_date_object.forEach(object => Object.assign(combined_single_date_object, object));
                                         printer.toner_graph.push(combined_single_date_object);
-
                                     });
 
                                     //add week markers
@@ -158,8 +157,6 @@ module.exports = (printer_data_saved) => {
                 connection.release();
             });
         });
-
-
     });
 };
 
