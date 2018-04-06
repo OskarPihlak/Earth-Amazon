@@ -13,20 +13,30 @@ module.exports = function (app) {
     const pool = database.db_define_database();
     //
     let printer_result;
-    let master = [];
+    let master;
     const range_chart = moment_ranges.range(8, 10);
     const range_printer = moment_ranges.range(9, 16);
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
         .then(response => {
-            chart(response)
-                .then(data => {
+            chart(response).then(data => {
+                    master = data;
+                    master.floors = data.floors;
+                    master.locations = data.locations;
+
                     console.log(colors.red('data'));
                     console.log(data);
-                    console.log(colors.red('data'));
-                    data.forEach(printer_object => {
-                   master.push(printer_object);
-                    });
+                    console.log(colors.red('dawdawdata'));
+
+                   /* app.get('/json', (req,res) =>{
+                        res.send(
+                            {
+                                data: data,
+                                floors:data.floors,
+                                locations:data.location
+                            }
+                        );
+                    });*/
                 });
             printer_result = response;
         });
@@ -34,39 +44,11 @@ module.exports = function (app) {
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer master is  -> ${master} <-`);
-        let critically_printers = [];
-        let locations = [];
-        let floors = [];
-        const critical_toner_level = 12;
-        const printer_ignored = ['192.168.67.42', '192.168.67.3', '192.168.67.42', '192.168.3.195', '192.168.52.23', '10.129.128.108'];
 
-        printer_result.forEach(printer => {
-            if (!locations.includes(printer.location) && printer.location !== undefined) locations.push(printer.location);
-            if (!floors.includes(printer.floor) && printer.floor !== undefined) floors.push(printer.floor);
-            if (printer.hasOwnProperty('cartridge') && !printer_ignored.includes(printer.ip)) {
-                if (printer.cartridge.black.value < critical_toner_level) {
-                    printer.cartridge.critical = true;
-                    critically_printers.push(printer);
-                }
-                if (printer.color) {
-                    if (printer.cartridge.cyan.value < critical_toner_level ||
-                        printer.cartridge.yellow.value < critical_toner_level ||
-                        printer.cartridge.magenta.value < critical_toner_level) {
-                        printer.cartridge.critical = true;
-                        critically_printers.push(printer);
-                    }
-                }
-                if (!printer.cartridge.hasOwnProperty('critical')) {
-                    printer.cartridge.critical = false;
-                    critically_printers.push(printer);
-                }
-            }
-        });
         res.render('./navbar/main', {
             printers: master,
-            floors: floors,
-            critical_printers: critically_printers,
-            locations: locations,
+            floors: master.floors,
+            locations: master.locations,
             month: moment().format('MMMM')
         });
     });

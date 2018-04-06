@@ -5,7 +5,7 @@
 <link href="/css/style.css" rel="stylesheet" type="text/css">
     <div class="container-floor">
         <!-- generates floor checkboxes -->
-        {{#each floors}}
+        {{#each this.floors}}
             <div class="btn-checkbox-filter">
                 <label for="{{this}}">{{this}}k</label>
                 <input checked id="{{this}}" class="floor-{{this}} btn-deselect-all-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
@@ -19,7 +19,7 @@
 <div class="container-locations">
 
     <!-- generates location checkboxes -->
-    {{#each locations}}
+    {{#each this.locations}}
         <div class="btn-checkbox-filter">
             <label for="{{this}}">{{this}}</label>
             {{#ifEquals this 'Tallinn'}}

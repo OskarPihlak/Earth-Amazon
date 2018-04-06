@@ -9,6 +9,9 @@ module.exports = (printer_data_saved) => {
 
     return new Promise((resolve, reject) => {
         let printer_page_source = [];
+            printer_page_source.floors = [];
+            printer_page_source.locations = [];
+
         pool.getConnection((err, connection) => {
 
             let sql_statmenet_get_target_statistics = 'SELECT * FROM printers_inc_supply.printer_cartridge_statistics;';
@@ -63,6 +66,7 @@ module.exports = (printer_data_saved) => {
                                     data.dates = [];
                                     data.graph_data = [];
 
+
                                     result.forEach(database_element => {
                                         printer.toner.forEach(toner => {
 
@@ -115,6 +119,20 @@ module.exports = (printer_data_saved) => {
                                         }
                                     });
 
+
+
+                                    /*
+                                    *   LOCATIONS
+                                    * */
+                                    if (!printer_page_source.locations.includes(printer.location) && printer.location !== undefined) printer_page_source.locations.push(printer.location);
+
+                                    /*
+                                    *   FLOORS
+                                    * */
+                                    if (!printer_page_source.floors.includes(printer.floor) && printer.floor !== undefined) printer_page_source.floors.push(printer.floor);
+
+
+
                                     /*
                                     * PAGES PRINTED
                                     * */
@@ -145,6 +163,28 @@ module.exports = (printer_data_saved) => {
                                         console.log(colors.red('print_count is empty array'))
                                     }
 
+                                    /*
+                                    * CRITICAL
+                                    * */
+                                    const critical_toner_level = 12;
+                                    const printer_ignored = ['192.168.67.42', '192.168.67.3', '192.168.67.42', '192.168.3.195', '192.168.52.23', '10.129.128.108'];
+                                    const color_toners = ['cyan','magenta','yellow'];
+                                          printer.critical_toners = [];
+
+                                    if (printer.hasOwnProperty('cartridge') && !printer_ignored.includes(printer.ip)) {
+                                        if (printer.cartridge.black.value < critical_toner_level) {
+                                            printer.critical_toners.push(printer.cartridge.black);
+                                            printer.critical = true;
+                                        }
+                                        if (printer.color) {
+                                            color_toners.forEach(toner =>{
+                                                if(printer.cartridge[toner].value < critical_toner_level){
+                                                    printer.critical_toners.push(printer.cartridge[toner]);
+                                                    printer.critical = true;
+                                                }
+                                            });
+                                        }
+                                    }
                                     printer_page_source.push(printer);
                                 }
                             }
@@ -159,4 +199,6 @@ module.exports = (printer_data_saved) => {
         });
     });
 };
+
+
 
