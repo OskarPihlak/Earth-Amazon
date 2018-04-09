@@ -14,10 +14,9 @@
 
         <!-- toggle all floor checkboxes -->
         <button class="btn btn-primary btn-toggle-floor" onclick="toggleFloorCheckboxes()">Toggle Floors</button>
-
     </div>
-<div class="container-locations">
 
+<div class="container-locations">
     <!-- generates location checkboxes -->
     {{#each this.locations}}
         <div class="btn-checkbox-filter">
@@ -32,8 +31,19 @@
 
     <!-- toggle all location checkboxes -->
     <button class="btn btn-primary btn-toggle-floor" onclick="toggleLocationCheckboxes()">Toggle Locations</button>
-
 </div>
+
+<!--   floor navigations-->
+<div class="container-floor-navigation">
+    {{#each this.floors}}
+        <div class="btn-floor-{{this}} btn-floor-nav">
+            <a href="/Tallinn/floor/{{this}}k">
+                <button class="btn btn-primary floor-nav-{{this}}" >{{this}}</button>
+            </a>
+        </div>
+    {{/each}}
+</div>
+
 <div class="container-main">
 
 {{#each critical_printers}}

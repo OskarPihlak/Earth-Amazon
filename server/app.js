@@ -1,18 +1,19 @@
+/*
+* npm
+* */
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const urlEncodedParser = bodyParser.urlencoded({extended: false});
-const fs = require('fs');
 const ip = require('ip');
+/*
+* files
+* */
 const minifyHTML = require('express-minify-html');
-const printer_data_promise = require('../assets/js/oid-proccessing/printer-data-promise.js');
 const routing_get = require('../assets/js/routing/routing-get.js');
 const routing_post = require('../assets/js/routing/routing-post.js');
 const routing_delete = require('../assets/js/routing/routing-delete.js');
 const helpers = require('../assets/js/helpers');
-
 //app init
 const app = express();
 

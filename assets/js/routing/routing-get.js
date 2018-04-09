@@ -14,55 +14,49 @@ module.exports = function (app) {
     //
     let printer_result;
     let master;
-    const range_chart = moment_ranges.range(8, 10);
-    const range_printer = moment_ranges.range(9, 16);
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
         .then(response => {
-            chart(response).then(data => {
-                    master = data;
-                    master.floors = data.floors;
-                    master.locations = data.locations;
-
-                    console.log(colors.red('data'));
-                    console.log(data);
-                    console.log(colors.red('dawdawdata'));
-
-                   /* app.get('/json', (req,res) =>{
-                        res.send(
-                            {
-                                data: data,
-                                floors:data.floors,
-                                locations:data.location
-                            }
-                        );
-                    });*/
-                });
             printer_result = response;
+            chart(response).then(data => {
+                master = data;
+                app.get('/json', (req, res) => {
+                    res.send(
+                        {
+                            data: master,
+                            floors: master.floors,
+                            locations: master.location
+                        }
+                    );
+                });
+            });
         });
 
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer master is  -> ${master} <-`);
 
-        res.render('./navbar/main', {
-            printers: master,
-            floors: master.floors,
-            locations: master.locations,
-            month: moment().format('MMMM')
-        });
+        res.render('./navbar/main',
+            {
+                printers: master,
+                floors: master.floors,
+                locations: master.locations,
+                month: moment().format('MMMM')
+            }
+        );
     });
 
     //use 0 and 2nd params, this displays printer location on map
     app.get(/^\/(?:([^\/]+?))\/floor\/(?:([^\/]+?))(\/(?:([^\/]+?)))?$/, (req, res) => {
-        console.log(req.params);
         let floor_number = req.params[1].replace(/k/g, '');
         console.log(colors.magenta(`Navigating to route -> /floor/${floor_number}/${req.params[2]}`));
         printer_data_promise(`WHERE floor = '${floor_number}'`, pool).then(response => {
             helpers.requestedPrinterJoinToResponse(response, req);
-            res.render(`./floors/${floor_number}-floor`, {
-                floor_printers: response
-            });
+            res.render(`./floors/${floor_number}-floor`,
+                {
+                    floor_printers: response
+                }
+            );
         })
     });
 
@@ -73,6 +67,9 @@ module.exports = function (app) {
                 if (error) throw error;
                 let hosts = [];
                 result.forEach(data => hosts.push(data.ip));
+                /*
+                * view render
+                * */
                 helpers.admin_render(hosts, result, res);
             });
             connection.release();
@@ -92,9 +89,11 @@ module.exports = function (app) {
                 });
 
                 if (error) throw error;
-                res.render('./navbar/floors', {
-                    floors: floor_list
-                });
+                res.render('./navbar/floors',
+                    {
+                        floors: floor_list
+                    }
+                );
             });
             connection.release();
         });
@@ -116,9 +115,11 @@ module.exports = function (app) {
                 else {
                     master_storage = helpers.storageSorting(sql_data, printer_param);
                 }
-                res.render('./navbar/storage', {
-                    storage: master_storage
-                });
+                res.render('./navbar/storage',
+                    {
+                        storage: master_storage
+                    }
+                );
             });
             connection.release();
         });
@@ -133,17 +134,21 @@ module.exports = function (app) {
             }
         }
         //TODO redirect if undefined
-        res.render('./data/printer-detail', {
-            chart: master, //TODO write html filter
-            data: result
-        })
+        res.render('./data/printer-detail',
+            {
+                chart: master, //TODO write html filter
+                data: result
+            }
+        )
     });
 
     app.get('/toner-usage-chart', function (req, res) {
         console.log(JSON.stringify(master));
-        res.render('./navbar/charts', {
-            chart: master
-        });
+        res.render('./navbar/charts',
+            {
+                chart: master
+            }
+        );
     });
 
     //get file
@@ -169,6 +174,9 @@ module.exports = function (app) {
     /*
     *          Data generation
     * */
+
+    const range_chart = moment_ranges.range(8, 10);
+    const range_printer = moment_ranges.range(9, 16);
 
     setInterval(() => {
         let date = new Date();
