@@ -38,21 +38,6 @@ module.exports = (printer_data_saved) => {
                             }
                         }
 
-                        //days displayed on graph
-                        let amount_of_days = (number_of_days) => {
-                            let result = [];
-                            let i = 0;
-                            while (result.length < number_of_days) {
-                                let today = new Date();
-                                let day = moment(today.setDate(today.getDate() - i)).format('YYYY-MM-DD');
-                                if (moment(day, 'DD-MM-YYYY').isBusinessDay() === true /*&& parseInt(Math.abs(moment(day).format('DD') % 2)) === 1*/) result.push(day);
-                                i++
-                            }
-                            const start = moment(result[result.length - 1], 'YYYY-MM-DD');
-                            const end = moment(result[0], 'YYYY-MM-DD');
-                            return moment_ranges.range(start, end);
-                        };
-
                         /*
                         * CORE
                         * */
@@ -67,7 +52,6 @@ module.exports = (printer_data_saved) => {
                                     data.graph_data = [];
 
                                     result.forEach(database_element => {
-                                        console.log(moment(database_element.date).format('MM'));
                                         printer.toner.forEach(toner => {
 
                                             if (database_element.cartridge === toner &&

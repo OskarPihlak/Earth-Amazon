@@ -103,9 +103,7 @@
                         <form class="input-inline" action="/{{this.location}}/floor/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.location}}/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
-                        <form class="input-inline" action="/details/{{this.name}}/{{this.ip}}">
-                            <button class="button-special-style {{this.name}}" href="/{{this.floor}}k/{{this.name}}">Detailid</button>
-                        </form>
+                            <button class="button-special-style {{this.name}} " onclick="charDisplay({{@index}})">Graafikud</button>
                         <form class="input-inline" action="/storage/{{this.name}}">
                             <button class="button-special-style">Laoseis</button>
                             <input type="submit" hidden name="selected-storage-black" value="{{this.cartridge.black.name}}">
@@ -209,8 +207,8 @@
                         </article>
                     </section>
                     {{/if}}
-            <div id="chart_{{this.name}}" class="chart-print"></div>
-            <div id="toner_graph_{{this.name}}" class="chart-print"></div>
+            <div id="chart_{{this.name}}" class="chart-print details-{{@index}}" style="display: none"></div>
+            <div id="toner_graph_{{this.name}}" class="chart-print details-{{@index}}" style="display: none"></div>
 
                 <script>
                     let graph_paper_{{@index}} = c3.generate({
