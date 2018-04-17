@@ -66,13 +66,13 @@ module.exports = (printer_data_saved) => {
                                     data.dates = [];
                                     data.graph_data = [];
 
-
                                     result.forEach(database_element => {
+                                        console.log(moment(database_element.date).format('MM'));
                                         printer.toner.forEach(toner => {
 
                                             if (database_element.cartridge === toner &&
                                                 database_element.printer_name === printer.name &&
-                                                amount_of_days(20).contains(database_element.date)) {
+                                                moment().format('MM') === moment(database_element.date).format('MM')) {
 
                                                 if (!data.dates.includes(moment(database_element.date).format('DD-MM-YYYY'))) data.dates.push(moment(database_element.date).format('DD-MM-YYYY'));
 
