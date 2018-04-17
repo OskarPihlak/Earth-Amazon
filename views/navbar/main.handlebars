@@ -21,11 +21,7 @@
     {{#each this.locations}}
         <div class="btn-checkbox-filter">
             <label for="{{this}}">{{this}}</label>
-            {{#ifEquals this 'Tallinn'}}
-                <input checked id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
-            {{else}}
-                <input id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')">
-            {{/ifEquals}}
+            <input checked id="{{this}}" class="location-{{this}} btn-toggle-all-location-checkboxes" value="{{this}}" type="checkbox" onchange="valueChanged('{{this}}')"/>
         </div>
     {{/each}}
 
