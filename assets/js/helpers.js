@@ -6,7 +6,7 @@ const colors = require('colors');
 
 module.exports.requestedPrinterJoinToResponse = (response, req) => {
     for (let i = 0; i < response.length; i++) {
-        response[i].requested = req.params[2];
+        response[i].requested = req.params[2].replace('/','');
     }
     return response;
 };
