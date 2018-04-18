@@ -15,27 +15,25 @@ module.exports = function (app) {
     let printer_result;
     let master;
 
-    printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
-        .then(response => {
-            printer_result = response;
-            chart(response).then(data => {
-                master = data;
-                app.get('/json', (req, res) => {
-                    res.send(
-                        {
-                            data: master,
-                            floors: master.floors,
-                            locations: master.location
-                        }
-                    );
-                });
-            });
-        });
-
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
+        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
+            .then(response => {
+                printer_result = response;
+                chart(response).then(data => {
+                    master = data;
+                    app.get('/json', (req, res) => {
+                        res.send(
+                            {
+                                data: master,
+                                floors: master.floors,
+                                locations: master.location
+                            }
+                        );
+                    });
+                });
+            });
         console.log(`printer master is  -> ${master} <-`);
-
         res.render('./navbar/main',
             {
                 printers: master,
