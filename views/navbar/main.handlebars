@@ -75,7 +75,6 @@
 </div>
     <div class="container-main container-home" id="container">
         {{#each printers}}
-
                 {{#if this.cartridge.critical}}
                     <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
                 {{else}}
@@ -96,9 +95,11 @@
                     {{/ifEquals}}
 
                     <div class="printer-navigation">
+                        {{#ifEquals this.location 'Tallinn'}}
                         <form class="input-inline" action="/{{this.location}}/floor/{{this.floor}}k/{{this.name}}">
                             <button class="button-special-style {{this.name}}" href="/{{this.location}}/{{this.floor}}k/{{this.name}}">Asukoht</button>
                         </form>
+                        {{/ifEquals}}
                             <button class="button-special-style {{this.name}} " onclick="charDisplay({{@index}})">Graafikud</button>
                         <form class="input-inline" action="/storage/{{this.name}}">
                             <button class="button-special-style">Laoseis</button>
