@@ -75,7 +75,7 @@
 </div>
     <div class="container-main container-home" id="container">
         {{#each printers}}
-                {{#if this.cartridge.critical}}
+                {{#if this.critical}}
                     <div class="printer printer-{{this.floor}} printer-{{this.location}} container-critical-unit">
                 {{else}}
                     <div class="printer printer-{{this.floor}} printer-{{this.location}}">
