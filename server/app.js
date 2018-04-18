@@ -58,7 +58,7 @@ process.on('unhandledRejection', (reason, p) => {
     // application specific logging, throwing an error, or other logic here
 });
 
-let port = (process.env.PORT) || 3000; //If changed, change proxy server port aswell. Otherwise DNS will not solve.
+let port = (process.env.PORT) || 4000; //If changed, change proxy server port aswell. Otherwise DNS will not solve.
 app.listen(port, () => {
     console.log('Local               http://localhost:' + port +'/');
     console.log(`On Your Network:    http://${ip.address()}:${port}/`);
