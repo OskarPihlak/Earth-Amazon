@@ -253,3 +253,8 @@ inputs.forEach(input =>{
 function charDisplay (index){
     $('.details-' + index).toggle();
 }
+
+function sameToners(index){
+    $('.same-toners-'+ index).toggle();
+
+}
