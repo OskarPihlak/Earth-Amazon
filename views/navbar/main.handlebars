@@ -121,7 +121,7 @@
             <button class="button-special-style {{this.name}} " onclick="charDisplay({{@index}})">Graafikud</button>
 
             {{#if printers_with_same_toners}}
-                <button class="button-special-style" onclick="sameToners({{@index}})">Samade tooneritega</button>
+                <button class="button-special-style" onclick="sameToners({{@index}})">Tooneri sobivus</button>
                 <div class="same-toners-{{@index}}" style="display: none">
                     {{#each this.printers_with_same_toner}}
                         {{this}}<br>
