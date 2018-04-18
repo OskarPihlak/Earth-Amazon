@@ -36,14 +36,20 @@ module.exports = function (app) {
         console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer master is  -> ${master} <-`);
 
-        res.render('./navbar/main',
-            {
-                printers: master,
-                floors: master.floors,
-                locations: master.locations,
-                month: moment().format('MMMM')
-            }
-        );
+        printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
+            .then(response => {
+                printer_result = response;
+                chart(response).then(data => {
+                    res.render('./navbar/main',
+                        {
+                            printers: data,
+                            floors: data.floors,
+                            locations: data.locations,
+                            month: moment().format('MMMM')
+                        }
+                    );
+                });
+            });
     });
 
     //use 0 and 2nd params, this displays printer location on map
