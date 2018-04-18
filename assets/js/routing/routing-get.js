@@ -20,6 +20,7 @@ module.exports = function (app) {
             printer_result = response;
             chart(response).then(data => {
                 master = data;
+                console.log(master);
                 app.get('/json', (req, res) => {
                     res.send(
                         {
