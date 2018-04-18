@@ -182,13 +182,16 @@ module.exports = function (app) {
         let date = new Date();
         let day_name = moment().format('dddd');
         if (range_printer.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool).then(response => {
-            if (range_chart.contains(date.getHours()) && (day_name !== 'Saturday' || day_name !== 'Sunday')) chart(response).then(data => master = data);
+            if (range_chart.contains(date.getHours())){
+                chart(response).then(data => master = data);
+            }
 
             //insert data to pages_printed.sql
-            if (date.getHours() === 16 && (day_name !== 'Saturday' || day_name !== 'Sunday')) {
+            if (date.getHours() === 9) {
                 response.forEach(printer => {
                     if (printer.lifetime_print !== undefined) {
                         let sql_pages_printed = `INSERT INTO printers_inc_supply.pages_printed SET pages_printed = ${printer.lifetime_print}, ip='${printer.ip}', date='${moment().format('YYYY-MM-DD')}';`;
+                        console.log(sql_pages_printed);
                         pool.getConnection((err, connection) => {
                             connection.query(sql_pages_printed, (error, result) => {
                                 if (error) throw error;
@@ -202,5 +205,5 @@ module.exports = function (app) {
             printer_result = response;
         });
         console.log(`${day_name} data update in routing-get, time: - ${date.getHours()}:${date.getMinutes()}`);
-    }, 2700000);
+    }, 3300000);
 };
