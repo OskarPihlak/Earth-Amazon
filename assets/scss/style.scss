@@ -985,5 +985,24 @@ tr td:first-child {
    }
  }
 
+ .critical-{
+   &black{
+     background-color: #393937;
+     color: white;
+   }
+   &cyan{
+     background-color: #66b3ff;
+     color: white;
+   }
+   &magenta{
+     background-color: #c945cb;
+     color: white;
+   }
+   &yellow{
+     background-color: #ccce58;
+     color: white;
+   }
+ }
+
 
 
