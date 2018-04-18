@@ -42,8 +42,8 @@
 
 <div class="container-main">
 
-{{#each critical_printers}}
-    {{#if this.cartridge.critical}}
+{{#each printers}}
+    {{#if this.critical}}
     <div class="container-critical-printer">
         <!-- displays location of printer on map -->
         <form action="/floor/{{this.floor}}k/{{this.name}}" style="margin:10px 0 0 0;">
@@ -56,16 +56,16 @@
             <a href="//{{this.ip}}/" target=_blank" rel="noopener">{{this.ip}}<br>{{this.name}}</a>
             <br>{{this.location}}<br>{{this.model}}
         </p>
-        {{#lessOrEquals 25 this.cartridge.black.value}}
+        {{#lessOrEquals 15 this.cartridge.black.value}}
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.black.name}}: {{this.cartridge.black.value}}%</p>
         {{/lessOrEquals}}
-        {{#lessOrEquals 25 this.cartridge.cyan.value}}
+        {{#lessOrEquals 15 this.cartridge.cyan.value}}
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.cyan.name}}: {{this.cartridge.cyan.value}}%</p>
         {{/lessOrEquals}}
-        {{#lessOrEquals 25 this.cartridge.magenta.value}}
+        {{#lessOrEquals 15 this.cartridge.magenta.value}}
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.magenta.name}}: {{this.cartridge.magenta.value}}%</p>
         {{/lessOrEquals}}
-        {{#lessOrEquals 25 this.cartridge.yellow.value}}
+        {{#lessOrEquals 15 this.cartridge.yellow.value}}
             <p class="list-group-item list-group-item-action list-group-item-danger list-critical"> {{this.cartridge.yellow.name}}: {{this.cartridge.yellow.value}}%</p>
         {{/lessOrEquals}}
     </div>
