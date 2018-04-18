@@ -17,33 +17,34 @@ module.exports = function (app) {
 
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
         .then(response => {
-            printer_result = response;
             chart(response).then(data => {
                 master = data;
-                app.get('/json', (req, res) => {
-                    res.send(
-                        {
-                            data: master,
-                            floors: master.floors,
-                            locations: master.location
-                        }
-                    );
-                });
+                master.floors = data.floors;
+                master.locations = data.locations;
+
+                app.get('/json', (req,res) =>{
+                     res.send(
+                         {
+                             data: data,
+                             floors:data.floors,
+                             locations:data.location
+                         }
+                     );
+                 });
             });
+            printer_result = response;
         });
 
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
         console.log(`printer master is  -> ${master} <-`);
 
-        res.render('./navbar/main',
-            {
-                printers: master,
-                floors: master.floors,
-                locations: master.locations,
-                month: moment().format('MMMM')
-            }
-        );
+        res.render('./navbar/main', {
+            printers: master,
+            floors: master.floors,
+            locations: master.locations,
+            month: moment().format('MMMM')
+        });
     });
 
     //use 0 and 2nd params, this displays printer location on map
