@@ -69,19 +69,19 @@
                 </p>
                 {{#lessOrEquals 15 this.cartridge.black.value}}
                     <p class="list-group-item list-group-item-action list-group-item-danger list-critical critical-black"> {{this.cartridge.black.name}}
-                        : {{this.cartridge.black.value}}%</p>
+                        : {{this.cartridge.black.value}}% - {{this.cartridge.black.supply.storage}} left</p>
                 {{/lessOrEquals}}
                 {{#lessOrEquals 15 this.cartridge.cyan.value}}
                     <p class="list-group-item list-group-item-action list-group-item-danger list-critical critical-cyan"> {{this.cartridge.cyan.name}}
-                        : {{this.cartridge.cyan.value}}%</p>
+                        : {{this.cartridge.cyan.value}}% - {{this.cartridge.cyan.supply.storage}} left</p>
                 {{/lessOrEquals}}
                 {{#lessOrEquals 15 this.cartridge.magenta.value}}
                     <p class="list-group-item list-group-item-action list-group-item-danger list-critical critical-magenta"> {{this.cartridge.magenta.name}}
-                        : {{this.cartridge.magenta.value}}%</p>
+                        : {{this.cartridge.magenta.value}}%  - {{this.cartridge.black.supply.storage}} left</p>
                 {{/lessOrEquals}}
                 {{#lessOrEquals 15 this.cartridge.yellow.value}}
                     <p class="list-group-item list-group-item-action list-group-item-danger list-critical critical-yellow"> {{this.cartridge.yellow.name}}
-                        : {{this.cartridge.yellow.value}}%</p>
+                        : {{this.cartridge.yellow.value}}%  - {{this.cartridge.black.supply.storage}} left</p>
                 {{/lessOrEquals}}
             </div>
         {{/if}}
