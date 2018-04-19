@@ -126,6 +126,8 @@ console.log(colors.red('data'));
                             if (sql_data[x] !== undefined) {
                                 if (sql_data[x].hasOwnProperty('cartridge_supply')) {
                                     printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
+                                    console.log( printer.cartridge[printer_name].supply );
+                                    console.log(printer.name);
                                 } else {
                                     console.log(colors.red(`${printer} is missing a cartridge`))
                                 }
@@ -139,6 +141,8 @@ console.log(colors.red('data'));
                             if (sql_data[x] !== undefined) {
                                 if (sql_data[x].hasOwnProperty('cartridge_supply')) {
                                     printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply};
+                                    console.log( printer.cartridge[printer_name].supply );
+                                    console.log(printer.name);
                                 } else {
                                     console.log(colors.red(`${printer} is missing a cartridge`))
                                 }
