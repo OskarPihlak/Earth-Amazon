@@ -18,6 +18,8 @@ module.exports = function (app) {
     console.log('start data parse');
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
         .then(response => {
+            console.log(colors.red('response-pr-data-parse'));
+            console.log(response);
             printer_result = response;
             chart(response).then(data => {
                 master = data;

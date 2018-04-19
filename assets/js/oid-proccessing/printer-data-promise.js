@@ -187,7 +187,6 @@ console.log(colors.red('data'));
         });
     };
 
-
 //Construct correct oids for printers
     return getSnmpAdresses().then(adresses => {
         return Promise.all(adresses.map((adress) => {
