@@ -15,12 +15,13 @@ module.exports = function (app) {
     let printer_result;
     let master;
 
+    console.log('start data parse');
     printer_data_promise("WHERE ip IS NOT NULL ORDER BY length(floor) DESC, floor DESC", pool)
         .then(response => {
             printer_result = response;
             chart(response).then(data => {
                 master = data;
-                console.log(master);
+                console.log(data);
                 app.get('/json', (req, res) => {
                     res.send(
                         {
@@ -32,6 +33,7 @@ module.exports = function (app) {
                 });
             });
         });
+    console.log('data parsed');
 
     app.get('/', function (req, res) {
         console.log(colors.magenta('Navigating to main page -> /'));
@@ -62,6 +64,7 @@ module.exports = function (app) {
     });
 
     app.get('/admin', function (req, res) {
+        console.log(colors.magenta('Navigating to main page -> /admin'));
         let sql_statement_get_snmp_adresses = 'SELECT * FROM printers_inc_supply.snmpadresses ORDER BY length(floor) DESC, floor DESC;';
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get_snmp_adresses, function (error, result) {
@@ -102,6 +105,7 @@ module.exports = function (app) {
 
     //storage with optionated id
     app.get(/^\/storage(\/(?:([^\/]+?)))?$/, (req, res) => {
+        console.log(colors.magenta('Navigating to main page -> /storage'));
         let sql_statement_get = `SELECT * FROM printers_inc_supply.inc_supply_status;`;
         pool.getConnection((err, connection) => {
             connection.query(sql_statement_get, (error, sql_data) => {
