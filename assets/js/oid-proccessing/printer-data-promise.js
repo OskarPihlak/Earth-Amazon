@@ -177,6 +177,7 @@ console.log(colors.red('data'));
                     console.log(colors.green(`session_get_data for ${printer.name}: ${JSON.stringify(data)}`));
                 }
                 printer_data_parse(printer, data).then(data => {
+                    console.log(colors.green(printer.name));
                     console.log(`final_data ${JSON.stringify(data)} \n`);
                     return resolve(data);
                 }).catch(error => {
