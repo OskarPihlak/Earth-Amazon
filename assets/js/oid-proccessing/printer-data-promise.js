@@ -119,7 +119,7 @@ console.log(colors.red('data'));
                 connection.query(sql_statement_get, function (error, sql_data) {
                     if (error) return reject(error);
                     if (printer.color === true) {
-
+                        console.log(colors.yellow(printer.name));
                         for (let x = 0; x < printer_oid_data.colors_loop_info().length; x++) {
                             let printer_name = printer_oid_data.colors_loop_info()[x].inc_name;
 
@@ -127,7 +127,7 @@ console.log(colors.red('data'));
                                 if (sql_data[x].hasOwnProperty('cartridge_supply')) {
                                     printer.cartridge[printer_name].supply = {storage: sql_data[x].cartridge_supply}; //this gives error if database has no data
                                     console.log( printer.cartridge[printer_name].supply );
-                                    console.log(printer.name);
+
                                 } else {
                                     console.log(colors.red(`${printer} is missing a cartridge`))
                                 }
