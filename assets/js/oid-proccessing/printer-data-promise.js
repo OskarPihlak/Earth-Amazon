@@ -13,7 +13,6 @@ module.exports = (sql_conditional, pool) => {
 
     //factory
     function getSnmpAdresses() {
-        console.log(sql_conditional);
         return new Promise((resolve, rejected) => {
             let sql_statement_get = `SELECT * FROM snmpadresses ${sql_conditional};`;
             pool.getConnection((err, connection) => {

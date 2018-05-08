@@ -113,7 +113,7 @@ setInterval(()=>{
                 console.log(response);
                 let critical_toner = [];
                 response.forEach(response => {
-                    if (response.name !== 'RequestTimedOutError' && response.cartridge.critical === true) {
+                    if (response.name !== 'RequestTimedOutError' && response.critical === true) {
                         critical_toner.push(response);
                     }
                 });

@@ -286,19 +286,23 @@ module.exports.critical_printers = response => {
                     toner.magenta.value < critical_toner_level ||
                     toner.yellow.value < critical_toner_level) {
                     response[i].cartridge.critical = true;
+                    response[i].critical = true;
                     critical_printers.push(response[i]);
                 }
             } else if (response[i].color === false && toner.black.value < critical_toner_level) {
 
                 if (response[i].ip === '192.168.67.42' || response[i].ip === '192.168.67.3') {
                     response[i].cartridge.critical = false;
+                    response[i].critical = false;
                 }
                 else {
                     response[i].cartridge.critical = true;
+                    response[i].critical = true;
                     critical_printers.push(response[i]);
                 }
             } else {
                 response[i].cartridge.critical = false;
+                response[i].critical = false;
             }
         }
     }
